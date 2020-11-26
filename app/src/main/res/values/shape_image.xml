@@ -4,17 +4,4 @@
         <item name="cornerSize">10%</item>
         <item name="cornerFamilyBottomRight">rounded</item>
     </style>
-
-    <style name="cast_names">
-        <item name="android:textColor">@color/ece</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">32dp</item>
-        <item name="android:shadowRadius">12</item>
-        <item name="android:shadowDy">6</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowColor">#80000000</item>
-        <item name="android:textFontWeight" tools:targetApi="p">900</item>
-        <item name="android:textSize">14sp</item>
-        <item name="fontFamily">@font/roboto</item>
-    </style>
 </resources>
