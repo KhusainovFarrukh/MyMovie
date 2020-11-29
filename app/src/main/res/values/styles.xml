@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="back_text">
-        <item name="android:textSize">12sp</item>
+    <style name="TextViewBack">
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:lineSpacingExtra">@dimen/sp2</item>
+        <item name="android:textColor">@color/white_50alpha</item>
+    </style>
+
+    <style name="TextViewYear">
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp2</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="year_text">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="name_text">
-        <item name="android:textSize">40sp</item>
+    <style name="TextViewName">
+        <item name="android:textSize">@dimen/sp40</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:textColor">@color/ece</item>
         <item name="android:shadowColor">#80000000</item>
@@ -21,19 +27,24 @@
         <item name="android:shadowRadius">12</item>
     </style>
 
-    <style name="tagline_text">
-        <item name="android:textSize">14sp</item>
+    <style name="TextViewTagline">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="reviews_text">
-        <item name="android:textSize">14sp</item>
+    <style name="TextViewReviews">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
         <item name="textAllCaps">true</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
-    <style name="storyline_text">
-        <item name="android:textSize">14sp</item>
+    <style name="TextViewStoryline">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
         <item name="android:shadowColor">#80000000</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">6</item>
@@ -41,13 +52,17 @@
         <item name="android:textColor">@color/ece</item>
     </style>
 
-    <style name="about_text">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="TextViewAbout">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
+        <item name="android:textColor">@color/white_75alpha</item>
     </style>
 
-    <style name="cast_text">
-        <item name="android:textSize">14sp</item>
+    <style name="TextViewCast">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
         <item name="android:shadowColor">#80000000</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">6</item>
@@ -56,16 +71,14 @@
         <item name="android:textColor">@color/ece</item>
     </style>
 
-    <style name="cast_names">
+    <style name="TextViewNames">
         <item name="android:textColor">@color/ece</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">32dp</item>
+        <item name="android:lineSpacingExtra">@dimen/sp2</item>
         <item name="android:shadowRadius">12</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowColor">#80000000</item>
-        <item name="android:textFontWeight" tools:targetApi="p">900</item>
-        <item name="android:textSize">14sp</item>
-        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
     </style>
 </resources>
