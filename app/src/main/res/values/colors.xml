@@ -13,4 +13,5 @@
     <color name="pink">#FF3365</color>
     <color name="ece">#ECECEC</color>
     <color name="bg_details_screen">#191926</color>
+    <color name="gray_565665">#565665</color>
 </resources>
