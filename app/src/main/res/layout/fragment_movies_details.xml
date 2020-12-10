@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentMoviesDetails"
-    android:background="@color/bg_details_screen">
+    android:background="@color/bg_details_screen"
+    tools:context=".FragmentMoviesDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
             android:id="@+id/main_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/orig"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/orig" />
 
         <View
             android:id="@+id/gradient_view"
@@ -44,15 +44,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txv_year"
+            android:id="@+id/txv_age"
             style="@style/TextViewYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp8"
             android:gravity="center_horizontal|center_vertical"
-            android:text="@string/_13"
             app:layout_constraintBottom_toTopOf="@id/txv_title"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            tools:text="@string/_13" />
 
         <TextView
             android:id="@+id/txv_title"
@@ -60,11 +60,11 @@
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/avengers_nend_game"
             app:layout_constraintBottom_toBottomOf="@id/main_image"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/main_image" />
+            app:layout_constraintTop_toBottomOf="@id/main_image"
+            tools:text="@string/avengers_nend_game" />
 
         <TextView
             android:id="@+id/txv_tagline"
@@ -73,10 +73,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:gravity="center_vertical"
-            android:text="@string/action_adventure_fantasy"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/txv_title" />
+            app:layout_constraintTop_toBottomOf="@id/txv_title"
+            tools:text="@string/action_adventure_fantasy" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -102,11 +102,11 @@
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp8"
-            android:text="@string/_125_reviews"
             app:layout_constraintBottom_toBottomOf="@id/rating_bar"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/rating_bar"
-            app:layout_constraintTop_toTopOf="@id/rating_bar" />
+            app:layout_constraintTop_toTopOf="@id/rating_bar"
+            tools:text="@string/_125_reviews" />
 
         <TextView
             android:id="@+id/txv_storyline"
@@ -128,10 +128,10 @@
             android:layout_marginTop="@dimen/dp8"
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/sp4"
-            android:text="@string/text"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/txv_storyline" />
+            app:layout_constraintTop_toBottomOf="@id/txv_storyline"
+            tools:text="@string/text" />
 
         <TextView
             android:id="@+id/txv_cast"
@@ -145,113 +145,19 @@
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/txv_about" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imv_downey"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            android:layout_marginTop="@dimen/dp8"
-            android:src="@drawable/downey"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/imv_evans"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/txv_cast"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imv_evans"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            android:layout_marginStart="@dimen/dp8"
-            android:src="@drawable/evans"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/imv_ruffalo"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imv_downey"
-            app:layout_constraintTop_toTopOf="@id/imv_downey"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imv_ruffalo"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            android:layout_marginStart="@dimen/dp8"
-            android:src="@drawable/ruffalo"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/imv_hemsworth"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imv_evans"
-            app:layout_constraintTop_toTopOf="@id/imv_evans"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imv_hemsworth"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            android:layout_marginStart="@dimen/dp8"
-            android:src="@drawable/hemsworth"
-            app:layout_constraintDimensionRatio="1:1"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_actors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp32"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:paddingEnd="-8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imv_ruffalo"
-            app:layout_constraintTop_toTopOf="@id/imv_ruffalo"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage" />
-
-        <TextView
-            android:id="@+id/txv_downey"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp6"
-            android:gravity="center_vertical"
-            android:text="@string/robert_downey_jr"
-            android:textAppearance="@style/TextViewNames"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="@id/imv_downey"
-            app:layout_constraintStart_toStartOf="@id/imv_downey"
-            app:layout_constraintTop_toBottomOf="@id/imv_downey"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/txv_evans"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp6"
-            android:gravity="center_vertical"
-            android:text="@string/chris_evans"
-            android:textAppearance="@style/TextViewNames"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="@id/imv_evans"
-            app:layout_constraintStart_toStartOf="@id/imv_evans"
-            app:layout_constraintTop_toBottomOf="@id/imv_evans"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/txv_ruffalo"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp6"
-            android:gravity="center_vertical"
-            android:text="@string/mark_ruffalo"
-            android:textAppearance="@style/TextViewNames"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="@id/imv_ruffalo"
-            app:layout_constraintStart_toStartOf="@id/imv_ruffalo"
-            app:layout_constraintTop_toBottomOf="@id/imv_ruffalo"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/txv_hemsworth"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp6"
-            android:gravity="center_vertical"
-            android:text="@string/chris_hemsworth"
-            android:textAppearance="@style/TextViewNames"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="@id/imv_hemsworth"
-            app:layout_constraintStart_toStartOf="@id/imv_hemsworth"
-            app:layout_constraintTop_toBottomOf="@id/imv_hemsworth"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/txv_cast" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
@@ -266,13 +172,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/dp16" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/dp32" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
