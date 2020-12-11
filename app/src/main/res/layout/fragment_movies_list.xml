@@ -140,22 +140,20 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                     app:layout_constraintStart_toStartOf="@id/guideline_start_inner" />
 
-                <RatingBar
+                <academy.android.mymovie.ratingbarsvg.RatingBarSvg
                     android:id="@+id/rating_bar"
-                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
                     android:layout_marginBottom="@dimen/dp10"
-                    android:backgroundTint="@color/pink"
-                    android:isIndicator="true"
-                    android:max="5"
                     android:numStars="5"
                     android:progressBackgroundTint="@color/gray"
+                    android:progressDrawable="@drawable/ratingbar_svg_selector"
                     android:progressTint="@color/pink"
                     android:rating="4.0"
-                    android:secondaryProgressTint="#00000000"
-                    android:stepSize="0.1"
+                    android:secondaryProgressTint="@color/gray"
+                    app:drawableHeight="@dimen/dp8"
+                    app:drawableWidth="@dimen/dp8"
+                    app:innerPadding="@dimen/dp2"
                     app:layout_constraintBottom_toBottomOf="@id/imv_main"
                     app:layout_constraintStart_toStartOf="@id/guideline_start_inner" />
 

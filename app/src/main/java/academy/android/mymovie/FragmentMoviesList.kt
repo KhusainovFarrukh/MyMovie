@@ -1,13 +1,16 @@
 package academy.android.mymovie
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 
 class FragmentMoviesList : Fragment() {
+
+    private var movieClickListener: MovieClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -17,21 +20,23 @@ class FragmentMoviesList : Fragment() {
 
         contentView.findViewById<CardView>(R.id.cardview_item).apply {
             setOnClickListener {
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    setCustomAnimations(
-                        R.anim.slide_in,
-                        R.anim.fade_out,
-                        R.anim.fade_in,
-                        R.anim.slide_out
-                    )
-                    addToBackStack(null)
-                    add(R.id.container_frame_layout, FragmentMoviesDetails())
-                    commit()
-                }
+                movieClickListener?.onMovieClick()
             }
         }
-
         return contentView
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        movieClickListener = context as MovieClickListener
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        movieClickListener = null
+    }
+}
+
+interface MovieClickListener {
+    fun onMovieClick()
 }

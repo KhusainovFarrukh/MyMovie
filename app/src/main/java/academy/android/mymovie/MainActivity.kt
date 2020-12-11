@@ -3,7 +3,8 @@ package academy.android.mymovie
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MovieClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,6 +14,20 @@ class MainActivity : AppCompatActivity() {
                 add(R.id.container_frame_layout, FragmentMoviesList())
                 commit()
             }
+        }
+    }
+
+    override fun onMovieClick() {
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
+            addToBackStack(null)
+            add(R.id.container_frame_layout, FragmentMoviesDetails())
+            commit()
         }
     }
 }
