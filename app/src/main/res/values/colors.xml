@@ -14,4 +14,5 @@
     <color name="ece">#ECECEC</color>
     <color name="bg_details_screen">#191926</color>
     <color name="gray_565665">#565665</color>
+    <color name="black_90alpha">#E6000000</color>
 </resources>
