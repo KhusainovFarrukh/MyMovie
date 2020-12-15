@@ -28,7 +28,11 @@ class FragmentMoviesList : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        movieClickListener = context as MovieClickListener
+        if (context is MovieClickListener) {
+            movieClickListener = context
+        } else {
+            throw IllegalArgumentException()
+        }
     }
 
     override fun onDetach() {
@@ -39,4 +43,5 @@ class FragmentMoviesList : Fragment() {
 
 interface MovieClickListener {
     fun onMovieClick()
+    fun onBackClick()
 }

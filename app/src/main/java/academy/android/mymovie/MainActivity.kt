@@ -30,4 +30,8 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
             commit()
         }
     }
+
+    override fun onBackClick() {
+        supportFragmentManager.popBackStack()
+    }
 }
