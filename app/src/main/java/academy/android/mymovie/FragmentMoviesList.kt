@@ -40,8 +40,3 @@ class FragmentMoviesList : Fragment() {
         movieClickListener = null
     }
 }
-
-interface MovieClickListener {
-    fun onMovieClick()
-    fun onBackClick()
-}

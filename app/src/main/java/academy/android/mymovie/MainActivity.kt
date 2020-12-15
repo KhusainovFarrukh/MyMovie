@@ -35,3 +35,8 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
         supportFragmentManager.popBackStack()
     }
 }
+
+interface MovieClickListener {
+    fun onMovieClick()
+    fun onBackClick()
+}
