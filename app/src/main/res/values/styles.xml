@@ -81,4 +81,45 @@
         <item name="android:textSize">@dimen/sp14</item>
         <item name="fontFamily">@font/roboto_black</item>
     </style>
+
+    <style name="TextViewMoviesList">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextViewMinute">
+        <item name="android:textSize">@dimen/sp8</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp3</item>
+        <item name="android:textColor">@color/gray_565665</item>
+    </style>
+
+    <style name="TextViewNameList">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
+        <item name="android:textColor">@color/ece</item>
+    </style>
+
+    <style name="TextView13plus">
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextViewTaglineList">
+        <item name="android:textSize">@dimen/sp8</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="TextViewReviewsList">
+        <item name="android:textSize">@dimen/sp8</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:lineSpacingExtra">@dimen/sp4</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
 </resources>
