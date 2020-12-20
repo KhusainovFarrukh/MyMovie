@@ -29,14 +29,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/dp6" />
+                app:layout_constraintGuide_begin="@dimen/dp8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end_inner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dp8" />
+
 
             <TextView
                 android:id="@+id/txv_time"
                 style="@style/TextViewMinute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp2"
                 android:layout_marginBottom="@dimen/dp8"
                 android:textAllCaps="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -48,11 +55,9 @@
                 style="@style/TextViewNameList"
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp2"
-                android:layout_marginEnd="@dimen/dp8"
                 android:layout_marginBottom="@dimen/dp4"
                 app:layout_constraintBottom_toTopOf="@+id/txv_time"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 tools:text="@string/avengers_end_game" />
 
@@ -60,6 +65,7 @@
                 android:id="@+id/imv_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp0"
+                android:padding="@dimen/dp1"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/rating_bar"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,9 +106,8 @@
                 android:id="@+id/imv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp8"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintTop_toTopOf="@+id/cardView"
                 tools:src="@drawable/ic_like" />
 
