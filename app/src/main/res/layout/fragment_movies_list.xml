@@ -15,7 +15,6 @@
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginTop="@dimen/dp56"
         android:drawablePadding="@dimen/dp8"
-        android:padding="@dimen/dp10"
         android:text="@string/movies_list"
         app:drawableStartCompat="@drawable/ic_aim"
         app:layout_constraintStart_toStartOf="parent"
