@@ -15,5 +15,5 @@
     <color name="bg_details_screen">#191926</color>
     <color name="gray_565665">#565665</color>
     <color name="stroke_color">#636375</color>
-    <color name="black_50alpha">#80000000</color>
+    <color name="black_90alpha">#E6000000</color>
 </resources>
