@@ -96,7 +96,7 @@
                     style="@style/TextView13plus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/black"
+                    android:background="@color/black_50alpha"
                     android:gravity="center"
                     tools:text="@string/_13" />
 
@@ -115,6 +115,7 @@
                 android:id="@+id/txv_tagline"
                 style="@style/TextViewTaglineList"
                 android:layout_width="@dimen/dp0"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp4"
                 app:layout_constraintBottom_toTopOf="@id/rating_bar"

@@ -1,7 +1,9 @@
 package academy.android.mymovie
 
 import academy.android.mymovie.adapter.ActorAdapter
+import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.model.Movie
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 class FragmentMoviesDetails : Fragment() {
     private val adapter = ActorAdapter()
     private var currentMovie: Movie? = null
+    private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +29,7 @@ class FragmentMoviesDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.txv_back).apply {
             setOnClickListener {
-                requireActivity().supportFragmentManager.popBackStack()
+                movieClickInterface?.onBackClick()
             }
         }
 
@@ -42,7 +45,8 @@ class FragmentMoviesDetails : Fragment() {
         currentMovie = arguments?.getSerializable("movie") as Movie?
 
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-        if (currentMovie?.actors == null) view.findViewById<TextView>(R.id.txv_cast).visibility = View.INVISIBLE
+        if (currentMovie?.actors == null) view.findViewById<TextView>(R.id.txv_cast).visibility =
+            View.INVISIBLE
 
         view.findViewById<TextView>(R.id.txv_title).text = currentMovie?.name
         view.findViewById<TextView>(R.id.txv_tagline).text = currentMovie?.tagline
@@ -59,5 +63,16 @@ class FragmentMoviesDetails : Fragment() {
     override fun onStart() {
         super.onStart()
         adapter.submitList(currentMovie?.actors)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MovieClickInterface)
+            movieClickInterface = context
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        movieClickInterface = null
     }
 }

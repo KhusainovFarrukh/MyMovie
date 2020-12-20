@@ -80,4 +80,5 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 interface MovieClickInterface {
     fun onMovieClick(position: Int)
+    fun onBackClick()
 }
