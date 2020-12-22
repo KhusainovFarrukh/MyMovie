@@ -38,7 +38,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/dp8" />
 
-
             <TextView
                 android:id="@+id/txv_time"
                 style="@style/TextViewMinute"
