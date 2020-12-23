@@ -2,8 +2,7 @@ package academy.android.mymovie
 
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
-import academy.android.mymovie.model.Actor
-import academy.android.mymovie.model.Movie
+import academy.android.mymovie.data.loadMovies
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +11,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 
-class FragmentMoviesList : Fragment(){
+class FragmentMoviesList : Fragment() {
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
     private val adapter = MovieAdapter()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,17 +33,28 @@ class FragmentMoviesList : Fragment(){
 
     override fun onStart() {
         super.onStart()
-        adapter.submitList(MoviesDatabase().getMoviesList())
+
+        coroutineScope.launch {
+            val moviesList = withContext(coroutineScope.coroutineContext) {
+                loadMovies(requireContext())
+            }
+            adapter.submitList(moviesList)
+        }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MovieClickInterface)
-        adapter.movieClickInterface = context
+            adapter.movieClickInterface = context
     }
 
     override fun onDetach() {
         super.onDetach()
         adapter.movieClickInterface = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        coroutineScope.cancel()
     }
 }

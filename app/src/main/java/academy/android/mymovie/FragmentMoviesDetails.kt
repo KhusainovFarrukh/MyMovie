@@ -2,7 +2,7 @@ package academy.android.mymovie
 
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
-import academy.android.mymovie.model.Movie
+import academy.android.mymovie.data.Movie
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.lang.StringBuilder
 
 class FragmentMoviesDetails : Fragment() {
     private val adapter = ActorAdapter()
-    private var currentMovie: Movie? = null
     private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
@@ -42,27 +42,40 @@ class FragmentMoviesDetails : Fragment() {
             LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         recyclerViewActors.adapter = adapter
 
-        currentMovie = arguments?.getSerializable("movie") as Movie?
+        val currentMovie: Movie = arguments?.getParcelable("movie")!!
 
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-        if (currentMovie?.actors == null) view.findViewById<TextView>(R.id.txv_cast).visibility =
-            View.INVISIBLE
+        if (currentMovie.actors.isEmpty()) {
+            view.findViewById<TextView>(R.id.txv_cast).visibility =
+                View.INVISIBLE
+        } else {
+            adapter.submitList(currentMovie.actors)
+        }
 
-        view.findViewById<TextView>(R.id.txv_title).text = currentMovie?.name
-        view.findViewById<TextView>(R.id.txv_tagline).text = currentMovie?.tagline
-        view.findViewById<TextView>(R.id.txv_about).text = currentMovie?.storyline
-        view.findViewById<TextView>(R.id.txv_age).text = "${currentMovie?.age}+"
-        view.findViewById<TextView>(R.id.txv_reviews).text = "${currentMovie?.reviews} reviews"
-        view.findViewById<RatingBar>(R.id.rating_bar).rating = currentMovie?.rating!!
+        //get genres by id and set to textview
+        val stringBuilder = StringBuilder()
+        currentMovie.genres.forEach {
+            stringBuilder.append(it.name)
+            if (it != currentMovie.genres.last()) {
+                stringBuilder.append(", ")
+            }
+        }
+
+        //load backdrop image
         Glide.with(requireActivity())
-            .load(currentMovie?.bannerUrl)
+            .load(currentMovie.backdrop)
             .apply(imageOption)
             .into(view.findViewById(R.id.main_image))
-    }
 
-    override fun onStart() {
-        super.onStart()
-        adapter.submitList(currentMovie?.actors)
+        //set data to other views
+        view.findViewById<TextView>(R.id.txv_title).text = currentMovie.title
+        view.findViewById<TextView>(R.id.txv_tagline).text = stringBuilder
+        view.findViewById<TextView>(R.id.txv_about).text = currentMovie.overview
+        view.findViewById<RatingBar>(R.id.rating_bar).rating = currentMovie.ratings / 2
+        "${currentMovie.minimumAge}+".also { view.findViewById<TextView>(R.id.txv_age).text = it }
+        "${currentMovie.numberOfRatings} reviews".also {
+            view.findViewById<TextView>(R.id.txv_reviews).text = it
+        }
     }
 
     override fun onAttach(context: Context) {

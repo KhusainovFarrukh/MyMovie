@@ -55,6 +55,8 @@
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp4"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:layout_constraintBottom_toTopOf="@+id/txv_time"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
@@ -64,9 +66,9 @@
                 android:id="@+id/imv_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp0"
+                android:layout_marginBottom="@dimen/dp8"
                 android:padding="@dimen/dp1"
                 android:scaleType="centerCrop"
-                android:layout_marginBottom="@dimen/dp8"
                 app:layout_constraintBottom_toTopOf="@id/txv_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -115,30 +117,14 @@
                 android:id="@+id/txv_tagline"
                 style="@style/TextViewTaglineList"
                 android:layout_width="@dimen/dp0"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp4"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:layout_constraintBottom_toTopOf="@id/rating_bar"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 tools:text="@string/action_adventure_fantasy" />
-
-<!--            <RatingBar-->
-<!--                android:id="@+id/rating_bar"-->
-<!--                style="?android:attr/ratingBarStyleSmall"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:backgroundTint="@color/pink"-->
-<!--                android:isIndicator="true"-->
-<!--                android:max="5"-->
-<!--                android:numStars="5"-->
-<!--                android:progressBackgroundTint="@color/gray"-->
-<!--                android:progressTint="@color/pink"-->
-<!--                android:rating="4.0"-->
-<!--                android:secondaryProgressTint="#00000000"-->
-<!--                android:stepSize="0.1"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/txv_reviews"-->
-<!--                app:layout_constraintStart_toStartOf="@id/guideline_start_inner"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/txv_reviews" />-->
 
             <academy.android.mymovie.ratingbarsvg.RatingBarSvg
                 android:id="@+id/rating_bar"
@@ -156,6 +142,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/txv_reviews"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 app:layout_constraintTop_toTopOf="@+id/txv_reviews" />
+
             <TextView
                 android:id="@+id/txv_reviews"
                 style="@style/TextViewReviewsList"
