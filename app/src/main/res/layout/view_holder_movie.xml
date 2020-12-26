@@ -35,7 +35,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/dp8" />
 
-
             <TextView
                 android:id="@+id/txv_time"
                 style="@style/TextViewMinute"
@@ -43,6 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp8"
                 android:textAllCaps="true"
+                app:layout_constraintTop_toBottomOf="@id/txv_name"
+                android:layout_marginTop="@dimen/dp4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 tools:text="@string/_137_min" />
@@ -52,8 +53,6 @@
                 style="@style/TextViewNameList"
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp4"
-                app:layout_constraintBottom_toTopOf="@+id/txv_time"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 app:layout_constraintTop_toBottomOf="@id/imv_image"
@@ -66,7 +65,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginBottom="@dimen/dp8"
                 android:padding="@dimen/dp1"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

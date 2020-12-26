@@ -1,7 +1,6 @@
 package academy.android.mymovie
 
 import academy.android.mymovie.adapter.MovieAdapter
-import academy.android.mymovie.adapter.MovieClickInterface
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,10 +10,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.IllegalArgumentException
 
 class FragmentMoviesList : Fragment() {
 
-    private val adapter = MovieAdapter()
+    private lateinit var adapter: MovieAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,7 @@ class FragmentMoviesList : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.addItemDecoration(
             MovieItemDecoration(
-                resources.getDimension(R.dimen.dp16).toInt(),
+                resources.getDimension(R.dimen.dp8).toInt(),
                 resources.getDimension(R.dimen.dp18).toInt()
             )
         )
@@ -42,13 +42,11 @@ class FragmentMoviesList : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MovieClickInterface)
-            adapter.movieClickInterface = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        adapter.movieClickInterface = null
+        if (context is MovieClickInterface) {
+            adapter = MovieAdapter(context)
+        } else {
+            throw IllegalArgumentException("$context is not MovieClickInterface")
+        }
     }
 }
 
@@ -65,10 +63,9 @@ private class MovieItemDecoration(val marginHorizontal: Int, val marginTop: Int)
             if ((parent.getChildAdapterPosition(view) != 0) && (parent.getChildAdapterPosition(view) != 1)) {
                 top = marginTop
             }
-            //if item is on the left side, add margin to end
-            if (parent.getChildAdapterPosition(view) % 2 == 0) {
-                right = marginHorizontal
-            }
+
+            left = marginHorizontal
+            right = marginHorizontal
         }
     }
 }

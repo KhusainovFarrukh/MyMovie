@@ -1,5 +1,6 @@
 package academy.android.mymovie.adapter
 
+import academy.android.mymovie.MovieClickInterface
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.model.Movie
@@ -16,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
+class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
+    ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
 
-    var movieClickInterface: MovieClickInterface? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false)
@@ -29,7 +30,7 @@ class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
         holder.onBindMovie(getItem(position))
         holder.itemView.apply {
             setOnClickListener {
-                movieClickInterface?.onMovieClick(position)
+                movieClickInterface.onMovieClick(getItem(position).id)
             }
         }
     }
@@ -57,10 +58,10 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .apply(imageOption)
             .into(imvImage)
         txvName.text = movie.name
-        txvTime.text = "${movie.time} min"
-        txvReviews.text = "${movie.reviews} reviews"
+        txvTime.text = itemView.context.getString(R.string.time, movie.time)
+        txvAge.text = itemView.context.getString(R.string.age, movie.age)
+        txvReviews.text = itemView.context.getString(R.string.reviews, movie.reviews)
         txvTagline.text = movie.tagline
-        txvAge.text = "${movie.age}+"
         rbRating.rating = movie.rating
         imvFavorite.setImageDrawable(
             if (movie.isFavorite) ResourcesCompat.getDrawable(
@@ -76,9 +77,4 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         )
     }
 
-}
-
-interface MovieClickInterface {
-    fun onMovieClick(position: Int)
-    fun onBackClick()
 }

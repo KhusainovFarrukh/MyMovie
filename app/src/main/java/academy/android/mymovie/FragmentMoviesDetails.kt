@@ -1,7 +1,7 @@
 package academy.android.mymovie
 
+import academy.android.mymovie.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.adapter.ActorAdapter
-import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.model.Movie
 import android.content.Context
 import android.graphics.Rect
@@ -16,10 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.lang.IllegalArgumentException
 
 class FragmentMoviesDetails : Fragment() {
     private val adapter = ActorAdapter()
-    private var currentMovie: Movie? = null
+    private lateinit var currentMovie: Movie
     private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
@@ -45,37 +46,48 @@ class FragmentMoviesDetails : Fragment() {
                     .toInt()
             )
         )
+
         recyclerViewActors.layoutManager =
             LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         recyclerViewActors.adapter = adapter
 
-        currentMovie = arguments?.getSerializable("movie") as Movie?
+        val movieId = arguments?.getString(MOVIE_KEY)
+        MoviesDatabase().getMoviesList().forEach {
+            if (movieId == it.id) {
+                currentMovie = it
+                return@forEach
+            }
+        }
 
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-        if (currentMovie?.actors == null) view.findViewById<TextView>(R.id.txv_cast).visibility =
+        if (currentMovie.actors == null) view.findViewById<TextView>(R.id.txv_cast).visibility =
             View.INVISIBLE
 
-        view.findViewById<TextView>(R.id.txv_title).text = currentMovie?.name
-        view.findViewById<TextView>(R.id.txv_tagline).text = currentMovie?.tagline
-        view.findViewById<TextView>(R.id.txv_about).text = currentMovie?.storyline
-        view.findViewById<TextView>(R.id.txv_age).text = "${currentMovie?.age}+"
-        view.findViewById<TextView>(R.id.txv_reviews).text = "${currentMovie?.reviews} reviews"
-        view.findViewById<RatingBar>(R.id.rating_bar).rating = currentMovie?.rating!!
+        view.findViewById<TextView>(R.id.txv_title).text = currentMovie.name
+        view.findViewById<TextView>(R.id.txv_tagline).text = currentMovie.tagline
+        view.findViewById<TextView>(R.id.txv_about).text = currentMovie.storyline
+        view.findViewById<TextView>(R.id.txv_age).text = getString(R.string.age, currentMovie.age)
+        view.findViewById<TextView>(R.id.txv_reviews).text =
+            getString(R.string.reviews, currentMovie.reviews)
+        view.findViewById<RatingBar>(R.id.rating_bar).rating = currentMovie.rating
         Glide.with(requireActivity())
-            .load(currentMovie?.bannerUrl)
+            .load(currentMovie.bannerUrl)
             .apply(imageOption)
             .into(view.findViewById(R.id.main_image))
     }
 
     override fun onStart() {
         super.onStart()
-        adapter.submitList(currentMovie?.actors)
+        adapter.submitList(currentMovie.actors)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MovieClickInterface)
+        if (context is MovieClickInterface) {
             movieClickInterface = context
+        } else {
+            throw IllegalArgumentException("Not MovieClickInterface")
+        }
     }
 
     override fun onDetach() {

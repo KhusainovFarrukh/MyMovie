@@ -3,6 +3,7 @@ package academy.android.mymovie.model
 import java.io.Serializable
 
 data class Movie(
+    val id: String,
     val name: String,
     val time: Int,
     val storyline: String,
@@ -14,4 +15,4 @@ data class Movie(
     val imageUrl: String,
     val bannerUrl: String,
     val actors: ArrayList<Actor>?
-    ) : Serializable
+    )
