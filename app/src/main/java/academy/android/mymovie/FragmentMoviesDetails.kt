@@ -4,6 +4,7 @@ import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.model.Movie
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,12 @@ class FragmentMoviesDetails : Fragment() {
             .fallback(R.drawable.sample_placeholder)
 
         val recyclerViewActors = view.findViewById<RecyclerView>(R.id.recycler_view_actors)
+        recyclerViewActors.addItemDecoration(
+            ActorItemDecoration(
+                resources.getDimension(R.dimen.dp8)
+                    .toInt()
+            )
+        )
         recyclerViewActors.layoutManager =
             LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         recyclerViewActors.adapter = adapter
@@ -74,5 +81,20 @@ class FragmentMoviesDetails : Fragment() {
     override fun onDetach() {
         super.onDetach()
         movieClickInterface = null
+    }
+}
+
+private class ActorItemDecoration(val horizontalMargin: Int) : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        with(outRect) {
+            //if item is not first item, add margin to start
+            if (parent.getChildAdapterPosition(view) != 0) left = horizontalMargin
+
+        }
     }
 }
