@@ -3,14 +3,12 @@ package academy.android.mymovie
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.data.loadMovies
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(application: Application) : AndroidViewModel(application){
 
+    private val context = getApplication<Application>().applicationContext
     private val _moviesList = MutableLiveData<List<Movie>>(emptyList())
     private val _isLoading = MutableLiveData<Boolean>(false)
 
@@ -21,10 +19,18 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application){
         viewModelScope.launch {
             _isLoading.postValue(true)
 
-            val tempList = loadMovies(getApplication<Application>().applicationContext)
+            val tempList = loadMovies(context)
             _moviesList.postValue(tempList)
 
             _isLoading.postValue(false)
         }
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class MoviesFactory(val app: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MoviesViewModel::class.java)) return MoviesViewModel(app) as T
+        throw IllegalArgumentException("Unable to construct ViewModel")
     }
 }

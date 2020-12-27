@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +17,7 @@ import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
+    lateinit var moviesViewModel: MoviesViewModel
     private val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
     private val adapter = MovieAdapter()
 
@@ -36,12 +38,21 @@ class FragmentMoviesList : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        coroutineScope.launch {
-            val moviesList = withContext(coroutineScope.coroutineContext) {
-                loadMovies(requireContext())
-            }
-            adapter.submitList(moviesList)
-        }
+        moviesViewModel = MoviesFactory(requireActivity().application).create(MoviesViewModel::class.java)
+
+        moviesViewModel.getMovies()
+        moviesViewModel.isLoading.observe(this.viewLifecycleOwner, {
+            if (it) Toast.makeText(context, "Loading started", Toast.LENGTH_SHORT).show()
+            else Toast.makeText(context, "Loading finished", Toast.LENGTH_SHORT).show()
+        })
+
+        moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+//        coroutineScope.launch {
+//            val moviesList = withContext(coroutineScope.coroutineContext) {
+//                loadMovies(requireContext())
+//            }
+//            adapter.submitList(moviesList)
+//        }
     }
 
     override fun onAttach(context: Context) {
