@@ -43,15 +43,9 @@ class FragmentMoviesDetails : Fragment() {
             LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         recyclerViewActors.adapter = adapter
 
-        lateinit var currentMovie: Movie
 
-        arguments?.getParcelable<Movie>("movie").let {
-            if (it == null) {
-                throw Exception("There is no passed Movie")
-            } else {
-                currentMovie = it
-            }
-        }
+        val currentMovie: Movie = arguments?.getParcelable<Movie>("movie")
+            ?: throw NullPointerException("There is np movie daat")
 
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
         if (currentMovie.actors.isEmpty()) {
