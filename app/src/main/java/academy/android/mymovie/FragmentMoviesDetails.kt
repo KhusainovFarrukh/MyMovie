@@ -45,7 +45,7 @@ class FragmentMoviesDetails : Fragment() {
 
 
         val currentMovie: Movie = arguments?.getParcelable<Movie>("movie")
-            ?: throw NullPointerException("There is np movie daat")
+            ?: throw NullPointerException("There is no movie data")
 
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
         if (currentMovie.actors.isEmpty()) {
