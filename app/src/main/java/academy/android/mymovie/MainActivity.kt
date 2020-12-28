@@ -1,7 +1,6 @@
 package academy.android.mymovie
 
 import academy.android.mymovie.adapter.MovieClickInterface
-import academy.android.mymovie.data.Movie
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity(), MovieClickInterface {
         }
     }
 
-    override fun onMovieClick(movie: Movie) {
+    override fun onMovieClick(id: Int) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 R.anim.slide_in,
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity(), MovieClickInterface {
             addToBackStack(null)
             add(R.id.container_frame_layout, FragmentMoviesDetails().apply {
                 val bundle = Bundle()
-                bundle.putParcelable("movie", movie)
+                bundle.putInt("movie_id", id)
                 arguments = bundle
             })
             commit()

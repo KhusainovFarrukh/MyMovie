@@ -29,7 +29,7 @@ class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
         holder.onBindMovie(getItem(position))
         holder.itemView.apply {
             setOnClickListener {
-                movieClickInterface?.onMovieClick(getItem(position))
+                movieClickInterface?.onMovieClick(getItem(position).id)
             }
         }
     }
@@ -87,6 +87,6 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 }
 
 interface MovieClickInterface {
-    fun onMovieClick(movie: Movie)
+    fun onMovieClick(id: Int)
     fun onBackClick()
 }
