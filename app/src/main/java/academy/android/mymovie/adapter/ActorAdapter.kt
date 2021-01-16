@@ -20,7 +20,6 @@ class ActorAdapter : ListAdapter<Actor, ActorViewHolder>(ActorCallback()) {
             LayoutInflater.from(parent.context).inflate(R.layout.view_holder_actor, parent, false)
         )
 
-
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         holder.onBindActor(getItem(position))
     }

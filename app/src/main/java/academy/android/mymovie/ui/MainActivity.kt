@@ -1,5 +1,7 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.MovieClickInterface
+import academy.android.mymovie.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 

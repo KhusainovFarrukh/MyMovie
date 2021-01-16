@@ -1,10 +1,13 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
-import academy.android.mymovie.MainActivity.Companion.MOVIE_KEY
+import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
+import academy.android.mymovie.MovieClickInterface
+import academy.android.mymovie.MoviesDatabase
+import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
+import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.model.Movie
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -93,20 +96,5 @@ class FragmentMoviesDetails : Fragment() {
     override fun onDetach() {
         super.onDetach()
         movieClickInterface = null
-    }
-}
-
-private class ActorItemDecoration(val horizontalMargin: Int) : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-        with(outRect) {
-            //if item is not first item, add margin to start
-            if (parent.getChildAdapterPosition(view) != 0) left = horizontalMargin
-
-        }
     }
 }

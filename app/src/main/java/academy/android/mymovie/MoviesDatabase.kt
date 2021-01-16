@@ -15,7 +15,7 @@ class MoviesDatabase {
             "Action, Adventure, Fantasy",
             13,
             true,
-            "https://image.tmdb.org/t/p/w342/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+            "cdn2.lamag.com/wp-content/uploads/sites/6/2019/04/avengers-endgame-disney-1068x601.jpg",
             "https://www.denofgeek.com/wp-content/uploads/2019/04/avengers-endgame-ending-explained.jpg?fit=1280%2C720",
             arrayListOf(
                 Actor(
@@ -59,7 +59,7 @@ class MoviesDatabase {
             "Action, Sci-Fi, Thriller",
             16,
             false,
-            "https://image.tmdb.org/t/p/w342/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+            "https://m.media-amazon.com/images/M/MV5BYzg0NGM2NjAtNmIxOC00MDJmLTg5ZmYtYzM0MTE4NWE2NzlhXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg",
             "https://isabellereviewsmovies.files.wordpress.com/2020/09/tenet.jpg",
             null
         ),
@@ -74,7 +74,7 @@ class MoviesDatabase {
             "Action, Adventure, Sci-Fi",
             13,
             true,
-            "https://image.tmdb.org/t/p/w342/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+            "https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackwidow_lob_crd_04.jpg",
             "https://cdn.mos.cms.futurecdn.net/4L75tkWVDgKtGe7kfoEGP6.jpg",
             arrayListOf(
                 Actor(

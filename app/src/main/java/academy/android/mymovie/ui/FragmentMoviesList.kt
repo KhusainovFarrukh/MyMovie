@@ -1,8 +1,11 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.MovieClickInterface
+import academy.android.mymovie.MoviesDatabase
+import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
+import academy.android.mymovie.decorator.MovieItemDecoration
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,26 +49,6 @@ class FragmentMoviesList : Fragment() {
             adapter = MovieAdapter(context)
         } else {
             throw IllegalArgumentException("$context is not MovieClickInterface")
-        }
-    }
-}
-
-private class MovieItemDecoration(val marginHorizontal: Int, val marginTop: Int) :
-    RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-        with(outRect) {
-            //if item is not in the first row, add margin to top
-            if ((parent.getChildAdapterPosition(view) != 0) && (parent.getChildAdapterPosition(view) != 1)) {
-                top = marginTop
-            }
-
-            left = marginHorizontal
-            right = marginHorizontal
         }
     }
 }
