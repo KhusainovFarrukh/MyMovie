@@ -42,18 +42,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp8"
                 android:textAllCaps="true"
-                app:layout_constraintTop_toBottomOf="@id/txv_name"
-                android:layout_marginTop="@dimen/dp4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
+                app:layout_constraintTop_toBottomOf="@id/txv_name"
                 tools:text="@string/_137_min" />
 
             <TextView
                 android:id="@+id/txv_name"
                 style="@style/TextViewNameList"
                 android:layout_width="@dimen/dp0"
-                android:layout_marginTop="@dimen/dp8"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 app:layout_constraintTop_toBottomOf="@id/imv_image"
@@ -61,11 +60,11 @@
 
             <ImageView
                 android:id="@+id/imv_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:padding="@dimen/dp1"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="2:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -161,8 +160,8 @@
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
-                android:layout_marginBottom="@dimen/dp16"
-                app:layout_constraintBottom_toTopOf="@+id/txv_name"
+                android:layout_marginBottom="@dimen/dp8"
+                app:layout_constraintBottom_toBottomOf="@+id/imv_image"
                 app:layout_constraintStart_toEndOf="@id/rating_bar"
                 tools:text="@string/_125_reviews" />
 
