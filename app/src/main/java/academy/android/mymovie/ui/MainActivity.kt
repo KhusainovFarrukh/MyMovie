@@ -1,5 +1,7 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.FragmentMoviesList
+import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.data.Movie
 import android.os.Bundle

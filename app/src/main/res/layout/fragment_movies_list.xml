@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_details_screen"
-    tools:context=".FragmentMoviesList">
+    tools:context=".ui.FragmentMoviesList">
 
     <TextView
         android:id="@+id/txv_movies_list"
@@ -27,6 +27,7 @@
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
         android:layout_marginBottom="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp32"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

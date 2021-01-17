@@ -1,5 +1,6 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.data.Movie
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import java.lang.Exception
 import java.lang.StringBuilder
 
 class FragmentMoviesDetails : Fragment() {
