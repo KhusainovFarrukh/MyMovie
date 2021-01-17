@@ -1,9 +1,8 @@
 package academy.android.mymovie.adapter
 
-import academy.android.mymovie.MovieClickInterface
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
-import academy.android.mymovie.model.Movie
+import academy.android.mymovie.data.Movie
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +10,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.lang.StringBuilder
 
-class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
-    ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
+class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
 
+    var movieClickInterface: MovieClickInterface? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false)
@@ -30,7 +29,7 @@ class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
         holder.onBindMovie(getItem(position))
         holder.itemView.apply {
             setOnClickListener {
-                movieClickInterface.onMovieClick(getItem(position).id)
+                movieClickInterface?.onMovieClick(getItem(position))
             }
         }
     }
@@ -44,7 +43,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
     private val rbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
     private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
-    private val imvFavorite: ImageView = itemView.findViewById(R.id.imv_favorite)
+//    private val imvFavorite: ImageView = itemView.findViewById(R.id.imv_favorite)
 
     companion object {
         private val imageOption = RequestOptions()
@@ -54,27 +53,40 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBindMovie(movie: Movie) {
         Glide.with(itemView.context)
-            .load(Uri.parse(movie.imageUrl))
+            .load(Uri.parse(movie.poster))
             .apply(imageOption)
             .into(imvImage)
-        txvName.text = movie.name
-        txvTime.text = itemView.context.getString(R.string.time, movie.time)
-        txvAge.text = itemView.context.getString(R.string.age, movie.age)
-        txvReviews.text = itemView.context.getString(R.string.reviews, movie.reviews)
-        txvTagline.text = movie.tagline
-        rbRating.rating = movie.rating
-        imvFavorite.setImageDrawable(
-            if (movie.isFavorite) ResourcesCompat.getDrawable(
-                itemView.context.resources,
-                R.drawable.ic_like,
-                null
-            )
-            else ResourcesCompat.getDrawable(
-                itemView.context.resources,
-                R.drawable.ic_like_empty,
-                null
-            )
-        )
+        txvName.text = movie.title
+        "${movie.runtime} min".also { txvTime.text = it }
+        "${movie.numberOfRatings} reviews".also { txvReviews.text = it }
+        val stringBuilder = StringBuilder()
+        movie.genres.forEach {
+            stringBuilder.append(it.name)
+            if (it != movie.genres.last()) {
+                stringBuilder.append(", ")
+            }
+        }
+        txvTagline.text = stringBuilder
+        "${movie.minimumAge}+".also { txvAge.text = it }
+        rbRating.rating = movie.ratings / 2
+
+//        imvFavorite.setImageDrawable(
+//            if (movie.isFavorite) ResourcesCompat.getDrawable(
+//                itemView.context.resources,
+//                R.drawable.ic_like,
+//                null
+//            )
+//            else ResourcesCompat.getDrawable(
+//                itemView.context.resources,
+//                R.drawable.ic_like_empty,
+//                null
+//            )
+//        )
     }
 
+}
+
+interface MovieClickInterface {
+    fun onMovieClick(movie: Movie)
+    fun onBackClick()
 }

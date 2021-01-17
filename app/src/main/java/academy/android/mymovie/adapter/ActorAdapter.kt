@@ -2,7 +2,7 @@ package academy.android.mymovie.adapter
 
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.ActorCallback
-import academy.android.mymovie.model.Actor
+import academy.android.mymovie.data.Actor
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +37,7 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBindActor(actor: Actor) {
         Glide.with(itemView.context)
-            .load(Uri.parse(actor.photoUrl))
+            .load(Uri.parse(actor.picture))
             .apply(imageOption)
             .into(imvActor)
         txvActor.text = actor.name
