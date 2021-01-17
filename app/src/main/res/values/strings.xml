@@ -15,4 +15,7 @@
     <string name="movies_list">Movies list</string>
     <string name="_137_min">137 min</string>
     <string name="avengers_end_game">Avengers: End Game</string>
+    <string name="age">%d+</string>
+    <string name="reviews">%d reviews</string>
+    <string name="time">%d min</string>
 </resources>

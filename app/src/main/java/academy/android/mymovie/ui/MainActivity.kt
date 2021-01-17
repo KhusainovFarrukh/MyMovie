@@ -1,9 +1,15 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.MovieClickInterface
+import academy.android.mymovie.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), MovieClickListener {
+class MainActivity : AppCompatActivity(), MovieClickInterface {
+
+    companion object {
+        const val MOVIE_KEY = "movie"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +23,7 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
         }
     }
 
-    override fun onMovieClick() {
+    override fun onMovieClick(id: String) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 R.anim.slide_in,
@@ -26,7 +32,11 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
                 R.anim.slide_out
             )
             addToBackStack(null)
-            add(R.id.container_frame_layout, FragmentMoviesDetails())
+            add(R.id.container_frame_layout, FragmentMoviesDetails().apply {
+                val bundle = Bundle()
+                bundle.putString(MOVIE_KEY, id)
+                arguments = bundle
+            })
             commit()
         }
     }
@@ -34,9 +44,4 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
     override fun onBackClick() {
         supportFragmentManager.popBackStack()
     }
-}
-
-interface MovieClickListener {
-    fun onMovieClick()
-    fun onBackClick()
 }
