@@ -3,6 +3,7 @@ package academy.android.mymovie
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.data.loadMovies
+import academy.android.mymovie.decorator.MovieItemDecoration
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,12 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.addItemDecoration(
+            MovieItemDecoration(
+                resources.getDimension(R.dimen.dp8).toInt(),
+                resources.getDimension(R.dimen.dp18).toInt()
+            )
+        )
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         recyclerView.adapter = adapter

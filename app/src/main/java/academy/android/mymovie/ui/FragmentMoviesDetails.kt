@@ -4,6 +4,7 @@ import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.data.Movie
+import academy.android.mymovie.decorator.ActorItemDecoration
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,6 +40,11 @@ class FragmentMoviesDetails : Fragment() {
             .fallback(R.drawable.sample_placeholder)
 
         val recyclerViewActors = view.findViewById<RecyclerView>(R.id.recycler_view_actors)
+        recyclerViewActors.addItemDecoration(
+            ActorItemDecoration(
+                resources.getDimension(R.dimen.dp8).toInt()
+            )
+        )
         recyclerViewActors.layoutManager =
             LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         recyclerViewActors.adapter = adapter
