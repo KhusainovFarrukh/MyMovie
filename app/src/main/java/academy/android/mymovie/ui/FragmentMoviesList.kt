@@ -5,20 +5,25 @@ import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.data.loadMovies
 import academy.android.mymovie.decorator.MovieItemDecoration
+import academy.android.mymovie.viewmodel.MoviesViewModel
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
+    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var prbLoading: ProgressBar
     private var movieClickInterface: MovieClickInterface? = null
-    private val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +31,7 @@ class FragmentMoviesList : Fragment() {
     ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        prbLoading = view.findViewById(R.id.prb_loading)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.addItemDecoration(
             MovieItemDecoration(
@@ -40,12 +45,14 @@ class FragmentMoviesList : Fragment() {
         val adapter = MovieAdapter(movieClickInterface!!)
         recyclerView.adapter = adapter
 
-        coroutineScope.launch {
-            val moviesList = withContext(coroutineScope.coroutineContext) {
-                loadMovies(requireContext())
-            }
-            adapter.submitList(moviesList)
-        }
+        moviesViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(MoviesViewModel::class.java)
+
+        moviesViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
+        moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+
     }
 
     override fun onAttach(context: Context) {
@@ -62,8 +69,7 @@ class FragmentMoviesList : Fragment() {
         movieClickInterface = null
     }
 
-    override fun onStop() {
-        super.onStop()
-        coroutineScope.cancel()
+    private fun setLoading(isLoading: Boolean) {
+        prbLoading.isVisible = isLoading
     }
 }
