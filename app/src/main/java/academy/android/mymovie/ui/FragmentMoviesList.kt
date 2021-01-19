@@ -1,7 +1,8 @@
-package academy.android.mymovie
+package academy.android.mymovie.ui
 
+import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
-import academy.android.mymovie.adapter.MovieClickInterface
 import academy.android.mymovie.data.loadMovies
 import academy.android.mymovie.decorator.MovieItemDecoration
 import android.content.Context
@@ -16,8 +17,8 @@ import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
+    private var movieClickInterface: MovieClickInterface? = null
     private val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
-    private val adapter = MovieAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,13 +34,11 @@ class FragmentMoviesList : Fragment() {
                 resources.getDimension(R.dimen.dp18).toInt()
             )
         )
+
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
+        val adapter = MovieAdapter(movieClickInterface!!)
         recyclerView.adapter = adapter
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         coroutineScope.launch {
             val moviesList = withContext(coroutineScope.coroutineContext) {
@@ -51,13 +50,16 @@ class FragmentMoviesList : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MovieClickInterface)
-            adapter.movieClickInterface = context
+        if (context is MovieClickInterface) {
+            movieClickInterface = context
+        } else {
+            throw IllegalArgumentException("Activity is not MovieClickInterface")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
-        adapter.movieClickInterface = null
+        movieClickInterface = null
     }
 
     override fun onStop() {
