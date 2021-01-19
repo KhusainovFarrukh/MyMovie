@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), MovieClickInterface {
         }
     }
 
-    override fun onMovieClick(id: String) {
+    override fun onMovieClick(id: Int) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 R.anim.slide_in,
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), MovieClickInterface {
             addToBackStack(null)
             add(R.id.container_frame_layout, FragmentMoviesDetails().apply {
                 val bundle = Bundle()
-                bundle.putString(MOVIE_KEY, id)
+                bundle.putInt(MOVIE_KEY, id)
                 arguments = bundle
             })
             commit()
