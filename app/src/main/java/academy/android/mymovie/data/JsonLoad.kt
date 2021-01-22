@@ -108,26 +108,14 @@ internal fun parseMovies(
     }
 }
 
-fun appendGenres(genres: List<Genre>): String {
-    var appendedGenres = ""
-
-    genres.forEach { currentGenre ->
-        appendedGenres += currentGenre.name
-        if (currentGenre != genres.last()) {
-            appendedGenres += ", "
-        }
-    }
-    return appendedGenres
-}
-
-fun getMovieById(movieId: Int, movies: List<Movie>): Movie {
+suspend fun getMovieById(movieId: Int, context: Context): Movie = withContext(Dispatchers.IO) {
     var movie: Movie? = null
 
-    movies.forEach {
+    loadMovies(context).forEach {
         if (movieId == it.id) {
             movie = it
             return@forEach
         }
     }
-    return movie ?: throw NullPointerException("Movie not found")
+    movie ?: throw NullPointerException("Movie not found")
 }

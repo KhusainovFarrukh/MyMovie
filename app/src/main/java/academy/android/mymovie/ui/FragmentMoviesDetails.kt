@@ -4,12 +4,11 @@ import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
-import academy.android.mymovie.data.appendGenres
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.ratingbarsvg.RatingBarSvg
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.viewmodel.DetailsViewModel
-import academy.android.mymovie.viewmodel.DetailsViewModelFactory
+import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -82,7 +81,12 @@ class FragmentMoviesDetails : Fragment() {
             adapter.submitList(currentMovie.actors)
         }
 
-        rootView.findViewById<TextView>(R.id.txv_tagline).text = appendGenres(currentMovie.genres)
+        currentMovie.genres.forEach {
+            rootView.findViewById<TextView>(R.id.txv_tagline).append(it.name)
+            if (it != currentMovie.genres.last()) {
+                rootView.findViewById<TextView>(R.id.txv_tagline).append(", ")
+            }
+        }
 
         rootView.findViewById<TextView>(R.id.txv_title).text = currentMovie.title
         rootView.findViewById<TextView>(R.id.txv_about).text = currentMovie.overview
