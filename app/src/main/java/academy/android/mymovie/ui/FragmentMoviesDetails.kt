@@ -5,7 +5,6 @@ import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.decorator.ActorItemDecoration
-import academy.android.mymovie.ratingbarsvg.RatingBarSvg
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.viewmodel.DetailsViewModel
 import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
@@ -14,8 +13,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.RatingBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -123,9 +122,7 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     private fun setLoading(isLoading: Boolean) {
-        rootView.findViewById<ProgressBar>(R.id.prb_loading).isVisible = isLoading
-        rootView.findViewById<TextView>(R.id.txv_storyline).isVisible = !isLoading
-        rootView.findViewById<RatingBarSvg>(R.id.rating_bar).isVisible = !isLoading
+        rootView.findViewById<RelativeLayout>(R.id.progress_layout).isVisible = isLoading
     }
 
     private companion object {
