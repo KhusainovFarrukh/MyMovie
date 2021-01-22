@@ -28,7 +28,7 @@ class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
         holder.onBindMovie(getItem(position))
         holder.itemView.apply {
             setOnClickListener {
-                movieClickInterface.onMovieClick(getItem(position).id.toString())
+                movieClickInterface.onMovieClick(getItem(position).id)
             }
         }
     }
