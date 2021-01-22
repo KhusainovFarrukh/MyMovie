@@ -28,6 +28,7 @@
         android:layout_marginTop="@dimen/dp32"
         android:layout_marginEnd="@dimen/dp16"
         android:layout_marginBottom="@dimen/dp16"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

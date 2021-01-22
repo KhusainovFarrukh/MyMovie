@@ -77,6 +77,8 @@ class FragmentMoviesDetails : Fragment() {
             rootView.findViewById<TextView>(R.id.txv_cast).visibility =
                 View.INVISIBLE
         } else {
+            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
+                View.VISIBLE
             adapter.submitList(currentMovie.actors)
         }
 
@@ -119,7 +121,6 @@ class FragmentMoviesDetails : Fragment() {
     private fun setLoading(isLoading: Boolean) {
         rootView.findViewById<ProgressBar>(R.id.prb_loading).isVisible = isLoading
         rootView.findViewById<TextView>(R.id.txv_storyline).isVisible = !isLoading
-        rootView.findViewById<TextView>(R.id.txv_cast).isVisible = !isLoading
         rootView.findViewById<RatingBarSvg>(R.id.rating_bar).isVisible = !isLoading
     }
 
