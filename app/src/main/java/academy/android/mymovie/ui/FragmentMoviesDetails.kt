@@ -4,16 +4,21 @@ import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
+import academy.android.mymovie.data.appendGenres
 import academy.android.mymovie.decorator.ActorItemDecoration
+import academy.android.mymovie.ratingbarsvg.RatingBarSvg
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.viewmodel.DetailsViewModel
+import academy.android.mymovie.viewmodel.DetailsViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,15 +46,15 @@ class FragmentMoviesDetails : Fragment() {
         super.onStart()
 
         detailsViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            this, DetailsViewModelFactory(
+                arguments?.getInt(MOVIE_KEY)
+                    ?: throw NullPointerException("No id for current movie"),
+                requireActivity().application
+            )
         ).get(DetailsViewModel::class.java)
 
-        detailsViewModel.selectItem(
-            arguments?.getInt(MOVIE_KEY) ?: throw NullPointerException("No id for current movie")
-        )
-
-        detailsViewModel.selectedItem.observe(this, this::updateView)
+        detailsViewModel.currentMovie.observe(this, this::updateView)
+        detailsViewModel.isLoading.observe(this, this::setLoading)
     }
 
     override fun onAttach(context: Context) {
@@ -75,12 +80,7 @@ class FragmentMoviesDetails : Fragment() {
             adapter.submitList(currentMovie.actors)
         }
 
-        currentMovie.genres.forEach { currentGenre ->
-            rootView.findViewById<TextView>(R.id.txv_tagline).append(currentGenre.name)
-            if (currentGenre != currentMovie.genres.last()) {
-                rootView.findViewById<TextView>(R.id.txv_tagline).append(", ")
-            }
-        }
+        rootView.findViewById<TextView>(R.id.txv_tagline).text = appendGenres(currentMovie.genres)
 
         rootView.findViewById<TextView>(R.id.txv_title).text = currentMovie.title
         rootView.findViewById<TextView>(R.id.txv_about).text = currentMovie.overview
@@ -114,6 +114,13 @@ class FragmentMoviesDetails : Fragment() {
                 movieClickInterface?.onBackClick()
             }
         }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        rootView.findViewById<ProgressBar>(R.id.prb_loading).isVisible = isLoading
+        rootView.findViewById<TextView>(R.id.txv_storyline).isVisible = !isLoading
+        rootView.findViewById<TextView>(R.id.txv_cast).isVisible = !isLoading
+        rootView.findViewById<RatingBarSvg>(R.id.rating_bar).isVisible = !isLoading
     }
 
     private companion object {

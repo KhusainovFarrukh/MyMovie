@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val context = application.applicationContext
     private val _moviesList = MutableLiveData<List<Movie>>(emptyList())
     private val _isLoading = MutableLiveData(false)
 
@@ -22,7 +21,7 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
 
             //delay to see whether `isLoading` LiveData is working properly or not
             delay(2000)
-            val tempList = loadMovies(context)
+            val tempList = loadMovies(getApplication())
             _moviesList.postValue(tempList)
 
             _isLoading.postValue(false)

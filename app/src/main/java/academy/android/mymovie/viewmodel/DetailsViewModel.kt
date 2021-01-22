@@ -1,32 +1,38 @@
 package academy.android.mymovie.viewmodel
 
 import academy.android.mymovie.data.Movie
+import academy.android.mymovie.data.getMovieById
 import academy.android.mymovie.data.loadMovies
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class DetailsViewModel(application: Application) : AndroidViewModel(application) {
+class DetailsViewModel(movieId: Int, application: Application) : AndroidViewModel(application) {
 
-    private val context = application.applicationContext
-    private val _selectedItem = MutableLiveData<Movie>()
+    private val _currentMovie = MutableLiveData<Movie>()
+    private val _isLoading = MutableLiveData<Boolean>()
 
-    val selectedItem: LiveData<Movie> = _selectedItem
+    val currentMovie: LiveData<Movie> = _currentMovie
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    fun selectItem(id: Int) {
+    init {
         viewModelScope.launch {
+            _isLoading.postValue(true)
 
-            val tempList = loadMovies(context)
+            //delay to see whether `isLoading` LiveData is working properly or not
+            delay(2000)
 
-            tempList.forEach {
-                if (id == it.id) {
-                    _selectedItem.postValue(it)
-                    return@forEach
-                }
-            }
+            _currentMovie.postValue(getMovieById(movieId, loadMovies(getApplication())))
+
+            _isLoading.postValue((false))
         }
+    }
+}
+
+class DetailsViewModelFactory(private val movieId: Int, private val application: Application) :
+    ViewModelProvider.AndroidViewModelFactory(application) {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return DetailsViewModel(movieId, application) as T
     }
 }
