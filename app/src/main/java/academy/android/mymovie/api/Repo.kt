@@ -1,5 +1,6 @@
 package academy.android.mymovie.api
 
+import academy.android.mymovie.data.Actor
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.utils.Constants.API_KEY
 
@@ -19,5 +20,9 @@ object Repo {
 
     suspend fun getMovieById(id: Int): Movie {
         return api.getMovieById(id, API_KEY)
+    }
+
+    suspend fun getCastByMovieId(movieId: Int): List<Actor> {
+        return api.getCastByMovieId(movieId, API_KEY).cast
     }
 }

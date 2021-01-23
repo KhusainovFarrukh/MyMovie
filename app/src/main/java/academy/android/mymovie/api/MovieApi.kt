@@ -1,5 +1,6 @@
 package academy.android.mymovie.api
 
+import academy.android.mymovie.data.CastResponse
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.data.MovieResponse
 import retrofit2.http.GET
@@ -13,9 +14,15 @@ interface MovieApi {
         @Query("api_key") apiKey: String
     ): MovieResponse
 
-    @GET("movie/{id}")
+    @GET("movie/{movieId}")
     suspend fun getMovieById(
-        @Path("id") id: Int,
+        @Path("movieId") id: Int,
         @Query("api_key") apiKey: String
     ): Movie
+
+    @GET("movie/{movieId}/credits")
+    suspend fun getCastByMovieId(
+        @Path("movieId") movieId: Int,
+        @Query("api_key") apiKey: String
+    ): CastResponse
 }

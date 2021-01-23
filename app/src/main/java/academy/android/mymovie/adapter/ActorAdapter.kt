@@ -3,12 +3,14 @@ package academy.android.mymovie.adapter
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.ActorCallback
 import academy.android.mymovie.data.Actor
+import academy.android.mymovie.utils.Constants.IMAGE_URL
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -36,10 +38,20 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun onBindActor(actor: Actor) {
-        Glide.with(itemView.context)
-            .load(Uri.parse(actor.picture))
-            .apply(imageOption)
-            .into(imvActor)
+        if (actor.profileUrl == null) {
+            imvActor.setImageDrawable(
+                ContextCompat.getDrawable(
+                    itemView.context,
+                    R.drawable.sample_placeholder
+                )
+            )
+        } else {
+            Glide.with(itemView.context)
+                .load(Uri.parse(IMAGE_URL + actor.profileUrl))
+                .apply(imageOption)
+                .into(imvActor)
+        }
+
         txvActor.text = actor.name
     }
 }

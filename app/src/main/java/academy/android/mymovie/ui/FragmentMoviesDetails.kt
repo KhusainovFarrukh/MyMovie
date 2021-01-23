@@ -3,6 +3,7 @@ package academy.android.mymovie.ui
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.data.Actor
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
@@ -14,6 +15,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -54,6 +56,8 @@ class FragmentMoviesDetails : Fragment() {
 
         detailsViewModel.currentMovie.observe(this, this::updateView)
         detailsViewModel.isLoading.observe(this, this::setLoading)
+        detailsViewModel.actorsList.observe(this, this::setActorsViews)
+        detailsViewModel.isLoadingActors.observe(this, this::setLoadingActors)
     }
 
     override fun onAttach(context: Context) {
@@ -71,15 +75,6 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     private fun updateView(currentMovie: Movie) {
-        //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-//        if (currentMovie.actors.isEmpty()) {
-//            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
-//                View.INVISIBLE
-//        } else {
-//            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
-//                View.VISIBLE
-//            adapter.submitList(currentMovie.actors)
-//        }
 
         currentMovie.genres.forEach {
             rootView.findViewById<TextView>(R.id.txv_tagline).append(it.name)
@@ -122,8 +117,24 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
 
+    private fun setActorsViews(actors: List<Actor>) {
+//        if data about movie doesn`t contain list of actors, don`t show 'Cast' text
+        if (actors.isEmpty()) {
+            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
+                View.INVISIBLE
+        } else {
+            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
+                View.VISIBLE
+            adapter.submitList(actors)
+        }
+    }
+
     private fun setLoading(isLoading: Boolean) {
         rootView.findViewById<RelativeLayout>(R.id.progress_layout).isVisible = isLoading
+    }
+
+    private fun setLoadingActors(isLoadingActors: Boolean) {
+        rootView.findViewById<ProgressBar>(R.id.prb_loading_actors).isVisible = isLoadingActors
     }
 
     private companion object {
