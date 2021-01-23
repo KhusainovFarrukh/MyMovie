@@ -1,10 +1,10 @@
 package academy.android.mymovie.adapter
 
-import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
+import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
-import android.net.Uri
+import academy.android.mymovie.utils.Constants.IMAGE_URL
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +51,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBindMovie(movie: Movie) {
         Glide.with(itemView.context)
-            .load(Uri.parse(movie.poster))
+            .load(IMAGE_URL + movie.posterPath)
             .apply(imageOption)
             .into(imvImage)
 
@@ -64,9 +64,9 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         txvName.text = movie.title
         txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
-        txvAge.text = itemView.context.getString(R.string.age, movie.minimumAge)
-        txvReviews.text = itemView.context.getString(R.string.reviews, movie.numberOfRatings)
-        rbRating.rating = movie.ratings / 2
+        txvAge.text = itemView.context.getString(R.string.age, if (movie.adult) 16 else 13)
+        txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
+        rbRating.rating = movie.voteAverage / 2
 //        imvFavorite.setImageDrawable(
 //            if (movie.isFavorite) ResourcesCompat.getDrawable(
 //                itemView.context.resources,

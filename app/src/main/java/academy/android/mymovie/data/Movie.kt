@@ -1,100 +1,77 @@
 package academy.android.mymovie.data
 
-import android.os.Parcel
-import android.os.Parcelable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Movie(
-    val id: Int,
+    @SerialName("original_language")
+    val originalLanguage: String,
+    @SerialName("imdb_id")
+    val imdbId: String?,
+    val video: Boolean,
     val title: String,
-    val overview: String,
-    val poster: String,
-    val backdrop: String,
-    val ratings: Float,
-    val numberOfRatings: Int,
-    val minimumAge: Int,
-    val runtime: Int,
-    val genres: List<Genre>,
-    val actors: List<Actor>
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readFloat(),
-        parcel.readInt(),
-        parcel.readInt(),
-        parcel.readInt(),
-        parcel.readGenreList(),
-        parcel.readActorList()
-    )
+    @SerialName("backdrop_path")
+    val backdropPath: String?,
+    val revenue: Int,
+    val genres: List<GenresItem>,
+    val popularity: Double,
+    @SerialName("production_countries")
+    val productionCountries: List<ProductionCountriesItem>,
+    val id: Int,
+    @SerialName("vote_count")
+    val voteCount: Int,
+    val budget: Int,
+    val overview: String?,
+    @SerialName("original_title")
+    val originalTitle: String,
+    val runtime: Int?,
+    @SerialName("poster_path")
+    val posterPath: String?,
+    @SerialName("spoken_languages")
+    val spokenLanguages: List<SpokenLanguagesItem>,
+    @SerialName("production_companies")
+    val productionCompanies: List<ProductionCompaniesItem>,
+    @SerialName("release_date")
+    val releaseDate: String,
+    @SerialName("vote_average")
+    val voteAverage: Float,
+//    val belongsToCollection: Any,
+    val tagline: String?,
+    val adult: Boolean,
+    val homepage: String?,
+    val status: String
+)
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(title)
-        parcel.writeString(overview)
-        parcel.writeString(poster)
-        parcel.writeString(backdrop)
-        parcel.writeFloat(ratings)
-        parcel.writeInt(numberOfRatings)
-        parcel.writeInt(minimumAge)
-        parcel.writeInt(runtime)
-        parcel.writeGenreList(genres)
-        parcel.writeActorList(actors)
-    }
+@Serializable
+data class SpokenLanguagesItem(
+    val name: String,
+    @SerialName("iso_639_1")
+    val iso6391: String,
+    @SerialName("english_name")
+    val englishName: String
+)
 
-    override fun describeContents(): Int {
-        return 0
-    }
+@Serializable
+data class ProductionCountriesItem(
+    @SerialName("iso_3166_1")
+    val iso31661: String,
+    val name: String
+)
 
-    companion object CREATOR : Parcelable.Creator<Movie> {
-        override fun createFromParcel(parcel: Parcel): Movie {
-            return Movie(parcel)
-        }
+@Serializable
+data class ProductionCompaniesItem(
+    @SerialName("logo_path")
+    val logoPath: String?,
+    val name: String,
+    val id: Int,
+    @SerialName("origin_country")
+    val originCountry: String
+)
 
-        override fun newArray(size: Int): Array<Movie?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
-
-private fun Parcel.readGenreList(): List<Genre> {
-    val size = readInt()
-    val output = ArrayList<Genre>(size)
-    if (size != 0) {
-        for (i in 0 until size) {
-            output.add(readParcelable(Genre::class.java.classLoader)!!)
-        }
-    }
-
-    return output
-}
-
-
-fun Parcel.writeGenreList(input: List<Genre>) {
-    writeInt(input.size)
-    input.forEach {
-        writeParcelable(it, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
-    }
-}
-
-private fun Parcel.readActorList(): List<Actor> {
-    val size = readInt()
-    val output = ArrayList<Actor>(size)
-    if (size != 0) {
-        for (i in 0 until size) {
-            output.add(readParcelable(Genre::class.java.classLoader)!!)
-        }
-    }
-
-    return output
-}
-
-private fun Parcel.writeActorList(input: List<Actor>?) {
-    writeInt(input?.size ?: 0)
-    input?.forEach {
-        writeParcelable(it, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
-    }
-}
+@Serializable
+data class GenresItem(
+    val name: String,
+    val id: Int
+)
 

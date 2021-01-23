@@ -1,9 +1,8 @@
 package academy.android.mymovie.ui
 
-import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
-import academy.android.mymovie.data.loadMovies
+import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.decorator.MovieItemDecoration
 import academy.android.mymovie.viewmodel.MoviesViewModel
 import android.content.Context
@@ -17,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 

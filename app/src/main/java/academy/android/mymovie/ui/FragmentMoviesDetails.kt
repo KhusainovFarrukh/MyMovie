@@ -6,6 +6,7 @@ import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
+import academy.android.mymovie.utils.Constants.IMAGE_URL
 import academy.android.mymovie.viewmodel.DetailsViewModel
 import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
 import android.content.Context
@@ -71,14 +72,14 @@ class FragmentMoviesDetails : Fragment() {
 
     private fun updateView(currentMovie: Movie) {
         //if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-        if (currentMovie.actors.isEmpty()) {
-            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
-                View.INVISIBLE
-        } else {
-            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
-                View.VISIBLE
-            adapter.submitList(currentMovie.actors)
-        }
+//        if (currentMovie.actors.isEmpty()) {
+//            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
+//                View.INVISIBLE
+//        } else {
+//            rootView.findViewById<TextView>(R.id.txv_cast).visibility =
+//                View.VISIBLE
+//            adapter.submitList(currentMovie.actors)
+//        }
 
         currentMovie.genres.forEach {
             rootView.findViewById<TextView>(R.id.txv_tagline).append(it.name)
@@ -90,13 +91,13 @@ class FragmentMoviesDetails : Fragment() {
         rootView.findViewById<TextView>(R.id.txv_title).text = currentMovie.title
         rootView.findViewById<TextView>(R.id.txv_about).text = currentMovie.overview
         rootView.findViewById<TextView>(R.id.txv_age).text =
-            getString(R.string.age, currentMovie.minimumAge)
+            getString(R.string.age, if (currentMovie.adult) 16 else 13)
         rootView.findViewById<TextView>(R.id.txv_reviews).text =
-            getString(R.string.reviews, currentMovie.numberOfRatings)
+            getString(R.string.reviews, currentMovie.voteCount)
         rootView.findViewById<RatingBar>(R.id.rating_bar).rating =
-            currentMovie.ratings / 2
+            currentMovie.voteAverage / 2
         Glide.with(requireActivity())
-            .load(currentMovie.backdrop)
+            .load(IMAGE_URL + currentMovie.backdropPath)
             .apply(imageOption)
             .into(rootView.findViewById(R.id.main_image))
     }
