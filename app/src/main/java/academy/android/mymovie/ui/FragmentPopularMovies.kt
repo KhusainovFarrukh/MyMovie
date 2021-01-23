@@ -3,6 +3,7 @@ package academy.android.mymovie.ui
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
 import academy.android.mymovie.viewmodel.MoviesViewModel
 import android.content.Context
@@ -10,38 +11,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
-class FragmentMoviesList : Fragment() {
+class FragmentPopularMovies : Fragment() {
 
+    private var _binding: FragmentMoviesListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var moviesViewModel: MoviesViewModel
-    private lateinit var prbLoading: ProgressBar
     private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
+    ): View {
+        _binding = FragmentMoviesListBinding.inflate(inflater)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        prbLoading = view.findViewById(R.id.prb_loading)
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.addItemDecoration(
+        binding.rvMovies.addItemDecoration(
             MovieItemDecoration(
                 resources.getDimension(R.dimen.dp8).toInt(),
                 resources.getDimension(R.dimen.dp18).toInt()
             )
         )
 
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
+        binding.rvMovies.setHasFixedSize(true)
+        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
         val adapter = MovieAdapter(movieClickInterface!!)
-        recyclerView.adapter = adapter
+        binding.rvMovies.adapter = adapter
 
         moviesViewModel = ViewModelProvider(
             this,
@@ -67,7 +68,12 @@ class FragmentMoviesList : Fragment() {
         movieClickInterface = null
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setLoading(isLoading: Boolean) {
-        prbLoading.isVisible = isLoading
+        binding.prbLoading.isVisible = isLoading
     }
 }

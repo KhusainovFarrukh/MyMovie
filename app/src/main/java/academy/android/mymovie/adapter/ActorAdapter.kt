@@ -51,7 +51,6 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .apply(imageOption)
                 .into(imvActor)
         }
-
         txvActor.text = actor.name
     }
 }

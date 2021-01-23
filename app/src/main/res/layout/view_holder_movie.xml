@@ -111,20 +111,20 @@
                 tools:src="@drawable/ic_like" />
 
             <TextView
-                android:id="@+id/txv_tagline"
+                android:id="@+id/txv_genres"
                 style="@style/TextViewTaglineList"
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp4"
                 android:ellipsize="end"
                 android:maxLines="1"
-                app:layout_constraintBottom_toTopOf="@id/rating_bar"
+                app:layout_constraintBottom_toTopOf="@id/rb_rating"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 tools:text="@string/action_adventure_fantasy" />
 
             <academy.android.mymovie.ratingbarsvg.RatingBarSvg
-                android:id="@+id/rating_bar"
+                android:id="@+id/rb_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
@@ -149,7 +149,7 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginBottom="@dimen/dp8"
                 app:layout_constraintBottom_toBottomOf="@+id/imv_image"
-                app:layout_constraintStart_toEndOf="@id/rating_bar"
+                app:layout_constraintStart_toEndOf="@id/rb_rating"
                 tools:text="@string/_125_reviews" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

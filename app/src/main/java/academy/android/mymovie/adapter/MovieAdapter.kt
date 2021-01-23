@@ -38,9 +38,9 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val txvName: TextView = itemView.findViewById(R.id.txv_name)
     private val txvTime: TextView = itemView.findViewById(R.id.txv_time)
     private val txvReviews: TextView = itemView.findViewById(R.id.txv_reviews)
-    private val txvTagline: TextView = itemView.findViewById(R.id.txv_tagline)
+    private val txvTagline: TextView = itemView.findViewById(R.id.txv_genres)
     private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
-    private val rbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
+    private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
     private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
 
     companion object {

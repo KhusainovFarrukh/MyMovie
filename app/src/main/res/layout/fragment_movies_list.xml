@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_details_screen"
-    tools:context=".ui.FragmentMoviesList">
+    tools:context=".ui.FragmentPopularMovies">
 
     <TextView
         android:id="@+id/txv_movies_list"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/rv_movies"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
         android:layout_marginStart="@dimen/dp16"
@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/recycler_view"
-        app:layout_constraintStart_toStartOf="@id/recycler_view"
-        app:layout_constraintTop_toTopOf="@id/recycler_view" />
+        app:layout_constraintEnd_toEndOf="@id/rv_movies"
+        app:layout_constraintStart_toStartOf="@id/rv_movies"
+        app:layout_constraintTop_toTopOf="@id/rv_movies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
