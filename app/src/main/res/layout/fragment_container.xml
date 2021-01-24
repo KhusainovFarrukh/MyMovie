@@ -20,14 +20,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:background="@color/bg_details_screen"
+        app:layout_constraintTop_toBottomOf="@id/txv_movies_list"
+        app:tabIndicatorColor="@color/pink"
+        app:tabMode="auto"
+        app:tabRippleColor="@color/pink"
+        app:tabSelectedTextColor="@color/pink"
+        app:tabTextColor="@color/white" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_fragments"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
-        android:layout_marginTop="@dimen/dp32"
+        android:layout_marginTop="@dimen/dp16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txv_movies_list" />
+        app:layout_constraintTop_toBottomOf="@id/tl_titles" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

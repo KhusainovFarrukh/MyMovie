@@ -10,4 +10,8 @@ object Constants {
     const val KEY_TOPRATED = "top_rated"
     const val KEY_NOWPLAYING = "now_playing"
     const val KEY_UPCOMING = "upcoming"
+    const val TITLE_POPULAR = "Popular"
+    const val TITLE_TOPRATED = "Top rated"
+    const val TITLE_NOWPLAYING = "Now playing"
+    const val TITLE_UPCOMING = "Upcoming"
 }
