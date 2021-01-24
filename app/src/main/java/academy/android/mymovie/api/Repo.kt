@@ -8,10 +8,10 @@ object Repo {
 
     private val api = RetrofitInstance.movieApi
 
-    suspend fun getPopularMovies(): List<Movie> {
+    suspend fun getMoviesList(type: String): List<Movie> {
         val movieList = mutableListOf<Movie>()
 
-        api.getPopularMovies(API_KEY).results.forEach {
+        api.getMoviesList(type, API_KEY).results.forEach {
             movieList.add(getMovieById(it.id))
         }
 

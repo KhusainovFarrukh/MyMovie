@@ -5,7 +5,10 @@ import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
+import academy.android.mymovie.utils.Constants.KEY_POPULAR
+import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodel.MoviesViewModel
+import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 
-class FragmentPopularMovies : Fragment() {
+class FragmentMoviesList : Fragment() {
 
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
@@ -46,12 +49,14 @@ class FragmentPopularMovies : Fragment() {
 
         moviesViewModel = ViewModelProvider(
             this,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            MoviesViewModelFactory(
+                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
+                requireActivity().application
+            )
         ).get(MoviesViewModel::class.java)
 
         moviesViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
         moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
-
     }
 
     override fun onAttach(context: Context) {
@@ -75,5 +80,13 @@ class FragmentPopularMovies : Fragment() {
 
     private fun setLoading(isLoading: Boolean) {
         binding.prbLoading.isVisible = isLoading
+    }
+
+    fun newInstance(requestPath: String): FragmentMoviesList {
+        val fragment = FragmentMoviesList()
+        val bundle = Bundle()
+        bundle.putString(REQUEST_PATH, requestPath)
+        fragment.arguments = bundle
+        return fragment
     }
 }

@@ -7,26 +7,27 @@
     android:background="@color/bg_details_screen"
     tools:context=".ui.FragmentMoviesList">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movies"
-        android:layout_width="@dimen/dp0"
-        android:layout_height="@dimen/dp0"
+    <TextView
+        android:id="@+id/txv_movies_list"
+        style="@style/TextViewMoviesList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp16"
-        android:layout_marginEnd="@dimen/dp16"
-        android:layout_marginBottom="@dimen/dp16"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp56"
+        android:drawablePadding="@dimen/dp8"
+        android:text="@string/movies_list"
+        app:drawableStartCompat="@drawable/ic_aim"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/prb_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/rv_movies"
-        app:layout_constraintStart_toStartOf="@id/rv_movies"
-        app:layout_constraintTop_toTopOf="@id/rv_movies" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_fragments"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        android:layout_marginTop="@dimen/dp32"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txv_movies_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), MovieClickInterface {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
-                add(R.id.container_frame_layout, FragmentPopularMovies())
+                add(R.id.container_frame_layout, FragmentContainer())
                 commit()
             }
         }
