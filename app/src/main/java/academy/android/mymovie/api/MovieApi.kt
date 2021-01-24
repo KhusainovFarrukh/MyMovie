@@ -11,19 +11,16 @@ interface MovieApi {
 
     @GET("movie/{type}")
     suspend fun getMoviesList(
-        @Path("type") type: String,
-        @Query("api_key") apiKey: String
+        @Path("type") type: String
     ): MovieResponse
 
     @GET("movie/{movieId}")
     suspend fun getMovieById(
-        @Path("movieId") id: Int,
-        @Query("api_key") apiKey: String
+        @Path("movieId") id: Int
     ): Movie
 
     @GET("movie/{movieId}/credits")
     suspend fun getCastByMovieId(
-        @Path("movieId") movieId: Int,
-        @Query("api_key") apiKey: String
+        @Path("movieId") movieId: Int
     ): CastResponse
 }
