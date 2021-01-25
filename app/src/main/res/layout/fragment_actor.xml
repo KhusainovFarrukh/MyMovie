@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_details_screen"
+    tools:context=".ui.FragmentMoviesDetails">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imv_backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/orig" />
+
+        <View
+            android:id="@+id/gradient_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp0"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@id/imv_backdrop"
+            app:layout_constraintEnd_toEndOf="@id/imv_backdrop"
+            app:layout_constraintStart_toStartOf="@id/imv_backdrop"
+            app:layout_constraintTop_toTopOf="@id/imv_backdrop" />
+
+        <TextView
+            android:id="@+id/txv_back"
+            style="@style/TextViewBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp56"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/back"
+            app:drawableStartCompat="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txv_name"
+            style="@style/TextViewName"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:lines="3"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/txv_back"
+            tools:text="Robert Downey Jr." />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imv_person"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage"
+            android:layout_width="@dimen/dp80"
+            android:layout_height="@dimen/dp80"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/txv_name"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txv_born_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp16"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintBottom_toTopOf="@+id/txv_born_place"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/imv_person"
+            app:layout_constraintTop_toTopOf="@+id/imv_person"
+            tools:text="4 April. 1965" />
+
+        <TextView
+            android:id="@+id/txv_born_place"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintBottom_toTopOf="@+id/txv_jobs"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/txv_born_date"
+            app:layout_constraintTop_toBottomOf="@+id/txv_born_date"
+            tools:text="New York City, New York. U.S." />
+
+        <TextView
+            android:id="@+id/txv_jobs"
+            style="@style/TextViewTagline"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/imv_person"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/txv_born_place"
+            app:layout_constraintTop_toBottomOf="@+id/txv_born_place"
+            tools:text="Actor, producer, singer" />
+
+        <TextView
+            android:id="@+id/txv_biography"
+            style="@style/TextViewStoryline"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp32"
+            android:gravity="center_vertical"
+            android:text="@string/biography"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/rv_filmography" />
+
+        <TextView
+            android:id="@+id/txv_biography_text"
+            style="@style/TextViewAbout"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp32"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="@dimen/sp4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/txv_biography"
+            tools:text="@string/text" />
+
+        <TextView
+            android:id="@+id/txv_filmography"
+            style="@style/TextViewCast"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:text="@string/filmography"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/imv_person" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_filmography"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/txv_filmography" />
+
+        <ProgressBar
+            android:id="@+id/prb_loading_actors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="@id/rv_filmography" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dp16" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dp16" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

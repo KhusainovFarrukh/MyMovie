@@ -18,4 +18,6 @@
     <string name="age">%d+</string>
     <string name="reviews">%d reviews</string>
     <string name="time">%d min</string>
+    <string name="biography">Biography</string>
+    <string name="filmography">Filmography</string>
 </resources>
