@@ -10,6 +10,10 @@ import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.utils.Constants
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.KEY_BACKDROP
+import academy.android.mymovie.utils.Constants.KEY_BASE_URL
+import academy.android.mymovie.utils.Constants.KEY_PROFILE
+import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.viewmodel.DetailsViewModel
 import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
 import android.content.Context
@@ -43,15 +47,15 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val sharedPrefs =
-            requireActivity().getSharedPreferences("config_data", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
 
-        val imageUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString("profile_size", Constants.DEFAULT_SIZE)
+        val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString(KEY_PROFILE, Constants.DEFAULT_SIZE)
 
         adapter = ActorAdapter(imageUrl)
 
-        backdropUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString("backdrop_size", Constants.DEFAULT_SIZE)
+        backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
         setupViews()
     }
 

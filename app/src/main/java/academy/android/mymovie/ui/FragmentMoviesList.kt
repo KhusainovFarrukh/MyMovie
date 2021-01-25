@@ -8,7 +8,12 @@ import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
+import academy.android.mymovie.utils.Constants.KEY_BACKDROP
+import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_POPULAR
+import academy.android.mymovie.utils.Constants.KEY_POSTER
+import academy.android.mymovie.utils.Constants.KEY_PROFILE
+import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodel.MoviesViewModel
 import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
@@ -28,6 +33,7 @@ class FragmentMoviesList : Fragment() {
 
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: MovieAdapter
     private lateinit var moviesViewModel: MoviesViewModel
     private var movieClickInterface: MovieClickInterface? = null
     private lateinit var sharedPrefs: SharedPreferences
@@ -43,6 +49,28 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.rvMovies.addItemDecoration(
+            MovieItemDecoration(
+                resources.getDimension(R.dimen.dp8).toInt(),
+                resources.getDimension(R.dimen.dp18).toInt()
+            )
+        )
+
+        sharedPrefs = requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
+        editor = sharedPrefs.edit()
+
+        val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString(KEY_POSTER, DEFAULT_SIZE)
+
+        binding.rvMovies.setHasFixedSize(true)
+        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
+        adapter = MovieAdapter(movieClickInterface!!, imageUrl)
+        binding.rvMovies.adapter = adapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         moviesViewModel = ViewModelProvider(
             this,
             MoviesViewModelFactory(
@@ -53,25 +81,7 @@ class FragmentMoviesList : Fragment() {
 
         moviesViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
         moviesViewModel.config.observe(this.viewLifecycleOwner, this::saveConfigData)
-
-        binding.rvMovies.addItemDecoration(
-            MovieItemDecoration(
-                resources.getDimension(R.dimen.dp8).toInt(),
-                resources.getDimension(R.dimen.dp18).toInt()
-            )
-        )
-
-        sharedPrefs = requireActivity().getSharedPreferences("config_data", Context.MODE_PRIVATE)
-        editor = sharedPrefs.edit()
-
-        val imageUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString("poster_size", DEFAULT_SIZE)
-
-        binding.rvMovies.setHasFixedSize(true)
-        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
-        val adapter = MovieAdapter(movieClickInterface!!, imageUrl)
         moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
-        binding.rvMovies.adapter = adapter
     }
 
     override fun onAttach(context: Context) {
@@ -99,10 +109,10 @@ class FragmentMoviesList : Fragment() {
 
     private fun saveConfigData(config: ConfigurationResponse) {
         editor.apply {
-            putString("base_url", config.images.baseUrl)
-            putString("backdrop_size", config.images.backdropSizes.last())
-            putString("poster_size", config.images.posterSizes.last())
-            putString("profile_size", config.images.profileSizes.last())
+            putString(KEY_BASE_URL, config.images.baseUrl)
+            putString(KEY_BACKDROP, config.images.backdropSizes.last())
+            putString(KEY_POSTER, config.images.posterSizes.last())
+            putString(KEY_PROFILE, config.images.profileSizes.last())
             apply()
         }
     }

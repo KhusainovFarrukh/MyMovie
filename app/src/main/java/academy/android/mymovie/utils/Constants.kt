@@ -14,5 +14,11 @@ object Constants {
     const val TITLE_POPULAR = "Popular"
     const val TITLE_TOPRATED = "Top rated"
     const val TITLE_NOWPLAYING = "Now playing"
+    const val KEY_BASE_URL = "base_url"
+    const val KEY_BACKDROP = "backdrop_size"
+    const val KEY_POSTER = "poster_size"
+    const val KEY_PROFILE = "profile_size"
+    const val KEY_SHARED_PREF = "config_data"
     const val TITLE_UPCOMING = "Upcoming"
+
 }
