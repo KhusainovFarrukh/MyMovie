@@ -4,7 +4,6 @@ import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
-import academy.android.mymovie.utils.Constants.IMAGE_URL
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
-    ListAdapter<Movie, MovieViewHolder>(MovieCallback()) {
+class MovieAdapter(
+    private val movieClickInterface: MovieClickInterface,
+    private val imageUrl: String
+) :
+    ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(
@@ -32,41 +34,34 @@ class MovieAdapter(private val movieClickInterface: MovieClickInterface) :
             }
         }
     }
-}
 
-class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val txvName: TextView = itemView.findViewById(R.id.txv_name)
-    private val txvTime: TextView = itemView.findViewById(R.id.txv_time)
-    private val txvReviews: TextView = itemView.findViewById(R.id.txv_reviews)
-    private val txvTagline: TextView = itemView.findViewById(R.id.txv_genres)
-    private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
-    private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
-    private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val txvName: TextView = itemView.findViewById(R.id.txv_name)
+        private val txvTime: TextView = itemView.findViewById(R.id.txv_time)
+        private val txvReviews: TextView = itemView.findViewById(R.id.txv_reviews)
+        private val txvTagline: TextView = itemView.findViewById(R.id.txv_genres)
+        private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
+        private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
+        private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
 
-    companion object {
-        private val imageOption = RequestOptions()
-            .placeholder(R.drawable.sample_placeholder)
-            .fallback(R.drawable.sample_placeholder)
-    }
+        fun onBindMovie(movie: Movie) {
+            Glide.with(itemView.context)
+                .load(imageUrl + movie.posterPath)
+                .apply(imageOption)
+                .into(imvImage)
 
-    fun onBindMovie(movie: Movie) {
-        Glide.with(itemView.context)
-            .load(IMAGE_URL + movie.posterPath)
-            .apply(imageOption)
-            .into(imvImage)
-
-        movie.genres.forEach { currentGenre ->
-            txvTagline.append(currentGenre.name)
-            if (currentGenre != movie.genres.last()) {
-                txvTagline.append(", ")
+            movie.genres.forEach { currentGenre ->
+                txvTagline.append(currentGenre.name)
+                if (currentGenre != movie.genres.last()) {
+                    txvTagline.append(", ")
+                }
             }
-        }
 
-        txvName.text = movie.title
-        txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
-        txvAge.text = itemView.context.getString(R.string.age, if (movie.adult) 16 else 13)
-        txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
-        rbRating.rating = movie.voteAverage / 2
+            txvName.text = movie.title
+            txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
+            txvAge.text = itemView.context.getString(R.string.age, if (movie.adult) 16 else 13)
+            txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
+            rbRating.rating = movie.voteAverage / 2
 //        imvFavorite.setImageDrawable(
 //            if (movie.isFavorite) ResourcesCompat.getDrawable(
 //                itemView.context.resources,
@@ -79,6 +74,14 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //                null
 //            )
 //        )
+        }
     }
 
+    companion object {
+        private val imageOption = RequestOptions()
+            .placeholder(R.drawable.sample_placeholder)
+            .fallback(R.drawable.sample_placeholder)
+    }
 }
+
+

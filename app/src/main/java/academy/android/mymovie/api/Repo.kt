@@ -1,6 +1,5 @@
 package academy.android.mymovie.api
 
-import academy.android.mymovie.data.Actor
 import academy.android.mymovie.data.Movie
 
 object Repo {
@@ -17,11 +16,9 @@ object Repo {
         return movieList
     }
 
-    suspend fun getMovieById(id: Int): Movie {
-        return api.getMovieById(id)
-    }
+    suspend fun getMovieById(id: Int) = api.getMovieById(id)
 
-    suspend fun getCastByMovieId(movieId: Int): List<Actor> {
-        return api.getCastByMovieId(movieId).cast
-    }
+    suspend fun getCastByMovieId(movieId: Int) = api.getCastByMovieId(movieId).cast
+
+    suspend fun getConfiguration() = api.getConfiguration()
 }

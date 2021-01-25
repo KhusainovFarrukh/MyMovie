@@ -8,7 +8,8 @@ import academy.android.mymovie.data.Movie
 import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
-import academy.android.mymovie.utils.Constants.IMAGE_URL
+import academy.android.mymovie.utils.Constants
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.viewmodel.DetailsViewModel
 import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
 import android.content.Context
@@ -28,7 +29,8 @@ class FragmentMoviesDetails : Fragment() {
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var detailsViewModel: DetailsViewModel
-    private val adapter = ActorAdapter()
+    private lateinit var adapter: ActorAdapter
+    private lateinit var backdropUrl: String
     private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
@@ -40,6 +42,16 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sharedPrefs =
+            requireActivity().getSharedPreferences("config_data", Context.MODE_PRIVATE)
+
+        val imageUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString("profile_size", Constants.DEFAULT_SIZE)
+
+        adapter = ActorAdapter(imageUrl)
+
+        backdropUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString("backdrop_size", Constants.DEFAULT_SIZE)
         setupViews()
     }
 
@@ -56,8 +68,8 @@ class FragmentMoviesDetails : Fragment() {
 
         detailsViewModel.currentMovie.observe(this, this::updateView)
         detailsViewModel.isLoading.observe(this, this::setLoading)
-        detailsViewModel.actorsList.observe(this, this::setActorsViews)
         detailsViewModel.isLoadingActors.observe(this, this::setLoadingActors)
+        detailsViewModel.actorsList.observe(this, this::setActorsViews)
     }
 
     override fun onAttach(context: Context) {
@@ -97,7 +109,7 @@ class FragmentMoviesDetails : Fragment() {
         binding.rbRating.rating =
             currentMovie.voteAverage / 2
         Glide.with(requireActivity())
-            .load(IMAGE_URL + currentMovie.backdropPath)
+            .load(backdropUrl + currentMovie.backdropPath)
             .apply(imageOption)
             .into(binding.imvBackdrop)
     }

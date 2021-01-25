@@ -3,14 +3,19 @@ package academy.android.mymovie.ui
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.data.ConfigurationResponse
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.utils.Constants.KEY_POPULAR
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodel.MoviesViewModel
 import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +30,8 @@ class FragmentMoviesList : Fragment() {
     private val binding get() = _binding!!
     private lateinit var moviesViewModel: MoviesViewModel
     private var movieClickInterface: MovieClickInterface? = null
+    private lateinit var sharedPrefs: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,17 +42,6 @@ class FragmentMoviesList : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.rvMovies.addItemDecoration(
-            MovieItemDecoration(
-                resources.getDimension(R.dimen.dp8).toInt(),
-                resources.getDimension(R.dimen.dp18).toInt()
-            )
-        )
-
-        binding.rvMovies.setHasFixedSize(true)
-        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
-        val adapter = MovieAdapter(movieClickInterface!!)
-        binding.rvMovies.adapter = adapter
 
         moviesViewModel = ViewModelProvider(
             this,
@@ -56,7 +52,26 @@ class FragmentMoviesList : Fragment() {
         ).get(MoviesViewModel::class.java)
 
         moviesViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
+        moviesViewModel.config.observe(this.viewLifecycleOwner, this::saveConfigData)
+
+        binding.rvMovies.addItemDecoration(
+            MovieItemDecoration(
+                resources.getDimension(R.dimen.dp8).toInt(),
+                resources.getDimension(R.dimen.dp18).toInt()
+            )
+        )
+
+        sharedPrefs = requireActivity().getSharedPreferences("config_data", Context.MODE_PRIVATE)
+        editor = sharedPrefs.edit()
+
+        val imageUrl = sharedPrefs.getString("base_url", DEFAULT_IMAGE_URL) +
+                sharedPrefs.getString("poster_size", DEFAULT_SIZE)
+
+        binding.rvMovies.setHasFixedSize(true)
+        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
+        val adapter = MovieAdapter(movieClickInterface!!, imageUrl)
         moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+        binding.rvMovies.adapter = adapter
     }
 
     override fun onAttach(context: Context) {
@@ -80,6 +95,16 @@ class FragmentMoviesList : Fragment() {
 
     private fun setLoading(isLoading: Boolean) {
         binding.prbLoading.isVisible = isLoading
+    }
+
+    private fun saveConfigData(config: ConfigurationResponse) {
+        editor.apply {
+            putString("base_url", config.images.baseUrl)
+            putString("backdrop_size", config.images.backdropSizes.last())
+            putString("poster_size", config.images.posterSizes.last())
+            putString("profile_size", config.images.profileSizes.last())
+            apply()
+        }
     }
 
     fun newInstance(requestPath: String): FragmentMoviesList {

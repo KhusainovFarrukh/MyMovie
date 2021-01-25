@@ -4,7 +4,8 @@ object Constants {
 
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val API_KEY = "d2f1014d730bfc7776870724b9bbea77"
-    const val IMAGE_URL = "https://image.tmdb.org/t/p/original"
+    const val DEFAULT_IMAGE_URL = "https://image.tmdb.org/t/p/"
+    const val DEFAULT_SIZE = "original"
     const val REQUEST_PATH = "requestPath"
     const val KEY_POPULAR = "popular"
     const val KEY_TOPRATED = "top_rated"
