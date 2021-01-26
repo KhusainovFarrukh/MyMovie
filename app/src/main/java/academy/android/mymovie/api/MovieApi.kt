@@ -1,9 +1,6 @@
 package academy.android.mymovie.api
 
-import academy.android.mymovie.data.CastResponse
-import academy.android.mymovie.data.ConfigurationResponse
-import academy.android.mymovie.data.Movie
-import academy.android.mymovie.data.MovieResponse
+import academy.android.mymovie.data.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -26,4 +23,9 @@ interface MovieApi {
 
     @GET("configuration")
     suspend fun getConfiguration() : ConfigurationResponse
+
+    @GET("person/{actorId}")
+    suspend fun getActorById(
+        @Path("actorId") actorId: Int
+    ): ActorResponse
 }

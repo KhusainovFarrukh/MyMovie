@@ -2,18 +2,19 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
+import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Actor
 import academy.android.mymovie.data.Movie
 import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
 import academy.android.mymovie.decorator.ActorItemDecoration
-import academy.android.mymovie.ui.MainActivity.Companion.MOVIE_KEY
 import academy.android.mymovie.utils.Constants
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.KEY_BACKDROP
 import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
+import academy.android.mymovie.utils.Constants.MOVIE_KEY
 import academy.android.mymovie.viewmodel.DetailsViewModel
 import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
 import android.content.Context
@@ -36,6 +37,7 @@ class FragmentMoviesDetails : Fragment() {
     private lateinit var adapter: ActorAdapter
     private lateinit var backdropUrl: String
     private var movieClickInterface: MovieClickInterface? = null
+    private var actorClickInterface: ActorClickInterface? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +54,7 @@ class FragmentMoviesDetails : Fragment() {
         val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_PROFILE, Constants.DEFAULT_SIZE)
 
-        adapter = ActorAdapter(imageUrl)
+        adapter = ActorAdapter(actorClickInterface!!, imageUrl)
 
         backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
@@ -83,11 +85,18 @@ class FragmentMoviesDetails : Fragment() {
         } else {
             throw IllegalArgumentException("Activity is not MovieClickInterface")
         }
+
+        if (context is ActorClickInterface) {
+            actorClickInterface = context
+        } else {
+            throw IllegalArgumentException("Activity is not ActorClickInterface")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         movieClickInterface = null
+        actorClickInterface = null
     }
 
     override fun onDestroyView() {

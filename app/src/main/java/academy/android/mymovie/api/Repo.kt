@@ -21,4 +21,6 @@ object Repo {
     suspend fun getCastByMovieId(movieId: Int) = api.getCastByMovieId(movieId).cast
 
     suspend fun getConfiguration() = api.getConfiguration()
+
+    suspend fun getActorById(actorId: Int) = api.getActorById(actorId)
 }

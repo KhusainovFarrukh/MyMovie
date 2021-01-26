@@ -2,6 +2,7 @@ package academy.android.mymovie.adapter
 
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.ActorCallback
+import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.data.Actor
 import android.net.Uri
 import android.view.LayoutInflater
@@ -15,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ActorAdapter(private val imageUrl: String) :
+class ActorAdapter(
+    private val actorClickInterface: ActorClickInterface,
+    private val imageUrl: String
+) :
     ListAdapter<Actor, ActorAdapter.ActorViewHolder>(ActorCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder =
         ActorViewHolder(
@@ -24,6 +28,9 @@ class ActorAdapter(private val imageUrl: String) :
 
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         holder.onBindActor(getItem(position))
+        holder.itemView.apply {
+            setOnClickListener { actorClickInterface.onActorClick(getItem(position).id) }
+        }
     }
 
     inner class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
