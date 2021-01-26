@@ -28,6 +28,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FragmentActor : Fragment() {
     private var _binding: FragmentActorBinding? = null
@@ -103,6 +107,8 @@ class FragmentActor : Fragment() {
         binding.txvBiographyText.text = currentActor.biography
         binding.txvBornDate.text = currentActor.birthday
         binding.txvBornPlace.text = currentActor.birthPlace
+        binding.txvJobs.text = currentActor.knownFor
+        binding.txvBornDate.text = formatDate(currentActor.birthday) ?: "No data"
 
         currentActor.imageUrl?.let {
             Glide.with(requireActivity())
@@ -155,9 +161,20 @@ class FragmentActor : Fragment() {
         binding.viewLoading.isVisible = isLoading
     }
 
-//    private fun setLoadingActors(isLoadingActors: Boolean) {
-//        binding.prbLoadingActors.isVisible = isLoadingActors
-//    }
+    private fun formatDate(inputDate: String?): String? {
+        val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+        val outputDate: Date?
+        var newDateString: String? = null
+        try {
+            outputDate = inputFormat.parse(inputDate)
+            newDateString = DateFormat.getDateInstance(DateFormat.LONG, Locale.US).format(outputDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        return newDateString
+    }
 
     private companion object {
         val imageOption = RequestOptions()
