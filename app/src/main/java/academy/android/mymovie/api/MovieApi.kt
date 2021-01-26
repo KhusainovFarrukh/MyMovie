@@ -22,9 +22,9 @@ interface MovieApi {
     ): CastResponse
 
     @GET("configuration")
-    suspend fun getConfiguration() : ConfigurationResponse
+    suspend fun getConfiguration(): ConfigurationResponse
 
-    @GET("person/{actorId}")
+    @GET("person/{actorId}?append_to_response=images,movie_credits")
     suspend fun getActorById(
         @Path("actorId") actorId: Int
     ): ActorResponse

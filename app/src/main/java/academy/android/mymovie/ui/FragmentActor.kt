@@ -1,9 +1,13 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
+import academy.android.mymovie.adapter.MovieInActorAdapter
 import academy.android.mymovie.clickinterface.ActorClickInterface
+import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.ActorResponse
+import academy.android.mymovie.data.MovieInActor
 import academy.android.mymovie.databinding.FragmentActorBinding
+import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.utils.Constants
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
@@ -17,8 +21,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -26,10 +33,10 @@ class FragmentActor : Fragment() {
     private var _binding: FragmentActorBinding? = null
     private val binding get() = _binding!!
     private lateinit var actorViewModel: ActorViewModel
-
-    //    private lateinit var adapter: ActorAdapter
-    private lateinit var profileUrl: String
+    private lateinit var adapter: MovieInActorAdapter
+    private lateinit var backdropUrl: String
     private var actorClickInterface: ActorClickInterface? = null
+    private var movieClickInterface: MovieClickInterface? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +50,11 @@ class FragmentActor : Fragment() {
         val sharedPrefs =
             requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
 
-//        adapter = ActorAdapter(imageUrl)
-
-        profileUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
+        backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
+
+        adapter = MovieInActorAdapter(movieClickInterface!!, backdropUrl)
+
         setupViews()
     }
 
@@ -62,8 +70,6 @@ class FragmentActor : Fragment() {
 
         actorViewModel.currentActor.observe(this, this::updateView)
         actorViewModel.isLoading.observe(this, this::setLoading)
-//        actorViewModel.isLoadingActors.observe(this, this::setLoadingActors)
-//        actorViewModel.actorsList.observe(this, this::setActorsViews)
     }
 
     override fun onAttach(context: Context) {
@@ -73,11 +79,17 @@ class FragmentActor : Fragment() {
         } else {
             throw IllegalArgumentException("Activity is not ActorClickInterface")
         }
+        if (context is MovieClickInterface) {
+            movieClickInterface = context
+        } else {
+            throw IllegalArgumentException("Activity is not MovieClickInterface")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         actorClickInterface = null
+        movieClickInterface = null
     }
 
     override fun onDestroyView() {
@@ -94,23 +106,32 @@ class FragmentActor : Fragment() {
 
         currentActor.imageUrl?.let {
             Glide.with(requireActivity())
-                .load(profileUrl + it)
+                .load(backdropUrl + it)
                 .apply(imageOption)
                 .into(binding.imvPerson)
         }
+
+        if (currentActor.images.profiles.isNotEmpty()) {
+            Glide.with(requireActivity())
+                .load(backdropUrl + currentActor.images.profiles.random().imageUrl)
+                .apply(imageOption)
+                .into(binding.imvBackdrop)
+        }
+
+        setActorsViews(currentActor.filmography.cast)
     }
 
     private fun setupViews() {
-//        binding.rvFilmography.addItemDecoration(
-//            ActorItemDecoration(
-//                resources.getDimension(R.dimen.dp8)
-//                    .toInt()
-//            )
-//        )
-//
-//        binding.rvFilmography.layoutManager =
-//            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-//        binding.rvFilmography.adapter = adapter
+        binding.rvFilmography.addItemDecoration(
+            ActorItemDecoration(
+                resources.getDimension(R.dimen.dp8)
+                    .toInt()
+            )
+        )
+
+        binding.rvFilmography.layoutManager =
+            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        binding.rvFilmography.adapter = adapter
 
         binding.txvBack.apply {
             setOnClickListener {
@@ -119,20 +140,19 @@ class FragmentActor : Fragment() {
         }
     }
 
-//    private fun setActorsViews(actors: List<Actor>) {
-////        if data about movie doesn`t contain list of actors, don`t show 'Cast' text
-//        if (actors.isEmpty()) {
-//            binding.txvCast.visibility =
-//                View.INVISIBLE
-//        } else {
-//            binding.txvCast.visibility =
-//                View.VISIBLE
-//            adapter.submitList(actors)
-//        }
-//    }
+    private fun setActorsViews(movies: List<MovieInActor>) {
+        if (movies.isEmpty()) {
+            binding.txvFilmography.visibility =
+                View.INVISIBLE
+        } else {
+            binding.txvFilmography.visibility =
+                View.VISIBLE
+            adapter.submitList(movies)
+        }
+    }
 
     private fun setLoading(isLoading: Boolean) {
-        //set loading state to progress bar
+        binding.viewLoading.isVisible = isLoading
     }
 
 //    private fun setLoadingActors(isLoadingActors: Boolean) {

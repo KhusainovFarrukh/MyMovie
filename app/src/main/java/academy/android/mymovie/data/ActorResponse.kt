@@ -15,5 +15,32 @@ data class ActorResponse(
     val birthPlace: String?,
     @SerialName("profile_path")
     val imageUrl: String?,
-    val biography: String
+    val biography: String,
+    @SerialName("movie_credits")
+    val filmography: CreditsInActor,
+    val images: ProfilesInActor
+)
+
+@Serializable
+data class CreditsInActor(
+    val cast: List<MovieInActor>
+)
+
+@Serializable
+data class MovieInActor(
+    val id: Int,
+    val title: String,
+    @SerialName("poster_path")
+    val imageUrl: String?
+)
+
+@Serializable
+data class ProfilesInActor(
+    val profiles: List<ImageInActor>
+)
+
+@Serializable
+data class ImageInActor(
+    @SerialName("file_path")
+    val imageUrl: String
 )

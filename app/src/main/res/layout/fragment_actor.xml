@@ -14,9 +14,10 @@
         <ImageView
             android:id="@+id/imv_backdrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="3:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,13 +60,13 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imv_person"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage"
             android:layout_width="@dimen/dp80"
             android:layout_height="@dimen/dp80"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/txv_name"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ShapeImage"
             tools:src="@tools:sample/avatars" />
 
         <TextView
@@ -182,6 +183,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/dp16" />
+
+        <RelativeLayout
+            android:id="@+id/view_loading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/bg_details_screen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
