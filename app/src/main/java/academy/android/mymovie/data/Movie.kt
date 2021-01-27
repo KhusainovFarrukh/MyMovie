@@ -41,7 +41,18 @@ data class Movie(
     val adult: Boolean,
     val homepage: String?,
     val status: String
-)
+) {
+    fun getGenres(): String {
+        var returnString = ""
+        genres.forEach {
+            returnString += it.name
+            if (it != genres.last()) {
+                returnString += ", "
+            }
+        }
+        return returnString
+    }
+}
 
 @Serializable
 data class SpokenLanguagesItem(
