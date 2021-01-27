@@ -71,13 +71,12 @@
 
         <TextView
             android:id="@+id/txv_born_date"
+            style="@style/TextViewAbout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp14"
             app:layout_constraintBottom_toTopOf="@+id/txv_born_place"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/imv_person"
@@ -86,12 +85,11 @@
 
         <TextView
             android:id="@+id/txv_born_place"
+            style="@style/TextViewAbout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp14"
             app:layout_constraintBottom_toTopOf="@+id/txv_jobs"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/txv_born_date"

@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -121,10 +122,20 @@ class FragmentMoviesDetails : Fragment() {
             getString(R.string.reviews, currentMovie.voteCount)
         binding.rbRating.rating =
             currentMovie.voteAverage / 2
-        Glide.with(requireActivity())
-            .load(backdropUrl + currentMovie.backdropPath)
-            .apply(imageOption)
-            .into(binding.imvBackdrop)
+        if (currentMovie.backdropPath != null) {
+            Glide.with(requireActivity())
+                .load(backdropUrl + currentMovie.backdropPath)
+                .apply(imageOption)
+                .into(binding.imvBackdrop)
+        } else {
+            binding.imvBackdrop.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.sample_placeholder
+                )
+            )
+        }
+
     }
 
     private fun setupViews() {
