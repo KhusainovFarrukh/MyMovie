@@ -28,6 +28,7 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.onBindMovie(getItem(position))
+        holder.itemView.setOnClickListener { movieClickInterface.onMovieClick(getItem(position).id) }
     }
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,10 +40,6 @@ class MovieAdapter(
         private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
         private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
 
-        init {
-            itemView.setOnClickListener { movieClickInterface.onMovieClick(currentList[adapterPosition].id) }
-        }
-
         fun onBindMovie(movie: Movie) {
             Glide.with(itemView.context)
                 .load(imageUrl + movie.posterPath)
@@ -53,7 +50,7 @@ class MovieAdapter(
 
             txvName.text = movie.title
             txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
-            txvAge.text = itemView.context.getString(R.string.age, if (movie.adult) 16 else 13)
+            txvAge.text = movie.getCertification()
             txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
             rbRating.rating = movie.voteAverage / 2
 //        imvFavorite.setImageDrawable(

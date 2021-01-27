@@ -11,7 +11,7 @@ interface MovieApi {
         @Path("type") type: String
     ): MovieResponse
 
-    @GET("movie/{movieId}")
+    @GET("movie/{movieId}?append_to_response=release_dates")
     suspend fun getMovieById(
         @Path("movieId") id: Int
     ): Movie

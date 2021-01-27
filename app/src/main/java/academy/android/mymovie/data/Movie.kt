@@ -40,7 +40,9 @@ data class Movie(
     val tagline: String?,
     val adult: Boolean,
     val homepage: String?,
-    val status: String
+    val status: String,
+    @SerialName("release_dates")
+    val releaseDates: ReleaseDates
 ) {
     fun getGenres(): String {
         var returnString = ""
@@ -51,6 +53,20 @@ data class Movie(
             }
         }
         return returnString
+    }
+
+    fun getCertification(): String {
+        var certification = "-"
+        releaseDates.results.forEach { releaseDate ->
+            if (releaseDate.countryCode == "US") {
+                releaseDate.certificates.forEach { certificate ->
+                    if (certificate.certification.isNotEmpty()) {
+                        certification = certificate.certification
+                    }
+                }
+            }
+        }
+        return certification
     }
 }
 
@@ -84,5 +100,23 @@ data class ProductionCompaniesItem(
 data class GenresItem(
     val name: String,
     val id: Int
+)
+
+@Serializable
+data class ReleaseDates(
+    val results: List<ReleaseDate>
+)
+
+@Serializable
+data class ReleaseDate(
+    @SerialName("iso_3166_1")
+    val countryCode: String,
+    @SerialName("release_dates")
+    val certificates: List<Certificate>
+)
+
+@Serializable
+data class Certificate(
+    val certification: String
 )
 
