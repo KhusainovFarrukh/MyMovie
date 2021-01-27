@@ -4,6 +4,7 @@ import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ class MovieAdapter(
                 .apply(imageOption)
                 .into(imvImage)
 
+            txvTagline.text = ""
             movie.genres.forEach { currentGenre ->
                 txvTagline.append(currentGenre.name)
                 if (currentGenre != movie.genres.last()) {
@@ -57,6 +59,8 @@ class MovieAdapter(
                 }
             }
 
+            Log.wtf(movie.title, movie.genres.toString())
+            Log.wtf(movie.title, txvTagline.text.toString())
             txvName.text = movie.title
             txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
             txvAge.text = itemView.context.getString(R.string.age, if (movie.adult) 16 else 13)
