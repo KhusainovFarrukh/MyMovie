@@ -21,6 +21,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +32,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.text.DateFormat
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -104,27 +106,44 @@ class FragmentActor : Fragment() {
     private fun updateView(currentActor: ActorResponse) {
 
         binding.txvName.text = currentActor.name
-        binding.txvBiographyText.text = currentActor.biography
-        binding.txvBornDate.text = currentActor.birthday
         binding.txvBornPlace.text = currentActor.birthPlace
         binding.txvJobs.text = currentActor.knownFor
-        binding.txvBornDate.text = formatDate(currentActor.birthday) ?: "No data"
-
-        currentActor.imageUrl?.let {
+        if (currentActor.biography.isNotEmpty()) {
+            binding.txvBiographyText.text = currentActor.biography
+        } else {
+            binding.txvBiography.visibility = TextView.INVISIBLE
+        }
+        if (currentActor.birthday != null) {
+            binding.txvBornDate.text = formatDate(currentActor.birthday)
+        }
+        if (currentActor.imageUrl != null) {
             Glide.with(requireActivity())
-                .load(backdropUrl + it)
+                .load(backdropUrl + currentActor.imageUrl)
                 .apply(imageOption)
                 .into(binding.imvPerson)
+        } else {
+            binding.imvPerson.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.sample_placeholder
+                )
+            )
         }
-
         if (currentActor.images.profiles.isNotEmpty()) {
             Glide.with(requireActivity())
                 .load(backdropUrl + currentActor.images.profiles.random().imageUrl)
                 .apply(imageOption)
                 .into(binding.imvBackdrop)
+        } else {
+            binding.imvBackdrop.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.sample_placeholder
+                )
+            )
         }
 
-        setActorsViews(currentActor.filmography.cast)
+        setFilmography(currentActor.filmography.cast)
     }
 
     private fun setupViews() {
@@ -146,7 +165,7 @@ class FragmentActor : Fragment() {
         }
     }
 
-    private fun setActorsViews(movies: List<MovieInActor>) {
+    private fun setFilmography(movies: List<MovieInActor>) {
         if (movies.isEmpty()) {
             binding.txvFilmography.visibility =
                 View.INVISIBLE
@@ -161,16 +180,21 @@ class FragmentActor : Fragment() {
         binding.viewLoading.isVisible = isLoading
     }
 
-    private fun formatDate(inputDate: String?): String? {
+    private fun formatDate(inputDate: String): String {
         val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-        val outputDate: Date?
-        var newDateString: String? = null
+        val outputDate: Date
+        var newDateString = ""
         try {
-            outputDate = inputFormat.parse(inputDate)
-            newDateString = DateFormat.getDateInstance(DateFormat.LONG, Locale.US).format(outputDate)
-        } catch (e: ParseException) {
-            e.printStackTrace()
+            outputDate = inputFormat.parse(inputDate) ?: throw Exception("Cannot parse date")
+            newDateString =
+                DateFormat.getDateInstance(DateFormat.LONG, Locale.US).format(outputDate)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireActivity(),
+                e.message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         return newDateString
