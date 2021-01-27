@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -39,6 +40,7 @@ class MovieAdapter(
         private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
         private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
         private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
+        private val cvAgeHolder: CardView = itemView.findViewById(R.id.cv_age_holder)
 
         fun onBindMovie(movie: Movie) {
             Glide.with(itemView.context)
@@ -50,7 +52,12 @@ class MovieAdapter(
 
             txvName.text = movie.title
             txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
-            txvAge.text = movie.getCertification()
+            if (movie.getCertification().isNotEmpty()) {
+                txvAge.text = movie.getCertification()
+                cvAgeHolder.visibility = TextView.VISIBLE
+            } else {
+                cvAgeHolder.visibility = TextView.INVISIBLE
+            }
             txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
             rbRating.rating = movie.voteAverage / 2
 //        imvFavorite.setImageDrawable(

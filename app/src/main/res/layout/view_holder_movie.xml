@@ -51,10 +51,10 @@
                 android:id="@+id/txv_name"
                 style="@style/TextViewNameList"
                 android:layout_width="@dimen/dp0"
-                android:lines="1"
-                android:ellipsize="end"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp8"
+                android:ellipsize="end"
+                android:lines="1"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
                 app:layout_constraintTop_toBottomOf="@id/imv_image"
@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toTopOf="@id/imv_image" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cv_age_holder"
                 android:layout_width="@dimen/dp24"
                 android:layout_height="@dimen/dp24"
                 android:layout_marginTop="@dimen/dp8"
@@ -97,6 +97,12 @@
                     android:layout_height="match_parent"
                     android:background="@color/black_90alpha"
                     android:gravity="center"
+                    android:lines="1"
+                    android:paddingStart="@dimen/dp2"
+                    android:paddingEnd="@dimen/dp2"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeMinTextSize="4sp"
+                    app:autoSizeTextType="uniform"
                     tools:text="@string/_13" />
 
             </androidx.cardview.widget.CardView>
@@ -105,9 +111,9 @@
                 android:id="@+id/imv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_age_holder"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end_inner"
-                app:layout_constraintTop_toTopOf="@+id/cardView"
+                app:layout_constraintTop_toTopOf="@+id/cv_age_holder"
                 tools:src="@drawable/ic_like" />
 
             <TextView
@@ -131,15 +137,15 @@
                 android:progressBackgroundTint="@color/gray"
                 android:progressDrawable="@drawable/ratingbar_svg_selector"
                 android:progressTint="@color/pink"
-                tools:rating="4.0"
                 android:secondaryProgressTint="@color/gray"
+                android:stepSize="0.1"
                 app:drawableHeight="@dimen/dp8"
                 app:drawableWidth="@dimen/dp8"
                 app:innerPadding="@dimen/dp2"
-                android:stepSize="0.1"
                 app:layout_constraintBottom_toBottomOf="@+id/txv_reviews"
                 app:layout_constraintStart_toStartOf="@id/guideline_start_inner"
-                app:layout_constraintTop_toTopOf="@+id/txv_reviews" />
+                app:layout_constraintTop_toTopOf="@+id/txv_reviews"
+                tools:rating="4.0" />
 
             <TextView
                 android:id="@+id/txv_reviews"

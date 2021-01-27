@@ -56,7 +56,7 @@ data class Movie(
     }
 
     fun getCertification(): String {
-        var certification = "-"
+        var certification = ""
         releaseDates.results.forEach { releaseDate ->
             if (releaseDate.countryCode == "US") {
                 releaseDate.certificates.forEach { certificate ->

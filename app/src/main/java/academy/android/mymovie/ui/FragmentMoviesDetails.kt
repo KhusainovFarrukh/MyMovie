@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -116,8 +117,11 @@ class FragmentMoviesDetails : Fragment() {
 
         binding.txvTitle.text = currentMovie.title
         binding.txvOverview.text = currentMovie.overview
-        binding.txvAge.text =
-            getString(R.string.age, if (currentMovie.adult) 16 else 13)
+        if (currentMovie.getCertification().isNotEmpty()) {
+            binding.txvAge.text = currentMovie.getCertification()
+        } else {
+            binding.txvAge.visibility = TextView.INVISIBLE
+        }
         binding.txvReviews.text =
             getString(R.string.reviews, currentMovie.voteCount)
         binding.rbRating.rating =
