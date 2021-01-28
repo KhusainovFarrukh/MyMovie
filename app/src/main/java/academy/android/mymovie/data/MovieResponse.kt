@@ -14,4 +14,3 @@ data class MovieResponse(
 data class MovieInList(
     val id: Int
 )
-

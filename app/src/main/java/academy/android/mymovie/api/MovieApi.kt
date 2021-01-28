@@ -3,6 +3,7 @@ package academy.android.mymovie.api
 import academy.android.mymovie.data.*
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApi {
 
@@ -28,4 +29,9 @@ interface MovieApi {
     suspend fun getActorById(
         @Path("actorId") actorId: Int
     ): ActorResponse
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") searchText: String
+    ): MovieResponse
 }

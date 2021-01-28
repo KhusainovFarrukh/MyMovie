@@ -2,13 +2,15 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.clickinterface.ActorClickInterface
+import academy.android.mymovie.clickinterface.ContainerListener
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterface {
+class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterface,
+    ContainerListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,5 +62,17 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
 
     override fun onBackClick() {
         supportFragmentManager.popBackStack()
+    }
+
+    override fun addSearchFragment(searchText: String) {
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.main_container, FragmentSearch().apply {
+                val bundle = Bundle()
+                bundle.putString("searchText", searchText)
+                arguments = bundle
+            })
+            addToBackStack(null)
+            commit()
+        }
     }
 }

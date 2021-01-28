@@ -21,4 +21,6 @@ object Constants {
     const val TITLE_UPCOMING = "Upcoming"
     const val MOVIE_KEY = "movie"
     const val ACTOR_KEY = "actor"
+    const val KEY_SEARCH = "searchText"
+    const val DEFAULT_SEARCH = "Avengers"
 }

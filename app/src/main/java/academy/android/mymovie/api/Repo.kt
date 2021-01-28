@@ -23,4 +23,14 @@ object Repo {
     suspend fun getConfiguration() = api.getConfiguration()
 
     suspend fun getActorById(actorId: Int) = api.getActorById(actorId)
+
+    suspend fun searchMovie(searchText: String): List<Movie> {
+        val movieList = mutableListOf<Movie>()
+
+        api.searchMovie(searchText).results.forEach {
+            movieList.add(getMovieById(it.id))
+        }
+
+        return movieList
+    }
 }

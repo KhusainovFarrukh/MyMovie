@@ -100,8 +100,8 @@
                     android:lines="1"
                     android:paddingStart="@dimen/dp2"
                     android:paddingEnd="@dimen/dp2"
-                    app:autoSizeMaxTextSize="14sp"
-                    app:autoSizeMinTextSize="4sp"
+                    app:autoSizeMaxTextSize="@dimen/sp14"
+                    app:autoSizeMinTextSize="@dimen/sp4"
                     app:autoSizeTextType="uniform"
                     tools:text="@string/_13" />
 
