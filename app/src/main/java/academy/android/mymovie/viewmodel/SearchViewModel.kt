@@ -2,16 +2,14 @@ package academy.android.mymovie.viewmodel
 
 import academy.android.mymovie.api.Repo
 import academy.android.mymovie.data.Movie
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel(searchText: String, application: Application) :
-    AndroidViewModel(application) {
+class SearchViewModel(searchText: String) : ViewModel() {
 
     private val _moviesList = MutableLiveData<List<Movie>>(emptyList())
     private val _isLoading = MutableLiveData(false)

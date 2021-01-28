@@ -68,10 +68,8 @@ class FragmentSearch : Fragment() {
         super.onStart()
 
         searchViewModel = ViewModelProvider(
-            this,
-            SearchViewModelFactory(
-                arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH,
-                requireActivity().application
+            this, SearchViewModelFactory(
+                arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH
             )
         ).get(SearchViewModel::class.java)
 

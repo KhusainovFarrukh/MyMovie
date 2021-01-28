@@ -20,7 +20,6 @@ import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,10 +71,8 @@ class FragmentMoviesList : Fragment() {
         super.onStart()
 
         moviesViewModel = ViewModelProvider(
-            this,
-            MoviesViewModelFactory(
+            this, MoviesViewModelFactory(
                 arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
-                requireActivity().application
             )
         ).get(MoviesViewModel::class.java)
 
