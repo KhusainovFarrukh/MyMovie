@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -20,7 +20,7 @@ class MovieAdapter(
     private val movieClickInterface: MovieClickInterface,
     private val imageUrl: String
 ) :
-    ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
+    PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(
@@ -28,8 +28,10 @@ class MovieAdapter(
         )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.onBindMovie(getItem(position))
-        holder.itemView.setOnClickListener { movieClickInterface.onMovieClick(getItem(position).id) }
+        if (getItem(position) != null) {
+            holder.onBindMovie(getItem(position) ?: throw NullPointerException("WTF"))
+        }
+        holder.itemView.setOnClickListener { movieClickInterface.onMovieClick(getItem(position)?.id ?: 11111111) }
     }
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

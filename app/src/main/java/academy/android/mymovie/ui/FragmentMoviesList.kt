@@ -2,6 +2,7 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
+import academy.android.mymovie.api.Repo
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.ConfigurationResponse
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
@@ -26,7 +27,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 
 class FragmentMoviesList : Fragment() {
 
@@ -71,14 +74,20 @@ class FragmentMoviesList : Fragment() {
         super.onStart()
 
         moviesViewModel = ViewModelProvider(
-            this, MoviesViewModelFactory(
-                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
+            this,
+            MoviesViewModelFactory(
+                Repo(),
+                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR
             )
         ).get(MoviesViewModel::class.java)
 
         moviesViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
         moviesViewModel.config.observe(this.viewLifecycleOwner, this::saveConfigData)
-        moviesViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+        moviesViewModel.moviesList.observe(this.viewLifecycleOwner, {
+            lifecycleScope.launch {
+                adapter.submitData(it)
+            }
+        })
     }
 
     override fun onAttach(context: Context) {

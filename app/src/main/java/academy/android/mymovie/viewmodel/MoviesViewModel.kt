@@ -2,33 +2,36 @@ package academy.android.mymovie.viewmodel
 
 import academy.android.mymovie.api.Repo
 import academy.android.mymovie.data.ConfigurationResponse
-import academy.android.mymovie.data.Movie
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import academy.android.mymovie.utils.Constants.KEY_POPULAR
+import androidx.lifecycle.*
+import androidx.paging.cachedIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MoviesViewModel(requestPath: String) : ViewModel() {
+class MoviesViewModel(repository: Repo, requestPath: String) : ViewModel() {
 
-    private val _moviesList = MutableLiveData<List<Movie>>(emptyList())
+    private val currentRequestPath = MutableLiveData(KEY_POPULAR)
+
+    val moviesList = currentRequestPath.switchMap {
+        repository.getMoviesListNew(it).cachedIn(viewModelScope)
+    }
+
     private val _isLoading = MutableLiveData(false)
     private val _config = MutableLiveData<ConfigurationResponse>()
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    val moviesList: LiveData<List<Movie>> = _moviesList
     val isLoading: LiveData<Boolean> = _isLoading
     val config: LiveData<ConfigurationResponse> = _config
 
     init {
         coroutineScope.launch {
-            _config.postValue(Repo.getConfiguration())
+            _config.postValue(repository.getConfiguration())
         }
         coroutineScope.launch {
             _isLoading.postValue(true)
 
-            _moviesList.postValue(Repo.getMoviesList(requestPath))
+            currentRequestPath.postValue(requestPath)
 
             _isLoading.postValue(false)
         }

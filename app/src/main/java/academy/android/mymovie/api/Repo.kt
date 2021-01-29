@@ -1,15 +1,20 @@
 package academy.android.mymovie.api
 
 import academy.android.mymovie.data.Movie
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 
-object Repo {
+class Repo {
 
     private val api = RetrofitInstance.movieApi
 
-    suspend fun getMoviesList(type: String): List<Movie> {
+    suspend fun getMoviesList(type: String, page: Int): List<Movie> {
         val movieList = mutableListOf<Movie>()
 
-        api.getMoviesList(type).results.forEach {
+        api.getMoviesList(type, page).results.forEach {
             movieList.add(getMovieById(it.id))
         }
 
@@ -32,5 +37,15 @@ object Repo {
         }
 
         return movieList
+    }
+
+    fun getMoviesListNew(type: String): LiveData<PagingData<Movie>> {
+        return Pager(
+            PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MoviePagingSource(Repo(), type) }
+        ).liveData
     }
 }

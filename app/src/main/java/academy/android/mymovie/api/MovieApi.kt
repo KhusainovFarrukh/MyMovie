@@ -9,7 +9,8 @@ interface MovieApi {
 
     @GET("movie/{type}")
     suspend fun getMoviesList(
-        @Path("type") type: String
+        @Path("type") type: String,
+        @Query("page") page: Int
     ): MovieResponse
 
     @GET("movie/{movieId}?append_to_response=release_dates")

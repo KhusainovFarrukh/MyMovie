@@ -21,7 +21,7 @@ class ActorViewModel(private val actorId: Int) : ViewModel() {
     init {
         coroutineScope.launch {
             _isLoading.postValue(true)
-            _currentActor.postValue(Repo.getActorById(actorId))
+//            _currentActor.postValue(Repo.getActorById(actorId))
             _isLoading.postValue((false))
         }
     }

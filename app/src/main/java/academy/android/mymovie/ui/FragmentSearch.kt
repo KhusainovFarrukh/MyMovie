@@ -74,7 +74,7 @@ class FragmentSearch : Fragment() {
         ).get(SearchViewModel::class.java)
 
         searchViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
-        searchViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+//        searchViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onAttach(context: Context) {

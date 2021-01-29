@@ -22,7 +22,7 @@ class SearchViewModel(searchText: String) : ViewModel() {
         coroutineScope.launch {
             _isLoading.postValue(true)
 
-            _moviesList.postValue(Repo.searchMovie(searchText))
+//            _moviesList.postValue(Repo.searchMovie(searchText))
 
             _isLoading.postValue(false)
         }

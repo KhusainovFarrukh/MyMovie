@@ -29,13 +29,13 @@ class DetailsViewModel(movieId: Int, application: Application) : AndroidViewMode
 
             coroutineScope.launch {
                 _isLoading.postValue(true)
-                _currentMovie.postValue(Repo.getMovieById(movieId))
+//                _currentMovie.postValue(Repo.getMovieById(movieId))
                 _isLoading.postValue((false))
             }
 
             coroutineScope.launch {
                 _isLoadingActors.postValue(true)
-                _actorsList.postValue(Repo.getCastByMovieId(movieId))
+//                _actorsList.postValue(Repo.getCastByMovieId(movieId))
                 _isLoadingActors.postValue(false)
             }
 
