@@ -1,17 +1,16 @@
 package academy.android.mymovie.viewmodel
 
-import academy.android.mymovie.api.Repo
+import academy.android.mymovie.api.Repository
 import academy.android.mymovie.data.Actor
 import academy.android.mymovie.data.Movie
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DetailsViewModel(movieId: Int, application: Application) : AndroidViewModel(application) {
+class DetailsViewModel(repository: Repository, movieId: Int) : ViewModel() {
 
     private val _currentMovie = MutableLiveData<Movie>()
     private val _actorsList = MutableLiveData<List<Actor>>()
@@ -29,13 +28,13 @@ class DetailsViewModel(movieId: Int, application: Application) : AndroidViewMode
 
             coroutineScope.launch {
                 _isLoading.postValue(true)
-//                _currentMovie.postValue(Repo.getMovieById(movieId))
+                _currentMovie.postValue(repository.getMovieById(movieId))
                 _isLoading.postValue((false))
             }
 
             coroutineScope.launch {
                 _isLoadingActors.postValue(true)
-//                _actorsList.postValue(Repo.getCastByMovieId(movieId))
+                _actorsList.postValue(repository.getCastByMovieId(movieId))
                 _isLoadingActors.postValue(false)
             }
 

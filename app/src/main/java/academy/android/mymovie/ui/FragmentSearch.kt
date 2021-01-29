@@ -2,6 +2,8 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieAdapter
+import academy.android.mymovie.api.Repository
+import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
@@ -23,7 +25,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 
 class FragmentSearch : Fragment() {
 
@@ -69,12 +73,16 @@ class FragmentSearch : Fragment() {
 
         searchViewModel = ViewModelProvider(
             this, SearchViewModelFactory(
+                Repository(RetrofitInstance.movieApi),
                 arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH
             )
         ).get(SearchViewModel::class.java)
 
-        searchViewModel.isLoading.observe(this.viewLifecycleOwner, this::setLoading)
-//        searchViewModel.moviesList.observe(this.viewLifecycleOwner, adapter::submitList)
+        searchViewModel.moviesList.observe(this.viewLifecycleOwner, {
+            lifecycleScope.launch {
+                adapter.submitData(it)
+            }
+        })
     }
 
     override fun onAttach(context: Context) {

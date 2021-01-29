@@ -2,6 +2,8 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.MovieInActorAdapter
+import academy.android.mymovie.api.Repository
+import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.ActorResponse
@@ -69,6 +71,7 @@ class FragmentActor : Fragment() {
 
         actorViewModel = ViewModelProvider(
             this, ActorViewModelFactory(
+                Repository(RetrofitInstance.movieApi),
                 arguments?.getInt(ACTOR_KEY)
                     ?: throw NullPointerException("No id for current movie")
             )

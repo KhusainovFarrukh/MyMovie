@@ -1,30 +1,22 @@
 package academy.android.mymovie.viewmodel
 
-import academy.android.mymovie.api.Repo
-import academy.android.mymovie.data.Movie
-import androidx.lifecycle.LiveData
+import academy.android.mymovie.api.Repository
+import academy.android.mymovie.utils.Constants.DEFAULT_SEARCH
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 
-class SearchViewModel(searchText: String) : ViewModel() {
+class SearchViewModel(repository: Repository, searchText: String) : ViewModel() {
 
-    private val _moviesList = MutableLiveData<List<Movie>>(emptyList())
-    private val _isLoading = MutableLiveData(false)
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val currentSearchText = MutableLiveData(DEFAULT_SEARCH)
 
-    val moviesList: LiveData<List<Movie>> = _moviesList
-    val isLoading: LiveData<Boolean> = _isLoading
+    val moviesList = currentSearchText.switchMap {
+        repository.searchMovie(it).cachedIn(viewModelScope)
+    }
 
     init {
-        coroutineScope.launch {
-            _isLoading.postValue(true)
-
-//            _moviesList.postValue(Repo.searchMovie(searchText))
-
-            _isLoading.postValue(false)
-        }
+        currentSearchText.postValue(searchText)
     }
 }
