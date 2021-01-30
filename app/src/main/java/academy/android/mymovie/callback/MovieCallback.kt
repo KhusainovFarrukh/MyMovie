@@ -1,6 +1,6 @@
 package academy.android.mymovie.callback
 
-import academy.android.mymovie.data.Movie
+import academy.android.mymovie.model.Movie
 import androidx.recyclerview.widget.DiffUtil
 
 class MovieCallback : DiffUtil.ItemCallback<Movie>() {

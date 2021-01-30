@@ -3,7 +3,7 @@ package academy.android.mymovie.adapter
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.data.Movie
+import academy.android.mymovie.model.Movie
 import academy.android.mymovie.databinding.ViewHolderMovieBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup

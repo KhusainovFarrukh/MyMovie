@@ -1,7 +1,7 @@
 package academy.android.mymovie.viewmodel
 
 import academy.android.mymovie.api.Repository
-import academy.android.mymovie.data.ConfigurationResponse
+import academy.android.mymovie.model.ConfigurationResponse
 import academy.android.mymovie.utils.Constants.KEY_POPULAR
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
@@ -14,7 +14,7 @@ class MoviesViewModel(repository: Repository, requestPath: String) : ViewModel()
     private val currentRequestPath = MutableLiveData(KEY_POPULAR)
 
     val moviesList = currentRequestPath.switchMap {
-        repository.getMoviesListNew(it).cachedIn(viewModelScope)
+        repository.getMoviesList(it).cachedIn(viewModelScope)
     }
 
     private val _config = MutableLiveData<ConfigurationResponse>()

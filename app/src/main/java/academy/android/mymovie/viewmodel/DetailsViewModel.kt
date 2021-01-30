@@ -1,8 +1,8 @@
 package academy.android.mymovie.viewmodel
 
 import academy.android.mymovie.api.Repository
-import academy.android.mymovie.data.Actor
-import academy.android.mymovie.data.Movie
+import academy.android.mymovie.model.Actor
+import academy.android.mymovie.model.Movie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,6 +1,6 @@
 package academy.android.mymovie.api
 
-import academy.android.mymovie.data.Movie
+import academy.android.mymovie.model.Movie
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -27,7 +27,7 @@ class Repository(private val movieApi: MovieApi) {
         ).liveData
     }
 
-    fun getMoviesListNew(type: String): LiveData<PagingData<Movie>> {
+    fun getMoviesList(type: String): LiveData<PagingData<Movie>> {
         return Pager(
             PagingConfig(
                 pageSize = 20,

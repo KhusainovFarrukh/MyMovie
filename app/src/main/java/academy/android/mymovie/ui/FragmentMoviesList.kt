@@ -6,7 +6,7 @@ import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.data.ConfigurationResponse
+import academy.android.mymovie.model.ConfigurationResponse
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorator.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL

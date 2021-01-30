@@ -1,4 +1,4 @@
-package academy.android.mymovie.data
+package academy.android.mymovie.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

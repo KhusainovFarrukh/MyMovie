@@ -1,9 +1,9 @@
 package academy.android.mymovie.adapter
 
 import academy.android.mymovie.R
-import academy.android.mymovie.callback.MovieInActorCallabck
+import academy.android.mymovie.callback.MovieInActorCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.data.MovieInActor
+import academy.android.mymovie.model.MovieInActor
 import academy.android.mymovie.databinding.ViewHolderFilmographyBinding
 import android.net.Uri
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 class MovieInActorAdapter(
     private val movieClickInterface: MovieClickInterface,
     private val imageUrl: String
-) : ListAdapter<MovieInActor, MovieInActorAdapter.MovieViewHolder>(MovieInActorCallabck()) {
+) : ListAdapter<MovieInActor, MovieInActorAdapter.MovieViewHolder>(MovieInActorCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
         ViewHolderFilmographyBinding.inflate(LayoutInflater.from(parent.context), parent, false)

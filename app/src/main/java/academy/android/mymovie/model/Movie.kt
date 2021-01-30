@@ -1,24 +1,23 @@
-package academy.android.mymovie.data
+package academy.android.mymovie.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Movie(
+    val id: Int,
     val title: String,
+    val genres: List<GenresItem>,
+    val runtime: Int?,
+    val overview: String?,
     @SerialName("backdrop_path")
     val backdropPath: String?,
-    val genres: List<GenresItem>,
-    val id: Int,
-    @SerialName("vote_count")
-    val voteCount: Int,
-    val overview: String?,
-    val runtime: Int?,
     @SerialName("poster_path")
     val posterPath: String?,
+    @SerialName("vote_count")
+    val voteCount: Int,
     @SerialName("vote_average")
     val voteAverage: Float,
-    val tagline: String?,
     @SerialName("release_dates")
     val releaseDates: ReleaseDates
 ) {

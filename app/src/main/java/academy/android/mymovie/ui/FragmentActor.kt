@@ -6,8 +6,8 @@ import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.data.ActorResponse
-import academy.android.mymovie.data.MovieInActor
+import academy.android.mymovie.model.ActorResponse
+import academy.android.mymovie.model.MovieInActor
 import academy.android.mymovie.databinding.FragmentActorBinding
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.utils.Constants
@@ -86,12 +86,12 @@ class FragmentActor : Fragment() {
         if (context is ActorClickInterface) {
             actorClickInterface = context
         } else {
-            throw IllegalArgumentException("Activity is not ActorClickInterface")
+            throw IllegalArgumentException("$context is not ActorClickInterface")
         }
         if (context is MovieClickInterface) {
             movieClickInterface = context
         } else {
-            throw IllegalArgumentException("Activity is not MovieClickInterface")
+            throw IllegalArgumentException("$context is not MovieClickInterface")
         }
     }
 
@@ -108,63 +108,60 @@ class FragmentActor : Fragment() {
 
     private fun updateView(currentActor: ActorResponse) {
 
-        binding.txvName.text = currentActor.name
-        binding.txvBornPlace.text = currentActor.birthPlace
-        binding.txvJobs.text = currentActor.knownFor
-        if (currentActor.biography.isNotEmpty()) {
-            binding.txvBiographyText.text = currentActor.biography
-        } else {
-            binding.txvBiography.visibility = TextView.INVISIBLE
-        }
-        if (currentActor.birthday != null) {
-            binding.txvBornDate.text = formatDate(currentActor.birthday)
-        }
-        if (currentActor.imageUrl != null) {
-            Glide.with(requireActivity())
-                .load(backdropUrl + currentActor.imageUrl)
-                .apply(imageOption)
-                .into(binding.imvPerson)
-        } else {
-            binding.imvPerson.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireActivity(),
-                    R.drawable.sample_placeholder
+        binding.apply {
+            txvName.text = currentActor.name
+            txvBornPlace.text = currentActor.birthPlace
+            txvJobs.text = currentActor.knownFor
+            if (currentActor.biography.isNotEmpty()) {
+                txvBiographyText.text = currentActor.biography
+            } else {
+                txvBiography.visibility = TextView.INVISIBLE
+            }
+            if (currentActor.birthday != null) {
+                txvBornDate.text = formatDate(currentActor.birthday)
+            }
+            if (currentActor.imageUrl != null) {
+                Glide.with(requireActivity())
+                    .load(backdropUrl + currentActor.imageUrl)
+                    .apply(imageOption)
+                    .into(imvPerson)
+            } else {
+                imvPerson.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.sample_placeholder
+                    )
                 )
-            )
-        }
-        if (currentActor.images.profiles.isNotEmpty()) {
-            Glide.with(requireActivity())
-                .load(backdropUrl + currentActor.images.profiles.random().imageUrl)
-                .apply(imageOption)
-                .into(binding.imvBackdrop)
-        } else {
-            binding.imvBackdrop.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireActivity(),
-                    R.drawable.sample_placeholder
+            }
+            if (currentActor.images.profiles.isNotEmpty()) {
+                Glide.with(requireActivity())
+                    .load(backdropUrl + currentActor.images.profiles.random().imageUrl)
+                    .apply(imageOption)
+                    .into(imvBackdrop)
+            } else {
+                imvBackdrop.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.sample_placeholder
+                    )
                 )
-            )
+            }
+            setFilmography(currentActor.filmography.cast)
         }
-
-        setFilmography(currentActor.filmography.cast)
     }
 
     private fun setupViews() {
-        binding.rvFilmography.addItemDecoration(
-            ActorItemDecoration(
-                resources.getDimension(R.dimen.dp8)
-                    .toInt()
+        binding.apply {
+            rvFilmography.addItemDecoration(
+                ActorItemDecoration(resources.getDimension(R.dimen.dp8).toInt())
             )
-        )
 
-        binding.rvFilmography.layoutManager =
-            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        binding.rvFilmography.adapter = adapter
+            rvFilmography.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            rvFilmography.adapter = adapter
 
-        binding.txvBack.apply {
-            setOnClickListener {
-                actorClickInterface?.onBackClick()
-            }
+            txvBack.setOnClickListener { actorClickInterface?.onBackClick() }
+
         }
     }
 

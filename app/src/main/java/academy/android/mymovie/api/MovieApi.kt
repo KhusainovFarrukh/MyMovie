@@ -1,6 +1,6 @@
 package academy.android.mymovie.api
 
-import academy.android.mymovie.data.*
+import academy.android.mymovie.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

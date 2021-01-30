@@ -6,8 +6,8 @@ import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.data.Actor
-import academy.android.mymovie.data.Movie
+import academy.android.mymovie.model.Actor
+import academy.android.mymovie.model.Movie
 import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
 import academy.android.mymovie.decorator.ActorItemDecoration
 import academy.android.mymovie.utils.Constants
@@ -62,6 +62,7 @@ class FragmentMoviesDetails : Fragment() {
 
         backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
+
         setupViews()
     }
 
@@ -110,56 +111,52 @@ class FragmentMoviesDetails : Fragment() {
 
     private fun updateView(currentMovie: Movie) {
 
-        currentMovie.genres.forEach {
-            binding.txvGenres.append(it.name)
-            if (it != currentMovie.genres.last()) {
-                binding.txvGenres.append(", ")
+        binding.apply {
+            currentMovie.genres.forEach {
+                txvGenres.append(it.name)
+                if (it != currentMovie.genres.last()) {
+                    txvGenres.append(", ")
+                }
+            }
+
+            txvTitle.text = currentMovie.title
+            txvOverview.text = currentMovie.overview
+            if (currentMovie.getCertification().isNotEmpty()) {
+                txvAge.text = currentMovie.getCertification()
+            } else {
+                txvAge.visibility = TextView.INVISIBLE
+            }
+            txvReviews.text =
+                getString(R.string.reviews, currentMovie.voteCount)
+            rbRating.rating =
+                currentMovie.voteAverage / 2
+            if (currentMovie.backdropPath != null) {
+                Glide.with(requireActivity())
+                    .load(backdropUrl + currentMovie.backdropPath)
+                    .apply(imageOption)
+                    .into(imvBackdrop)
+            } else {
+                imvBackdrop.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.sample_placeholder
+                    )
+                )
             }
         }
-
-        binding.txvTitle.text = currentMovie.title
-        binding.txvOverview.text = currentMovie.overview
-        if (currentMovie.getCertification().isNotEmpty()) {
-            binding.txvAge.text = currentMovie.getCertification()
-        } else {
-            binding.txvAge.visibility = TextView.INVISIBLE
-        }
-        binding.txvReviews.text =
-            getString(R.string.reviews, currentMovie.voteCount)
-        binding.rbRating.rating =
-            currentMovie.voteAverage / 2
-        if (currentMovie.backdropPath != null) {
-            Glide.with(requireActivity())
-                .load(backdropUrl + currentMovie.backdropPath)
-                .apply(imageOption)
-                .into(binding.imvBackdrop)
-        } else {
-            binding.imvBackdrop.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireActivity(),
-                    R.drawable.sample_placeholder
-                )
-            )
-        }
-
     }
 
     private fun setupViews() {
-        binding.rvActors.addItemDecoration(
-            ActorItemDecoration(
-                resources.getDimension(R.dimen.dp8)
-                    .toInt()
+        binding.apply {
+            rvActors.addItemDecoration(
+                ActorItemDecoration(resources.getDimension(R.dimen.dp8).toInt())
             )
-        )
 
-        binding.rvActors.layoutManager =
-            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        binding.rvActors.adapter = adapter
+            rvActors.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            rvActors.adapter = adapter
 
-        binding.txvBack.apply {
-            setOnClickListener {
-                movieClickInterface?.onBackClick()
-            }
+            txvBack.setOnClickListener { movieClickInterface?.onBackClick() }
         }
     }
 
