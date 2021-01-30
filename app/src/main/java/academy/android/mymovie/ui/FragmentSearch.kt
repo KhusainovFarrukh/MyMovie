@@ -52,7 +52,7 @@ class FragmentSearch : Fragment() {
         binding.rvMovies.addItemDecoration(
             MovieItemDecoration(
                 resources.getDimension(R.dimen.dp8).toInt(),
-                resources.getDimension(R.dimen.dp18).toInt()
+                resources.getDimension(R.dimen.dp8).toInt()
             )
         )
 
@@ -67,13 +67,18 @@ class FragmentSearch : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return adapter.getItemViewType(position)
+                return when (adapter.getItemViewType(position)) {
+                    MovieAdapter.VIEW_TYPE_MOVIE -> 1
+                    MovieAdapter.VIEW_TYPE_LOADING -> 2
+                    else -> throw IllegalArgumentException()
+                }
             }
         }
 
         binding.rvMovies.setHasFixedSize(true)
         binding.rvMovies.layoutManager = gridLayoutManager
-        binding.rvMovies.adapter = adapter.withCustomFooter(
+        binding.rvMovies.adapter = adapter.withCustomLoadStateHeaderAndFooter(
+            ListLoadStateAdapter { adapter.retry() },
             ListLoadStateAdapter { adapter.retry() }
         )
     }

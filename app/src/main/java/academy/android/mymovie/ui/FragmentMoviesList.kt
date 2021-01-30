@@ -3,6 +3,8 @@ package academy.android.mymovie.ui
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ListLoadStateAdapter
 import academy.android.mymovie.adapter.MovieAdapter
+import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_LOADING
+import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_MOVIE
 import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.MovieClickInterface
@@ -55,7 +57,7 @@ class FragmentMoviesList : Fragment() {
         binding.rvMovies.addItemDecoration(
             MovieItemDecoration(
                 resources.getDimension(R.dimen.dp8).toInt(),
-                resources.getDimension(R.dimen.dp18).toInt()
+                resources.getDimension(R.dimen.dp8).toInt()
             )
         )
 
@@ -70,15 +72,21 @@ class FragmentMoviesList : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return adapter.getItemViewType(position)
+                return when (adapter.getItemViewType(position)) {
+                    VIEW_TYPE_MOVIE -> 1
+                    VIEW_TYPE_LOADING -> 2
+                    else -> throw IllegalArgumentException()
+                }
             }
         }
 
         binding.rvMovies.setHasFixedSize(true)
         binding.rvMovies.layoutManager = gridLayoutManager
-        binding.rvMovies.adapter = adapter.withCustomFooter(
+        binding.rvMovies.adapter = adapter.withCustomLoadStateHeaderAndFooter(
+            ListLoadStateAdapter { adapter.retry() },
             ListLoadStateAdapter { adapter.retry() }
         )
+
     }
 
     override fun onStart() {

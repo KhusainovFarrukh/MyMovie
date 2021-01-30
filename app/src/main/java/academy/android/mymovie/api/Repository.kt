@@ -21,6 +21,7 @@ class Repository(private val movieApi: MovieApi) {
         return Pager(
             PagingConfig(
                 pageSize = 20,
+                maxSize = 100,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { SearchPagingSource(movieApi, searchText) }
@@ -31,6 +32,7 @@ class Repository(private val movieApi: MovieApi) {
         return Pager(
             PagingConfig(
                 pageSize = 20,
+                maxSize = 100,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { MoviePagingSource(movieApi, type) }
