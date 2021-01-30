@@ -1,6 +1,7 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
+import academy.android.mymovie.adapter.ListLoadStateAdapter
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
@@ -22,7 +23,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -62,10 +62,20 @@ class FragmentSearch : Fragment() {
         val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_POSTER, DEFAULT_SIZE)
 
-        binding.rvMovies.setHasFixedSize(true)
-        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
         adapter = MovieAdapter(movieClickInterface!!, imageUrl)
-        binding.rvMovies.adapter = adapter
+
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return adapter.getItemViewType(position)
+            }
+        }
+
+        binding.rvMovies.setHasFixedSize(true)
+        binding.rvMovies.layoutManager = gridLayoutManager
+        binding.rvMovies.adapter = adapter.withCustomFooter(
+            ListLoadStateAdapter { adapter.retry() }
+        )
     }
 
     override fun onStart() {
@@ -102,9 +112,5 @@ class FragmentSearch : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun setLoading(isLoading: Boolean) {
-        binding.prbLoading.isVisible = isLoading
     }
 }

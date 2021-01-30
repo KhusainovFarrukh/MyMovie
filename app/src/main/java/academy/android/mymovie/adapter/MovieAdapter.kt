@@ -11,7 +11,10 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -44,6 +47,19 @@ class MovieAdapter(
         } else {
             1
         }
+    }
+
+    //function for setting custom footer, because default one not shows loadState on initial request
+    fun withCustomFooter(
+        footerAdapter: LoadStateAdapter<*>
+    ): ConcatAdapter {
+        addLoadStateListener { loadStates ->
+            footerAdapter.loadState = when (loadStates.refresh) {
+                is LoadState.NotLoading -> loadStates.append
+                else -> loadStates.refresh
+            }
+        }
+        return ConcatAdapter(this, footerAdapter)
     }
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

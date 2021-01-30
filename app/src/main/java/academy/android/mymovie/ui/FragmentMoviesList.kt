@@ -26,13 +26,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 
@@ -123,10 +119,6 @@ class FragmentMoviesList : Fragment() {
         _binding = null
     }
 
-    private fun setLoading(isLoading: Boolean) {
-        binding.prbLoading.isVisible = isLoading
-    }
-
     private fun saveConfigData(config: ConfigurationResponse) {
         editor.apply {
             putString(KEY_BASE_URL, config.images.baseUrl)
@@ -143,18 +135,5 @@ class FragmentMoviesList : Fragment() {
         bundle.putString(REQUEST_PATH, requestPath)
         fragment.arguments = bundle
         return fragment
-    }
-
-    //function for setting custom footer, because default one not shows loadState on initial request
-    private fun MovieAdapter.withCustomFooter(
-        footerAdapter: LoadStateAdapter<*>
-    ): ConcatAdapter {
-        addLoadStateListener { loadStates ->
-            footerAdapter.loadState = when (loadStates.refresh) {
-                is LoadState.NotLoading -> loadStates.append
-                else -> loadStates.refresh
-            }
-        }
-        return ConcatAdapter(this, footerAdapter)
     }
 }
