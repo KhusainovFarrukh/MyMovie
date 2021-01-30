@@ -31,7 +31,19 @@ class MovieAdapter(
         if (getItem(position) != null) {
             holder.onBindMovie(getItem(position) ?: throw NullPointerException("WTF"))
         }
-        holder.itemView.setOnClickListener { movieClickInterface.onMovieClick(getItem(position)?.id ?: 11111111) }
+        holder.itemView.setOnClickListener {
+            movieClickInterface.onMovieClick(
+                getItem(position)?.id ?: 11111111
+            )
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) {
+            2
+        } else {
+            1
+        }
     }
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

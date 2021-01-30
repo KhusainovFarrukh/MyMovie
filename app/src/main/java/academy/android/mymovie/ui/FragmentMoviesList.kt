@@ -1,6 +1,7 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
+import academy.android.mymovie.adapter.ListLoadStateAdapter
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.api.Repository
 import academy.android.mymovie.api.RetrofitInstance
@@ -29,6 +30,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 
@@ -65,10 +69,20 @@ class FragmentMoviesList : Fragment() {
         val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
                 sharedPrefs.getString(KEY_POSTER, DEFAULT_SIZE)
 
-        binding.rvMovies.setHasFixedSize(true)
-        binding.rvMovies.layoutManager = GridLayoutManager(requireActivity(), 2)
         adapter = MovieAdapter(movieClickInterface!!, imageUrl)
-        binding.rvMovies.adapter = adapter
+
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return adapter.getItemViewType(position)
+            }
+        }
+
+        binding.rvMovies.setHasFixedSize(true)
+        binding.rvMovies.layoutManager = gridLayoutManager
+        binding.rvMovies.adapter = adapter.withCustomFooter(
+            ListLoadStateAdapter { adapter.retry() }
+        )
     }
 
     override fun onStart() {
@@ -129,5 +143,18 @@ class FragmentMoviesList : Fragment() {
         bundle.putString(REQUEST_PATH, requestPath)
         fragment.arguments = bundle
         return fragment
+    }
+
+    //function for setting custom footer, because default one not shows loadState on initial request
+    private fun MovieAdapter.withCustomFooter(
+        footerAdapter: LoadStateAdapter<*>
+    ): ConcatAdapter {
+        addLoadStateListener { loadStates ->
+            footerAdapter.loadState = when (loadStates.refresh) {
+                is LoadState.NotLoading -> loadStates.append
+                else -> loadStates.refresh
+            }
+        }
+        return ConcatAdapter(this, footerAdapter)
     }
 }
