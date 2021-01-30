@@ -4,13 +4,10 @@ import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.data.Movie
+import academy.android.mymovie.databinding.ViewHolderMovieBinding
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
@@ -22,22 +19,15 @@ import com.bumptech.glide.request.RequestOptions
 class MovieAdapter(
     private val movieClickInterface: MovieClickInterface,
     private val imageUrl: String
-) :
-    PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
+) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
-        MovieViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
+        ViewHolderMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         if (getItem(position) != null) {
             holder.onBindMovie(getItem(position) ?: throw NullPointerException("WTF"))
-        }
-        holder.itemView.setOnClickListener {
-            movieClickInterface.onMovieClick(
-                getItem(position)?.id ?: 11111111
-            )
         }
     }
 
@@ -62,34 +52,38 @@ class MovieAdapter(
         return ConcatAdapter(this, footerAdapter)
     }
 
-    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val txvName: TextView = itemView.findViewById(R.id.txv_name)
-        private val txvTime: TextView = itemView.findViewById(R.id.txv_time)
-        private val txvReviews: TextView = itemView.findViewById(R.id.txv_reviews)
-        private val txvTagline: TextView = itemView.findViewById(R.id.txv_genres)
-        private val txvAge: TextView = itemView.findViewById(R.id.txv_age)
-        private val rbRating: RatingBar = itemView.findViewById(R.id.rb_rating)
-        private val imvImage: ImageView = itemView.findViewById(R.id.imv_image)
-        private val cvAgeHolder: CardView = itemView.findViewById(R.id.cv_age_holder)
+    inner class MovieViewHolder(private val binding: ViewHolderMovieBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                movieClickInterface.onMovieClick(
+                    getItem(adapterPosition)?.id
+                        ?: throw NullPointerException("There is no movie")
+                )
+            }
+        }
 
         fun onBindMovie(movie: Movie) {
-            Glide.with(itemView.context)
-                .load(imageUrl + movie.posterPath)
-                .apply(imageOption)
-                .into(imvImage)
+            binding.apply {
+                Glide.with(itemView.context)
+                    .load(imageUrl + movie.posterPath)
+                    .apply(imageOption)
+                    .into(binding.imvImage)
 
-            txvTagline.text = movie.getGenres()
-
-            txvName.text = movie.title
-            txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
-            if (movie.getCertification().isNotEmpty()) {
-                txvAge.text = movie.getCertification()
-                cvAgeHolder.visibility = TextView.VISIBLE
-            } else {
-                cvAgeHolder.visibility = TextView.INVISIBLE
+                txvGenres.text = movie.getGenres()
+                txvName.text = movie.title
+                txvTime.text = itemView.context.getString(R.string.time, movie.runtime)
+                if (movie.getCertification().isNotEmpty()) {
+                    txvAge.text = movie.getCertification()
+                    cvAgeHolder.visibility = TextView.VISIBLE
+                } else {
+                    cvAgeHolder.visibility = TextView.INVISIBLE
+                }
+                txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
+                rbRating.rating = movie.voteAverage / 2
             }
-            txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
-            rbRating.rating = movie.voteAverage / 2
+
 //        imvFavorite.setImageDrawable(
 //            if (movie.isFavorite) ResourcesCompat.getDrawable(
 //                itemView.context.resources,

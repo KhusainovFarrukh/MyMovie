@@ -1,12 +1,8 @@
 package academy.android.mymovie.adapter
 
-import academy.android.mymovie.R
+import academy.android.mymovie.databinding.ViewHolderListLoadStateBinding
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
@@ -21,30 +17,29 @@ class ListLoadStateAdapter(private val retry: () -> Unit) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         loadState: LoadState
-    ): ListLoadStateViewHolder {
-        return ListLoadStateViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_list_load_state, parent, false)
+    ) = ListLoadStateViewHolder(
+        ViewHolderListLoadStateBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
-    }
+    )
 
     override fun onBindViewHolder(holder: ListLoadStateViewHolder, loadState: LoadState) {
         holder.onBindLoadState(loadState)
     }
 
-    inner class ListLoadStateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val prbLoading = itemView.findViewById<ProgressBar>(R.id.prb_loading)
-        private val txvError = itemView.findViewById<TextView>(R.id.txv_error)
-        private val btnRetry = itemView.findViewById<Button>(R.id.btn_retry)
+    inner class ListLoadStateViewHolder(private val binding: ViewHolderListLoadStateBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
-            btnRetry.setOnClickListener { retry.invoke() }
+            binding.btnRetry.setOnClickListener { retry.invoke() }
         }
 
         fun onBindLoadState(loadState: LoadState) {
-            prbLoading.isVisible = loadState is LoadState.Loading
-            txvError.isVisible = loadState !is LoadState.Loading
-            btnRetry.isVisible = loadState !is LoadState.Loading
+            binding.apply {
+                prbLoading.isVisible = loadState is LoadState.Loading
+                txvError.isVisible = loadState !is LoadState.Loading
+                btnRetry.isVisible = loadState !is LoadState.Loading
+            }
         }
 
     }
