@@ -114,12 +114,7 @@ class FragmentMoviesDetails : Fragment() {
     private fun updateView(currentMovie: Movie) {
 
         binding.apply {
-            currentMovie.genres.forEach {
-                txvGenres.append(it.name)
-                if (it != currentMovie.genres.last()) {
-                    txvGenres.append(", ")
-                }
-            }
+            txvGenres.text = currentMovie.getGenres()
 
             txvTitle.text = currentMovie.title
             txvOverview.text = currentMovie.overview
