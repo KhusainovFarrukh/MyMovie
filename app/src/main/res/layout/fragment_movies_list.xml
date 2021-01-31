@@ -13,7 +13,6 @@
         android:layout_height="@dimen/dp0"
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
-        android:layout_marginBottom="@dimen/dp16"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

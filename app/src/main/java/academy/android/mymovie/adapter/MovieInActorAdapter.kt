@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 class MovieInActorAdapter(
@@ -46,19 +47,21 @@ class MovieInActorAdapter(
                         )
                     )
                 } else {
+                    //some changes. see comment on MovieAdapter.kt onBindMovie()
                     Glide.with(itemView.context)
                         .load(Uri.parse(imageUrl + movie.imageUrl))
-                        .apply(imageOption)
+                        .thumbnail(
+                            Glide.with(itemView.context)
+                                .load(R.drawable.sample_placeholder)
+                                .centerCrop()
+                        )
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .centerCrop()
+                        .error(R.drawable.sample_placeholder)
                         .into(imvImage)
                 }
                 txvName.text = movie.title
             }
         }
-    }
-
-    companion object {
-        private val imageOption = RequestOptions()
-            .placeholder(R.drawable.sample_placeholder)
-            .fallback(R.drawable.sample_placeholder)
     }
 }

@@ -6,7 +6,10 @@ import academy.android.mymovie.clickinterface.ContainerListener
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterface,
@@ -15,6 +18,8 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setStatusBarTransparent()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
@@ -74,5 +79,19 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
             addToBackStack(null)
             commit()
         }
+    }
+
+    private fun setStatusBarTransparent() {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,
+            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+        )
+
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.BLACK
     }
 }

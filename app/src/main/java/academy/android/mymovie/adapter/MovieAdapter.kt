@@ -14,6 +14,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 class MovieAdapter(
@@ -121,9 +123,24 @@ class MovieAdapter(
 
         fun onBindMovie(movie: Movie) {
             binding.apply {
+
+                /*
+                placeholder() replaced with thumbnail()
+                because: after adding crossFade() and placeholder, centerCrop not working on
+                first image load
+                issue and possible solution: https://github.com/bumptech/glide/issues/1456#issuecomment-245540330
+                */
+
                 Glide.with(itemView.context)
                     .load(imageUrl + movie.posterPath)
-                    .apply(imageOption)
+                    .thumbnail(
+                        Glide.with(itemView.context)
+                            .load(R.drawable.sample_placeholder)
+                            .centerCrop()
+                    )
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .centerCrop()
+                    .error(R.drawable.sample_placeholder)
                     .into(binding.imvImage)
 
                 txvGenres.text = movie.getGenres()
@@ -155,13 +172,8 @@ class MovieAdapter(
     }
 
     companion object {
-        private val imageOption = RequestOptions()
-            .placeholder(R.drawable.sample_placeholder)
-            .fallback(R.drawable.sample_placeholder)
-
         const val VIEW_TYPE_MOVIE = 1
         const val VIEW_TYPE_LOADING = 2
-
     }
 }
 

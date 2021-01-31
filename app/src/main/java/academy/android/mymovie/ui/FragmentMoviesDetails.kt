@@ -32,7 +32,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 
 class FragmentMoviesDetails : Fragment() {
     private var _binding: FragmentMoviesDetailsBinding? = null
@@ -134,6 +136,7 @@ class FragmentMoviesDetails : Fragment() {
                 Glide.with(requireActivity())
                     .load(backdropUrl + currentMovie.backdropPath)
                     .apply(imageOption)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imvBackdrop)
             } else {
                 imvBackdrop.setImageDrawable(
@@ -182,6 +185,8 @@ class FragmentMoviesDetails : Fragment() {
 
     private companion object {
         val imageOption = RequestOptions()
+            .dontAnimate()
+            .dontTransform()
             .placeholder(R.drawable.sample_placeholder)
             .fallback(R.drawable.sample_placeholder)
     }
