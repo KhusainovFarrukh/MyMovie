@@ -1,13 +1,13 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
-import academy.android.mymovie.adapter.ListLoadStateAdapter
-import academy.android.mymovie.adapter.MovieAdapter
+import academy.android.mymovie.adapters.ListLoadStateAdapter
+import academy.android.mymovie.adapters.MovieAdapter
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
-import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
-import academy.android.mymovie.decorator.MovieItemDecoration
+import academy.android.mymovie.decorators.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.DEFAULT_SEARCH
 import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
@@ -15,8 +15,8 @@ import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_POSTER
 import academy.android.mymovie.utils.Constants.KEY_SEARCH
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
-import academy.android.mymovie.viewmodel.SearchViewModel
-import academy.android.mymovie.viewmodelfactory.SearchViewModelFactory
+import academy.android.mymovie.viewmodels.SearchViewModel
+import academy.android.mymovie.viewmodelfactorys.SearchViewModelFactory
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences

@@ -1,15 +1,15 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
-import academy.android.mymovie.adapter.ActorAdapter
+import academy.android.mymovie.adapters.ActorAdapter
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
-import academy.android.mymovie.clickinterface.ActorClickInterface
-import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.model.Actor
-import academy.android.mymovie.model.Movie
+import academy.android.mymovie.clickinterfaces.ActorClickInterface
+import academy.android.mymovie.clickinterfaces.MovieClickInterface
+import academy.android.mymovie.models.Actor
+import academy.android.mymovie.models.Movie
 import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
-import academy.android.mymovie.decorator.ActorItemDecoration
+import academy.android.mymovie.decorators.ActorItemDecoration
 import academy.android.mymovie.utils.Constants
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.KEY_BACKDROP
@@ -17,8 +17,8 @@ import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
-import academy.android.mymovie.viewmodel.DetailsViewModel
-import academy.android.mymovie.viewmodelfactory.DetailsViewModelFactory
+import academy.android.mymovie.viewmodels.DetailsViewModel
+import academy.android.mymovie.viewmodelfactorys.DetailsViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater

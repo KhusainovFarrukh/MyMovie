@@ -1,16 +1,16 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
-import academy.android.mymovie.adapter.ListLoadStateAdapter
-import academy.android.mymovie.adapter.MovieAdapter
-import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_LOADING
-import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_MOVIE
+import academy.android.mymovie.adapters.ListLoadStateAdapter
+import academy.android.mymovie.adapters.MovieAdapter
+import academy.android.mymovie.adapters.MovieAdapter.Companion.VIEW_TYPE_LOADING
+import academy.android.mymovie.adapters.MovieAdapter.Companion.VIEW_TYPE_MOVIE
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
-import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.model.ConfigurationResponse
+import academy.android.mymovie.clickinterfaces.MovieClickInterface
+import academy.android.mymovie.models.ConfigurationResponse
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
-import academy.android.mymovie.decorator.MovieItemDecoration
+import academy.android.mymovie.decorators.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.utils.Constants.KEY_BACKDROP
@@ -20,8 +20,8 @@ import academy.android.mymovie.utils.Constants.KEY_POSTER
 import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
-import academy.android.mymovie.viewmodel.MoviesViewModel
-import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
+import academy.android.mymovie.viewmodels.MoviesViewModel
+import academy.android.mymovie.viewmodelfactorys.MoviesViewModelFactory
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences

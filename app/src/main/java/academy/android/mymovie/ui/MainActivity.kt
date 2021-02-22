@@ -1,9 +1,9 @@
 package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
-import academy.android.mymovie.clickinterface.ActorClickInterface
-import academy.android.mymovie.clickinterface.ContainerListener
-import academy.android.mymovie.clickinterface.MovieClickInterface
+import academy.android.mymovie.clickinterfaces.ActorClickInterface
+import academy.android.mymovie.clickinterfaces.ContainerListener
+import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
 import android.graphics.Color

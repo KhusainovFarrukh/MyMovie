@@ -1,7 +1,7 @@
 package academy.android.mymovie.ui
 
-import academy.android.mymovie.adapter.FragmentPagerAdapter
-import academy.android.mymovie.clickinterface.ContainerListener
+import academy.android.mymovie.adapters.FragmentPagerAdapter
+import academy.android.mymovie.clickinterfaces.ContainerListener
 import academy.android.mymovie.databinding.FragmentContainerBinding
 import academy.android.mymovie.utils.Constants.TITLE_NOWPLAYING
 import academy.android.mymovie.utils.Constants.TITLE_POPULAR
