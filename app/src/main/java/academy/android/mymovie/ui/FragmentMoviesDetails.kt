@@ -2,7 +2,7 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapter.ActorAdapter
-import academy.android.mymovie.api.Repository
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.ActorClickInterface
 import academy.android.mymovie.clickinterface.MovieClickInterface
@@ -34,8 +34,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class FragmentMoviesDetails : Fragment() {
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!

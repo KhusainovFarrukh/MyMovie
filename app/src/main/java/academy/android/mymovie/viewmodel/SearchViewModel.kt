@@ -1,6 +1,6 @@
 package academy.android.mymovie.viewmodel
 
-import academy.android.mymovie.api.Repository
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.utils.Constants.DEFAULT_SEARCH
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

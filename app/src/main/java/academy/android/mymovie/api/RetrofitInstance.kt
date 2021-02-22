@@ -3,6 +3,7 @@ package academy.android.mymovie.api
 import academy.android.mymovie.utils.Constants.API_KEY
 import academy.android.mymovie.utils.Constants.BASE_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.create
 import java.util.concurrent.TimeUnit
 
+@ExperimentalSerializationApi
 object RetrofitInstance {
 
     private val json = Json {

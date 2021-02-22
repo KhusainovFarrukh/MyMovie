@@ -1,5 +1,6 @@
-package academy.android.mymovie.api
+package academy.android.mymovie.data
 
+import academy.android.mymovie.api.MovieApi
 import academy.android.mymovie.model.Movie
 import androidx.paging.PagingSource
 

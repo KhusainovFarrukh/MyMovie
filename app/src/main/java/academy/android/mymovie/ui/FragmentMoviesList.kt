@@ -5,7 +5,7 @@ import academy.android.mymovie.adapter.ListLoadStateAdapter
 import academy.android.mymovie.adapter.MovieAdapter
 import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_LOADING
 import academy.android.mymovie.adapter.MovieAdapter.Companion.VIEW_TYPE_MOVIE
-import academy.android.mymovie.api.Repository
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterface.MovieClickInterface
 import academy.android.mymovie.model.ConfigurationResponse
@@ -22,6 +22,7 @@ import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodel.MoviesViewModel
 import academy.android.mymovie.viewmodelfactory.MoviesViewModelFactory
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -33,7 +34,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class FragmentMoviesList : Fragment() {
 
     private var _binding: FragmentMoviesListBinding? = null
@@ -52,6 +55,7 @@ class FragmentMoviesList : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.rvMovies.addItemDecoration(
