@@ -3,8 +3,8 @@ package academy.android.mymovie.adapter
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.ActorCallback
 import academy.android.mymovie.clickinterface.ActorClickInterface
-import academy.android.mymovie.model.Actor
 import academy.android.mymovie.databinding.ViewHolderActorBinding
+import academy.android.mymovie.model.Actor
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 
 
 class ActorAdapter(
@@ -35,7 +34,7 @@ class ActorAdapter(
 
         init {
             binding.root.setOnClickListener {
-                actorClickInterface.onActorClick(getItem(adapterPosition).id)
+                actorClickInterface.onActorClick(getItem(absoluteAdapterPosition).id)
             }
         }
 

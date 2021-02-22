@@ -3,8 +3,8 @@ package academy.android.mymovie.adapter
 import academy.android.mymovie.R
 import academy.android.mymovie.callback.MovieCallback
 import academy.android.mymovie.clickinterface.MovieClickInterface
-import academy.android.mymovie.model.Movie
 import academy.android.mymovie.databinding.ViewHolderMovieBinding
+import academy.android.mymovie.model.Movie
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -14,9 +14,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 
 class MovieAdapter(
     private val movieClickInterface: MovieClickInterface,
@@ -115,7 +113,7 @@ class MovieAdapter(
         init {
             binding.root.setOnClickListener {
                 movieClickInterface.onMovieClick(
-                    getItem(adapterPosition)?.id
+                    getItem(bindingAdapterPosition)?.id
                         ?: throw NullPointerException("There is no movie")
                 )
             }
@@ -155,19 +153,6 @@ class MovieAdapter(
                 txvReviews.text = itemView.context.getString(R.string.reviews, movie.voteCount)
                 rbRating.rating = movie.voteAverage / 2
             }
-
-//        imvFavorite.setImageDrawable(
-//            if (movie.isFavorite) ResourcesCompat.getDrawable(
-//                itemView.context.resources,
-//                R.drawable.ic_like,
-//                null
-//            )
-//            else ResourcesCompat.getDrawable(
-//                itemView.context.resources,
-//                R.drawable.ic_like_empty,
-//                null
-//            )
-//        )
         }
     }
 
