@@ -40,15 +40,9 @@ class ActorAdapter(
         }
 
         fun onBindActor(actor: Actor) {
-            if (actor.profileUrl == null) {
-                binding.imvActor.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        itemView.context,
-                        R.drawable.sample_placeholder
-                    )
-                )
-            } else {
+            if (actor.profileUrl != null && actor.profileUrl.isNotEmpty()) {
                 //some changes. see comment on MovieAdapter.kt onBindMovie()
+                binding.imvActor.setImageDrawable(null)
                 Glide.with(itemView.context)
                     .load(Uri.parse(imageUrl + actor.profileUrl))
                     .thumbnail(
@@ -60,6 +54,14 @@ class ActorAdapter(
                     .centerCrop()
                     .error(R.drawable.sample_placeholder)
                     .into(binding.imvActor)
+            } else {
+                Glide.with(itemView.context).clear(binding.imvActor)
+                binding.imvActor.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        itemView.context,
+                        R.drawable.sample_placeholder
+                    )
+                )
             }
             binding.txvActor.text = actor.name
         }
