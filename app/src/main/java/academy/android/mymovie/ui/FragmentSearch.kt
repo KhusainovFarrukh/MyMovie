@@ -8,16 +8,10 @@ import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorators.MovieItemDecoration
-import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
-import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
-import academy.android.mymovie.utils.Constants.KEY_BASE_URL
-import academy.android.mymovie.utils.Constants.KEY_POSTER
-import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.viewmodelfactories.SearchViewModelFactory
 import academy.android.mymovie.viewmodels.SearchViewModel
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,8 +33,6 @@ class FragmentSearch : Fragment() {
         SearchViewModelFactory(Repository(RetrofitInstance.movieApi))
     }
     private var movieClickInterface: MovieClickInterface? = null
-    private lateinit var sharedPrefs: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,13 +52,7 @@ class FragmentSearch : Fragment() {
             )
         )
 
-        sharedPrefs = requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
-        editor = sharedPrefs.edit()
-
-        val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString(KEY_POSTER, DEFAULT_SIZE)
-
-        adapter = MovieAdapter(movieClickInterface!!, imageUrl)
+        adapter = MovieAdapter(movieClickInterface!!, searchViewModel.getPosterUrl())
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -89,13 +75,6 @@ class FragmentSearch : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-//        searchViewModel = ViewModelProvider(
-//            this, SearchViewModelFactory(
-//                Repository(RetrofitInstance.movieApi),
-//                arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH
-//            )
-//        ).get(SearchViewModel::class.java)
 
         searchViewModel.moviesList.observe(this.viewLifecycleOwner, {
             lifecycleScope.launch {

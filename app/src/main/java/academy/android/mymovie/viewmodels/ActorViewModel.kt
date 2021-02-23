@@ -2,13 +2,19 @@ package academy.android.mymovie.viewmodels
 
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.models.ActorResponse
+import academy.android.mymovie.utils.ConfigurationService
+import academy.android.mymovie.utils.Constants
+import academy.android.mymovie.utils.Constants.KEY_BACKDROP
+import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class ActorViewModel(repository: Repository, actorId: Int) : ViewModel() {
 
     private val _currentActor = MutableLiveData<ActorResponse>()
@@ -25,4 +31,6 @@ class ActorViewModel(repository: Repository, actorId: Int) : ViewModel() {
             _isLoading.postValue((false))
         }
     }
+
+    fun getBackdropUrl() = ConfigurationService.getBackdropUrl()
 }

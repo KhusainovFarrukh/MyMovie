@@ -2,23 +2,17 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ActorAdapter
-import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterfaces.ActorClickInterface
 import academy.android.mymovie.clickinterfaces.MovieClickInterface
-import academy.android.mymovie.models.Actor
-import academy.android.mymovie.models.Movie
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
 import academy.android.mymovie.decorators.ActorItemDecoration
-import academy.android.mymovie.utils.Constants
-import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
-import academy.android.mymovie.utils.Constants.KEY_BACKDROP
-import academy.android.mymovie.utils.Constants.KEY_BASE_URL
-import academy.android.mymovie.utils.Constants.KEY_PROFILE
-import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
+import academy.android.mymovie.models.Actor
+import academy.android.mymovie.models.Movie
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
-import academy.android.mymovie.viewmodels.DetailsViewModel
 import academy.android.mymovie.viewmodelfactories.DetailsViewModelFactory
+import academy.android.mymovie.viewmodels.DetailsViewModel
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,7 +36,6 @@ class FragmentMoviesDetails : Fragment() {
     private val binding get() = _binding!!
     private lateinit var detailsViewModel: DetailsViewModel
     private lateinit var adapter: ActorAdapter
-    private lateinit var backdropUrl: String
     private var movieClickInterface: MovieClickInterface? = null
     private var actorClickInterface: ActorClickInterface? = null
 
@@ -55,23 +48,6 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val sharedPrefs =
-            requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
-
-        val imageUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString(KEY_PROFILE, Constants.DEFAULT_SIZE)
-
-        adapter = ActorAdapter(actorClickInterface!!, imageUrl)
-
-        backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
-
-        setupViews()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         detailsViewModel = ViewModelProvider(
             this, DetailsViewModelFactory(
                 Repository(RetrofitInstance.movieApi),
@@ -79,6 +55,14 @@ class FragmentMoviesDetails : Fragment() {
                     ?: throw NullPointerException("No id for current movie")
             )
         ).get(DetailsViewModel::class.java)
+
+        adapter = ActorAdapter(actorClickInterface!!, detailsViewModel.getProfileUrl())
+
+        setupViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         detailsViewModel.currentMovie.observe(this, this::updateView)
         detailsViewModel.isLoading.observe(this, this::setLoading)
@@ -130,7 +114,7 @@ class FragmentMoviesDetails : Fragment() {
                 currentMovie.voteAverage / 2
             if (currentMovie.backdropPath != null) {
                 Glide.with(requireActivity())
-                    .load(backdropUrl + currentMovie.backdropPath)
+                    .load(detailsViewModel.getBackdropUrl() + currentMovie.backdropPath)
                     .apply(imageOption)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imvBackdrop)

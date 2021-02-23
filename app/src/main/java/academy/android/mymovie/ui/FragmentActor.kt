@@ -2,22 +2,17 @@ package academy.android.mymovie.ui
 
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.MovieInActorAdapter
-import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterfaces.ActorClickInterface
 import academy.android.mymovie.clickinterfaces.MovieClickInterface
-import academy.android.mymovie.models.ActorResponse
-import academy.android.mymovie.models.MovieInActor
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentActorBinding
 import academy.android.mymovie.decorators.ActorItemDecoration
-import academy.android.mymovie.utils.Constants
+import academy.android.mymovie.models.ActorResponse
+import academy.android.mymovie.models.MovieInActor
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
-import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
-import academy.android.mymovie.utils.Constants.KEY_BACKDROP
-import academy.android.mymovie.utils.Constants.KEY_BASE_URL
-import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
-import academy.android.mymovie.viewmodels.ActorViewModel
 import academy.android.mymovie.viewmodelfactories.ActorViewModelFactory
+import academy.android.mymovie.viewmodels.ActorViewModel
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -44,7 +39,6 @@ class FragmentActor : Fragment() {
     private val binding get() = _binding!!
     private lateinit var actorViewModel: ActorViewModel
     private lateinit var adapter: MovieInActorAdapter
-    private lateinit var backdropUrl: String
     private var actorClickInterface: ActorClickInterface? = null
     private var movieClickInterface: MovieClickInterface? = null
 
@@ -57,20 +51,6 @@ class FragmentActor : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val sharedPrefs =
-            requireActivity().getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
-
-        backdropUrl = sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) +
-                sharedPrefs.getString(KEY_BACKDROP, Constants.DEFAULT_SIZE)
-
-        adapter = MovieInActorAdapter(movieClickInterface!!, backdropUrl)
-
-        setupViews()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         actorViewModel = ViewModelProvider(
             this, ActorViewModelFactory(
                 Repository(RetrofitInstance.movieApi),
@@ -78,6 +58,14 @@ class FragmentActor : Fragment() {
                     ?: throw NullPointerException("No id for current movie")
             )
         ).get(ActorViewModel::class.java)
+
+        adapter = MovieInActorAdapter(movieClickInterface!!, actorViewModel.getBackdropUrl())
+
+        setupViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         actorViewModel.currentActor.observe(this, this::updateView)
         actorViewModel.isLoading.observe(this, this::setLoading)
@@ -124,7 +112,7 @@ class FragmentActor : Fragment() {
             }
             if (currentActor.imageUrl != null) {
                 Glide.with(requireActivity())
-                    .load(backdropUrl + currentActor.imageUrl)
+                    .load(actorViewModel.getBackdropUrl() + currentActor.imageUrl)
                     .apply(imageOption)
                     .into(imvPerson)
             } else {
@@ -137,7 +125,7 @@ class FragmentActor : Fragment() {
             }
             if (currentActor.images.profiles.isNotEmpty()) {
                 Glide.with(requireActivity())
-                    .load(backdropUrl + currentActor.images.profiles.random().imageUrl)
+                    .load(actorViewModel.getBackdropUrl() + currentActor.images.profiles.random().imageUrl)
                     .apply(imageOption)
                     .into(imvBackdrop)
             } else {
