@@ -17,7 +17,7 @@ import academy.android.mymovie.utils.Constants.KEY_BACKDROP
 import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.viewmodels.ActorViewModel
-import academy.android.mymovie.viewmodelfactorys.ActorViewModelFactory
+import academy.android.mymovie.viewmodelfactories.ActorViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -3,20 +3,18 @@ package academy.android.mymovie.ui
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ListLoadStateAdapter
 import academy.android.mymovie.adapters.MovieAdapter
-import academy.android.mymovie.data.Repository
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterfaces.MovieClickInterface
+import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorators.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
-import academy.android.mymovie.utils.Constants.DEFAULT_SEARCH
 import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_POSTER
-import academy.android.mymovie.utils.Constants.KEY_SEARCH
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
+import academy.android.mymovie.viewmodelfactories.SearchViewModelFactory
 import academy.android.mymovie.viewmodels.SearchViewModel
-import academy.android.mymovie.viewmodelfactorys.SearchViewModelFactory
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -25,7 +23,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
@@ -37,7 +35,9 @@ class FragmentSearch : Fragment() {
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MovieAdapter
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel by activityViewModels<SearchViewModel> {
+        SearchViewModelFactory(Repository(RetrofitInstance.movieApi))
+    }
     private var movieClickInterface: MovieClickInterface? = null
     private lateinit var sharedPrefs: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -90,12 +90,12 @@ class FragmentSearch : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        searchViewModel = ViewModelProvider(
-            this, SearchViewModelFactory(
-                Repository(RetrofitInstance.movieApi),
-                arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH
-            )
-        ).get(SearchViewModel::class.java)
+//        searchViewModel = ViewModelProvider(
+//            this, SearchViewModelFactory(
+//                Repository(RetrofitInstance.movieApi),
+//                arguments?.getString(KEY_SEARCH, DEFAULT_SEARCH) ?: DEFAULT_SEARCH
+//            )
+//        ).get(SearchViewModel::class.java)
 
         searchViewModel.moviesList.observe(this.viewLifecycleOwner, {
             lifecycleScope.launch {

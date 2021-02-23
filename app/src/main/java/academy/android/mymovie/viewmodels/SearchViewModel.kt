@@ -8,15 +8,15 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 
-class SearchViewModel(repository: Repository, searchText: String) : ViewModel() {
+class SearchViewModel(private val repository: Repository) : ViewModel() {
 
-    private val currentSearchText = MutableLiveData(DEFAULT_SEARCH)
+    private val currentSearchText = MutableLiveData<String>()
 
     val moviesList = currentSearchText.switchMap {
         repository.searchMovie(it).cachedIn(viewModelScope)
     }
 
-    init {
+    fun search(searchText: String) {
         currentSearchText.postValue(searchText)
     }
 }

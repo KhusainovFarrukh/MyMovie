@@ -18,7 +18,7 @@ import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
 import academy.android.mymovie.viewmodels.DetailsViewModel
-import academy.android.mymovie.viewmodelfactorys.DetailsViewModelFactory
+import academy.android.mymovie.viewmodelfactories.DetailsViewModelFactory
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater

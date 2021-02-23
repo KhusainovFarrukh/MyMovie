@@ -1,4 +1,4 @@
-package academy.android.mymovie.viewmodelfactorys
+package academy.android.mymovie.viewmodelfactories
 
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.viewmodels.DetailsViewModel

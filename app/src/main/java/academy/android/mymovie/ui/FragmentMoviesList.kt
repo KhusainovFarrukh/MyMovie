@@ -21,7 +21,7 @@ import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodels.MoviesViewModel
-import academy.android.mymovie.viewmodelfactorys.MoviesViewModelFactory
+import academy.android.mymovie.viewmodelfactories.MoviesViewModelFactory
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
