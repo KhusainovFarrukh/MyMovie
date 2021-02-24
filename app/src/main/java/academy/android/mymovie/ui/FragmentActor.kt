@@ -123,7 +123,8 @@ class FragmentActor : Fragment() {
             }
             if (currentActor.imageUrl != null) {
                 Glide.with(requireActivity())
-                    .load(backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE + currentActor.imageUrl)
+                    .load((backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
+                            + currentActor.imageUrl)
                     .apply(imageOption)
                     .into(imvPerson)
             } else {

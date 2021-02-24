@@ -11,14 +11,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
 class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterface,
     ContainerListener {
-
-    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +71,9 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
         supportFragmentManager.popBackStack()
     }
 
-    override fun addSearchFragment(searchView: SearchView) {
-        this.searchView = searchView
-
+    override fun addSearchFragment() {
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.main_container, FragmentSearch())
+            add(R.id.container_frame_layout, FragmentSearch())
             addToBackStack(null)
             commit()
         }
@@ -86,12 +81,6 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
 
     override fun onSearchClosed() {
         supportFragmentManager.popBackStack()
-    }
-
-    override fun closeSearchView() {
-        searchView.onActionViewCollapsed()
-        searchView.setQuery("", false)
-        searchView.isIconified = true
     }
 
     private fun setStatusBarTransparent() {
@@ -106,13 +95,5 @@ class MainActivity : AppCompatActivity(), MovieClickInterface, ActorClickInterfa
 
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.BLACK
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.fragments.last() is FragmentSearch) {
-            closeSearchView()
-            return
-        }
-        super.onBackPressed()
     }
 }

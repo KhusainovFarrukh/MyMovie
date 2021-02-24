@@ -16,6 +16,7 @@
         android:gravity="end"
         android:layoutDirection="rtl"
         android:theme="@style/SearchViewStyle"
+        android:visibility="gone"
         app:closeIcon="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="@id/txv_movies_list"
         app:layout_constraintEnd_toStartOf="@id/txv_movies_list"
@@ -74,5 +75,15 @@
             android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp16"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/txv_movies_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txv_movies_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

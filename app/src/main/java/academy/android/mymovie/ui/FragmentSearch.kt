@@ -5,9 +5,10 @@ import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ListLoadStateAdapter
 import academy.android.mymovie.adapters.MovieAdapter
 import academy.android.mymovie.api.RetrofitInstance
+import academy.android.mymovie.clickinterfaces.ContainerListener
 import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.data.Repository
-import academy.android.mymovie.databinding.FragmentMoviesListBinding
+import academy.android.mymovie.databinding.FragmentSearchBinding
 import academy.android.mymovie.decorators.MovieItemDecoration
 import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
 import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
@@ -18,8 +19,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
@@ -28,15 +30,11 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 class FragmentSearch : Fragment() {
 
-    private var _binding: FragmentMoviesListBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MovieAdapter
-    private val searchViewModel by activityViewModels<SearchViewModel> {
-        SearchViewModelFactory(
-            Repository(RetrofitInstance.movieApi),
-            (requireActivity().application as MyMovieApp).configurationService
-        )
-    }
+    private lateinit var searchViewModel: SearchViewModel
+    private var containerListener: ContainerListener? = null
     private var movieClickInterface: MovieClickInterface? = null
     private var posterUrl: String? = null
 
@@ -44,11 +42,18 @@ class FragmentSearch : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoviesListBinding.inflate(inflater)
+        _binding = FragmentSearchBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        searchViewModel = ViewModelProvider(
+            this, SearchViewModelFactory(
+                Repository(RetrofitInstance.movieApi),
+                (requireActivity().application as MyMovieApp).configurationService
+            )
+        ).get(SearchViewModel::class.java)
+
         searchViewModel.posterUrl.observe(viewLifecycleOwner) {
             posterUrl = it
         }
@@ -79,6 +84,23 @@ class FragmentSearch : Fragment() {
             ListLoadStateAdapter { adapter.retry() },
             ListLoadStateAdapter { adapter.retry() }
         )
+
+        binding.svSearch.setOnCloseListener {
+            containerListener?.onSearchClosed()
+            false
+        }
+
+        binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchViewModel.search(query!!)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
     }
 
     override fun onStart() {
@@ -98,11 +120,17 @@ class FragmentSearch : Fragment() {
         } else {
             throw IllegalArgumentException("Activity is not MovieClickInterface")
         }
+        if (context is ContainerListener) {
+            containerListener = context
+        } else {
+            throw IllegalArgumentException("$context is not ContainerListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         movieClickInterface = null
+        containerListener = null
     }
 
     override fun onDestroyView() {

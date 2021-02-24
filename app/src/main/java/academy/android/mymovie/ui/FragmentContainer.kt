@@ -1,25 +1,18 @@
 package academy.android.mymovie.ui
 
-import academy.android.mymovie.MyMovieApp
 import academy.android.mymovie.adapters.FragmentPagerAdapter
-import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterfaces.ContainerListener
-import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentContainerBinding
 import academy.android.mymovie.utils.Constants.TITLE_NOWPLAYING
 import academy.android.mymovie.utils.Constants.TITLE_POPULAR
 import academy.android.mymovie.utils.Constants.TITLE_TOPRATED
 import academy.android.mymovie.utils.Constants.TITLE_UPCOMING
-import academy.android.mymovie.viewmodelfactories.SearchViewModelFactory
-import academy.android.mymovie.viewmodels.SearchViewModel
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.serialization.ExperimentalSerializationApi
 
@@ -29,12 +22,6 @@ class FragmentContainer : Fragment() {
     private var _binding: FragmentContainerBinding? = null
     private val binding get() = _binding!!
     private var containerListener: ContainerListener? = null
-    private val searchViewModel by activityViewModels<SearchViewModel> {
-        SearchViewModelFactory(
-            Repository(RetrofitInstance.movieApi),
-            (requireActivity().application as MyMovieApp).configurationService
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,26 +45,9 @@ class FragmentContainer : Fragment() {
             }
         }.attach()
 
-        binding.svSearch.setOnSearchClickListener {
-            containerListener?.addSearchFragment(binding.svSearch)
+        binding.imvSearch.setOnClickListener {
+            containerListener?.addSearchFragment()
         }
-
-        binding.svSearch.setOnCloseListener {
-            containerListener?.onSearchClosed()
-            false
-        }
-
-        binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchViewModel.search(query!!)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-
-        })
     }
 
     override fun onDestroyView() {
