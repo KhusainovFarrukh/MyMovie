@@ -12,6 +12,6 @@ class MyMovieApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        configurationService = ConfigurationService(applicationContext)
+        configurationService = ConfigurationService(this)
     }
 }

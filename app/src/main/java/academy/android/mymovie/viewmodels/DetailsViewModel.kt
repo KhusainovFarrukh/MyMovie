@@ -4,11 +4,6 @@ import academy.android.mymovie.data.Repository
 import academy.android.mymovie.models.Actor
 import academy.android.mymovie.models.Movie
 import academy.android.mymovie.utils.ConfigurationService
-import academy.android.mymovie.utils.Constants
-import academy.android.mymovie.utils.Constants.KEY_BACKDROP
-import academy.android.mymovie.utils.Constants.KEY_BASE_URL
-import academy.android.mymovie.utils.Constants.KEY_POSTER
-import academy.android.mymovie.utils.Constants.KEY_PROFILE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +16,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class DetailsViewModel(
     repository: Repository,
     movieId: Int,
-    private val configurationService: ConfigurationService
+    configurationService: ConfigurationService
 ) : ViewModel() {
 
     private val _currentMovie = MutableLiveData<Movie>()
@@ -34,6 +29,9 @@ class DetailsViewModel(
     val actorsList: LiveData<List<Actor>> = _actorsList
     val isLoading: LiveData<Boolean> = _isLoading
     val isLoadingActors: LiveData<Boolean> = _isLoadingActors
+
+    val profileUrl = MutableLiveData(configurationService.getProfileUrl())
+    val backdropUrl = MutableLiveData(configurationService.getBackdropUrl())
 
     init {
         coroutineScope.launch {
@@ -51,8 +49,4 @@ class DetailsViewModel(
             }
         }
     }
-
-    fun getProfileUrl() = configurationService.getProfileUrl()
-
-    fun getBackdropUrl() = configurationService.getBackdropUrl()
 }

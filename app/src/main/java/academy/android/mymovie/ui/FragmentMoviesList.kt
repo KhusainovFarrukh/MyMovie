@@ -11,11 +11,12 @@ import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorators.MovieItemDecoration
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.utils.Constants.KEY_POPULAR
 import academy.android.mymovie.utils.Constants.REQUEST_PATH
 import academy.android.mymovie.viewmodelfactories.MoviesViewModelFactory
 import academy.android.mymovie.viewmodels.MoviesViewModel
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ class FragmentMoviesList : Fragment() {
     private lateinit var adapter: MovieAdapter
     private lateinit var moviesViewModel: MoviesViewModel
     private var movieClickInterface: MovieClickInterface? = null
+    private var posterUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +47,6 @@ class FragmentMoviesList : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         moviesViewModel = ViewModelProvider(
             this,
@@ -56,6 +57,10 @@ class FragmentMoviesList : Fragment() {
             )
         ).get(MoviesViewModel::class.java)
 
+        moviesViewModel.posterUrl.observe(viewLifecycleOwner) {
+            posterUrl = it
+        }
+
         binding.rvMovies.addItemDecoration(
             MovieItemDecoration(
                 resources.getDimension(R.dimen.dp8).toInt(),
@@ -63,7 +68,7 @@ class FragmentMoviesList : Fragment() {
             )
         )
 
-        adapter = MovieAdapter(movieClickInterface!!, moviesViewModel.getPosterUrl())
+        adapter = MovieAdapter(movieClickInterface!!, posterUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

@@ -12,6 +12,8 @@ import academy.android.mymovie.decorators.ActorItemDecoration
 import academy.android.mymovie.models.ActorResponse
 import academy.android.mymovie.models.MovieInActor
 import academy.android.mymovie.utils.Constants.ACTOR_KEY
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.viewmodelfactories.ActorViewModelFactory
 import academy.android.mymovie.viewmodels.ActorViewModel
 import android.content.Context
@@ -42,6 +44,7 @@ class FragmentActor : Fragment() {
     private lateinit var adapter: MovieInActorAdapter
     private var actorClickInterface: ActorClickInterface? = null
     private var movieClickInterface: MovieClickInterface? = null
+    private var backdropUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +64,13 @@ class FragmentActor : Fragment() {
             )
         ).get(ActorViewModel::class.java)
 
-        adapter = MovieInActorAdapter(movieClickInterface!!, actorViewModel.getBackdropUrl())
+        actorViewModel.backdropUrl.observe(viewLifecycleOwner) {
+            backdropUrl = it
+        }
+        adapter = MovieInActorAdapter(
+            movieClickInterface!!,
+            backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE
+        )
 
         setupViews()
     }
@@ -114,7 +123,7 @@ class FragmentActor : Fragment() {
             }
             if (currentActor.imageUrl != null) {
                 Glide.with(requireActivity())
-                    .load(actorViewModel.getBackdropUrl() + currentActor.imageUrl)
+                    .load(backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE + currentActor.imageUrl)
                     .apply(imageOption)
                     .into(imvPerson)
             } else {
@@ -127,7 +136,10 @@ class FragmentActor : Fragment() {
             }
             if (currentActor.images.profiles.isNotEmpty()) {
                 Glide.with(requireActivity())
-                    .load(actorViewModel.getBackdropUrl() + currentActor.images.profiles.random().imageUrl)
+                    .load(
+                        (backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
+                                + currentActor.images.profiles.random().imageUrl
+                    )
                     .apply(imageOption)
                     .into(imvBackdrop)
             } else {

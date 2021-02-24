@@ -22,10 +22,10 @@ class ConfigurationService(context: Context) {
     init {
         if (!sharedPrefs.contains(KEY_BASE_URL)) {
             editor.apply {
-                editor.putString(KEY_BASE_URL, DEFAULT_IMAGE_URL)
-                editor.putString(KEY_POSTER, DEFAULT_SIZE)
-                editor.putString(KEY_BACKDROP, DEFAULT_SIZE)
-                editor.putString(KEY_PROFILE, DEFAULT_SIZE)
+                putString(KEY_BASE_URL, DEFAULT_IMAGE_URL)
+                putString(KEY_POSTER, DEFAULT_SIZE)
+                putString(KEY_BACKDROP, DEFAULT_SIZE)
+                putString(KEY_PROFILE, DEFAULT_SIZE)
                 apply()
             }
         }
@@ -33,10 +33,10 @@ class ConfigurationService(context: Context) {
 
     fun saveConfiguration(config: ConfigurationResponse) {
         editor.apply {
-            editor.putString(KEY_BASE_URL, config.images.baseUrl)
-            editor.putString(KEY_POSTER, config.images.posterSizes.last())
-            editor.putString(KEY_BACKDROP, config.images.backdropSizes.last())
-            editor.putString(KEY_PROFILE, config.images.profileSizes.last())
+            putString(KEY_BASE_URL, config.images.baseUrl)
+            putString(KEY_POSTER, config.images.posterSizes.last())
+            putString(KEY_BACKDROP, config.images.backdropSizes.last())
+            putString(KEY_PROFILE, config.images.profileSizes.last())
             apply()
         }
     }

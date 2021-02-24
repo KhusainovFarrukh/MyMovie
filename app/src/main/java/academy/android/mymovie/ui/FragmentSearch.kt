@@ -9,9 +9,10 @@ import academy.android.mymovie.clickinterfaces.MovieClickInterface
 import academy.android.mymovie.data.Repository
 import academy.android.mymovie.databinding.FragmentMoviesListBinding
 import academy.android.mymovie.decorators.MovieItemDecoration
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.viewmodelfactories.SearchViewModelFactory
 import academy.android.mymovie.viewmodels.SearchViewModel
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,6 +38,7 @@ class FragmentSearch : Fragment() {
         )
     }
     private var movieClickInterface: MovieClickInterface? = null
+    private var posterUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +48,10 @@ class FragmentSearch : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        searchViewModel.posterUrl.observe(viewLifecycleOwner) {
+            posterUrl = it
+        }
 
         binding.rvMovies.addItemDecoration(
             MovieItemDecoration(
@@ -56,7 +60,7 @@ class FragmentSearch : Fragment() {
             )
         )
 
-        adapter = MovieAdapter(movieClickInterface!!, searchViewModel.getPosterUrl())
+        adapter = MovieAdapter(movieClickInterface!!, posterUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

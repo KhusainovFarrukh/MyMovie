@@ -16,10 +16,12 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 class SearchViewModel(
     private val repository: Repository,
-    private val configurationService: ConfigurationService
+    configurationService: ConfigurationService
 ) : ViewModel() {
 
     private val currentSearchText = MutableLiveData<String>()
+
+    val posterUrl = MutableLiveData(configurationService.getPosterUrl())
 
     val moviesList = currentSearchText.switchMap {
         repository.searchMovie(it).cachedIn(viewModelScope)
@@ -28,6 +30,4 @@ class SearchViewModel(
     fun search(searchText: String) {
         currentSearchText.postValue(searchText)
     }
-
-    fun getPosterUrl() = configurationService.getPosterUrl()
 }

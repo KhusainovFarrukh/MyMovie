@@ -11,6 +11,8 @@ import academy.android.mymovie.databinding.FragmentMoviesDetailsBinding
 import academy.android.mymovie.decorators.ActorItemDecoration
 import academy.android.mymovie.models.Actor
 import academy.android.mymovie.models.Movie
+import academy.android.mymovie.utils.Constants.DEFAULT_IMAGE_URL
+import academy.android.mymovie.utils.Constants.DEFAULT_SIZE
 import academy.android.mymovie.utils.Constants.MOVIE_KEY
 import academy.android.mymovie.viewmodelfactories.DetailsViewModelFactory
 import academy.android.mymovie.viewmodels.DetailsViewModel
@@ -39,6 +41,8 @@ class FragmentMoviesDetails : Fragment() {
     private lateinit var adapter: ActorAdapter
     private var movieClickInterface: MovieClickInterface? = null
     private var actorClickInterface: ActorClickInterface? = null
+    private var profileUrl: String? = null
+    private var backdropUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +62,14 @@ class FragmentMoviesDetails : Fragment() {
             )
         ).get(DetailsViewModel::class.java)
 
-        adapter = ActorAdapter(actorClickInterface!!, detailsViewModel.getProfileUrl())
+        detailsViewModel.backdropUrl.observe(viewLifecycleOwner) {
+            backdropUrl = it
+        }
+        detailsViewModel.profileUrl.observe(viewLifecycleOwner) {
+            profileUrl = it
+        }
+
+        adapter = ActorAdapter(actorClickInterface!!, profileUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
 
         setupViews()
     }
@@ -116,7 +127,7 @@ class FragmentMoviesDetails : Fragment() {
                 currentMovie.voteAverage / 2
             if (currentMovie.backdropPath != null) {
                 Glide.with(requireActivity())
-                    .load(detailsViewModel.getBackdropUrl() + currentMovie.backdropPath)
+                    .load((backdropUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE) + currentMovie.backdropPath)
                     .apply(imageOption)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imvBackdrop)
