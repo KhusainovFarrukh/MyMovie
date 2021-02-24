@@ -1,5 +1,6 @@
 package academy.android.mymovie.ui
 
+import academy.android.mymovie.MyMovieApp
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ListLoadStateAdapter
 import academy.android.mymovie.adapters.MovieAdapter
@@ -30,7 +31,10 @@ class FragmentSearch : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: MovieAdapter
     private val searchViewModel by activityViewModels<SearchViewModel> {
-        SearchViewModelFactory(Repository(RetrofitInstance.movieApi))
+        SearchViewModelFactory(
+            Repository(RetrofitInstance.movieApi),
+            (requireActivity().application as MyMovieApp).configurationService
+        )
     }
     private var movieClickInterface: MovieClickInterface? = null
 

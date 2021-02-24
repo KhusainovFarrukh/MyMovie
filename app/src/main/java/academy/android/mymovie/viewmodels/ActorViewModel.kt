@@ -15,7 +15,11 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class ActorViewModel(repository: Repository, actorId: Int) : ViewModel() {
+class ActorViewModel(
+    repository: Repository,
+    actorId: Int,
+    private val configurationService: ConfigurationService
+) : ViewModel() {
 
     private val _currentActor = MutableLiveData<ActorResponse>()
     private val _isLoading = MutableLiveData<Boolean>()
@@ -32,5 +36,5 @@ class ActorViewModel(repository: Repository, actorId: Int) : ViewModel() {
         }
     }
 
-    fun getBackdropUrl() = ConfigurationService.getBackdropUrl()
+    fun getBackdropUrl() = configurationService.getBackdropUrl()
 }

@@ -1,5 +1,6 @@
 package academy.android.mymovie.ui
 
+import academy.android.mymovie.MyMovieApp
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ActorAdapter
 import academy.android.mymovie.api.RetrofitInstance
@@ -52,7 +53,8 @@ class FragmentMoviesDetails : Fragment() {
             this, DetailsViewModelFactory(
                 Repository(RetrofitInstance.movieApi),
                 arguments?.getInt(MOVIE_KEY)
-                    ?: throw NullPointerException("No id for current movie")
+                    ?: throw NullPointerException("No id for current movie"),
+                (requireActivity().application as MyMovieApp).configurationService
             )
         ).get(DetailsViewModel::class.java)
 

@@ -1,5 +1,6 @@
 package academy.android.mymovie.ui
 
+import academy.android.mymovie.MyMovieApp
 import academy.android.mymovie.R
 import academy.android.mymovie.adapters.ListLoadStateAdapter
 import academy.android.mymovie.adapters.MovieAdapter
@@ -50,7 +51,8 @@ class FragmentMoviesList : Fragment() {
             this,
             MoviesViewModelFactory(
                 Repository(RetrofitInstance.movieApi),
-                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR
+                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
+                (requireActivity().application as MyMovieApp).configurationService
             )
         ).get(MoviesViewModel::class.java)
 
@@ -85,14 +87,6 @@ class FragmentMoviesList : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        moviesViewModel = ViewModelProvider(
-            this,
-            MoviesViewModelFactory(
-                Repository(RetrofitInstance.movieApi),
-                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR
-            )
-        ).get(MoviesViewModel::class.java)
 
         moviesViewModel.moviesList.observe(this.viewLifecycleOwner, {
             lifecycleScope.launch {

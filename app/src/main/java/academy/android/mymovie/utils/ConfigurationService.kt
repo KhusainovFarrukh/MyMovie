@@ -7,35 +7,52 @@ import academy.android.mymovie.utils.Constants.KEY_BACKDROP
 import academy.android.mymovie.utils.Constants.KEY_BASE_URL
 import academy.android.mymovie.utils.Constants.KEY_POSTER
 import academy.android.mymovie.utils.Constants.KEY_PROFILE
+import academy.android.mymovie.utils.Constants.KEY_SHARED_PREF
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-object ConfigurationService {
+class ConfigurationService(context: Context) {
 
-    val configuration = MutableLiveData(HashMap<String, String>())
+    private val sharedPrefs = context.getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE)
+    private val editor = sharedPrefs.edit()
 
     init {
-        configuration.value!![KEY_BASE_URL] = DEFAULT_IMAGE_URL
-        configuration.value!![KEY_POSTER] = DEFAULT_SIZE
-        configuration.value!![KEY_BACKDROP] = DEFAULT_SIZE
-        configuration.value!![KEY_PROFILE] = DEFAULT_SIZE
+        if (!sharedPrefs.contains(KEY_BASE_URL)) {
+            editor.apply {
+                editor.putString(KEY_BASE_URL, DEFAULT_IMAGE_URL)
+                editor.putString(KEY_POSTER, DEFAULT_SIZE)
+                editor.putString(KEY_BACKDROP, DEFAULT_SIZE)
+                editor.putString(KEY_PROFILE, DEFAULT_SIZE)
+                apply()
+            }
+        }
     }
 
     fun saveConfiguration(config: ConfigurationResponse) {
-
-        configuration.value!![KEY_BASE_URL] = config.images.baseUrl
-        configuration.value!![KEY_POSTER] = config.images.posterSizes.last()
-        configuration.value!![KEY_BACKDROP] = config.images.backdropSizes.last()
-        configuration.value!![KEY_PROFILE] = config.images.profileSizes.last()
+        editor.apply {
+            editor.putString(KEY_BASE_URL, config.images.baseUrl)
+            editor.putString(KEY_POSTER, config.images.posterSizes.last())
+            editor.putString(KEY_BACKDROP, config.images.backdropSizes.last())
+            editor.putString(KEY_PROFILE, config.images.profileSizes.last())
+            apply()
+        }
     }
 
-    fun getPosterUrl() = configuration.value!![KEY_BASE_URL] +
-            configuration.value!![KEY_POSTER]
+    fun getPosterUrl() =
+        sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) + sharedPrefs.getString(
+            KEY_POSTER, DEFAULT_SIZE
+        )
 
-    fun getProfileUrl() = configuration.value!![KEY_BASE_URL] +
-            configuration.value!![KEY_PROFILE]
+    fun getProfileUrl() =
+        sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) + sharedPrefs.getString(
+            KEY_PROFILE, DEFAULT_SIZE
+        )
 
-    fun getBackdropUrl() = configuration.value!![KEY_BASE_URL] +
-            configuration.value!![KEY_BACKDROP]
+    fun getBackdropUrl() =
+        sharedPrefs.getString(KEY_BASE_URL, DEFAULT_IMAGE_URL) + sharedPrefs.getString(
+            KEY_BACKDROP, DEFAULT_SIZE
+        )
 }

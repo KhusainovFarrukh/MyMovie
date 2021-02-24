@@ -1,5 +1,6 @@
 package academy.android.mymovie.ui
 
+import academy.android.mymovie.MyMovieApp
 import academy.android.mymovie.adapters.FragmentPagerAdapter
 import academy.android.mymovie.api.RetrofitInstance
 import academy.android.mymovie.clickinterfaces.ContainerListener
@@ -29,7 +30,10 @@ class FragmentContainer : Fragment() {
     private val binding get() = _binding!!
     private var containerListener: ContainerListener? = null
     private val searchViewModel by activityViewModels<SearchViewModel> {
-        SearchViewModelFactory(Repository(RetrofitInstance.movieApi))
+        SearchViewModelFactory(
+            Repository(RetrofitInstance.movieApi),
+            (requireActivity().application as MyMovieApp).configurationService
+        )
     }
 
     override fun onCreateView(

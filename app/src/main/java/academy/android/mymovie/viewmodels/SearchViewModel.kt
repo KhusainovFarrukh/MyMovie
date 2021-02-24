@@ -14,7 +14,10 @@ import androidx.paging.cachedIn
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class SearchViewModel(private val repository: Repository) : ViewModel() {
+class SearchViewModel(
+    private val repository: Repository,
+    private val configurationService: ConfigurationService
+) : ViewModel() {
 
     private val currentSearchText = MutableLiveData<String>()
 
@@ -26,6 +29,5 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
         currentSearchText.postValue(searchText)
     }
 
-    fun getPosterUrl() = ConfigurationService.configuration.value!![KEY_BASE_URL] +
-            ConfigurationService.configuration.value!![KEY_POSTER]
+    fun getPosterUrl() = configurationService.getPosterUrl()
 }

@@ -16,7 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class MoviesViewModel(repository: Repository, requestPath: String) : ViewModel() {
+class MoviesViewModel(
+    repository: Repository,
+    requestPath: String,
+    private val configurationService: ConfigurationService
+) : ViewModel() {
 
     private val currentRequestPath = MutableLiveData(KEY_POPULAR)
 
@@ -29,9 +33,9 @@ class MoviesViewModel(repository: Repository, requestPath: String) : ViewModel()
     init {
         coroutineScope.launch {
             currentRequestPath.postValue(requestPath)
-            ConfigurationService.saveConfiguration(repository.getConfiguration())
+            configurationService.saveConfiguration(repository.getConfiguration())
         }
     }
 
-    fun getPosterUrl() = ConfigurationService.getPosterUrl()
+    fun getPosterUrl() = configurationService.getPosterUrl()
 }

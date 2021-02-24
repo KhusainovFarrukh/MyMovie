@@ -18,7 +18,11 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class DetailsViewModel(repository: Repository, movieId: Int) : ViewModel() {
+class DetailsViewModel(
+    repository: Repository,
+    movieId: Int,
+    private val configurationService: ConfigurationService
+) : ViewModel() {
 
     private val _currentMovie = MutableLiveData<Movie>()
     private val _actorsList = MutableLiveData<List<Actor>>()
@@ -48,7 +52,7 @@ class DetailsViewModel(repository: Repository, movieId: Int) : ViewModel() {
         }
     }
 
-    fun getProfileUrl() = ConfigurationService.getProfileUrl()
+    fun getProfileUrl() = configurationService.getProfileUrl()
 
-    fun getBackdropUrl() = ConfigurationService.getBackdropUrl()
+    fun getBackdropUrl() = configurationService.getBackdropUrl()
 }
