@@ -10,6 +10,7 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/sv_search"
         android:layout_width="@dimen/dp0"
+        app:iconifiedByDefault="false"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginTop="@dimen/dp56"
