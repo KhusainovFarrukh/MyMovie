@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -48,26 +49,6 @@ class FragmentMoviesList : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        moviesViewModel = ViewModelProvider(
-            this,
-            MoviesViewModelFactory(
-                Repository(RetrofitInstance.movieApi),
-                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
-                (requireActivity().application as MyMovieApp).configurationService
-            )
-        ).get(MoviesViewModel::class.java)
-
-        moviesViewModel.posterUrl.observe(viewLifecycleOwner) {
-            posterUrl = it
-        }
-
-        binding.rvMovies.addItemDecoration(
-            MovieItemDecoration(
-                resources.getDimension(R.dimen.dp8).toInt(),
-                resources.getDimension(R.dimen.dp8).toInt()
-            )
-        )
-
         adapter = MovieAdapter(movieClickInterface!!, posterUrl ?: DEFAULT_IMAGE_URL + DEFAULT_SIZE)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
@@ -87,7 +68,21 @@ class FragmentMoviesList : Fragment() {
             ListLoadStateAdapter { adapter.retry() },
             ListLoadStateAdapter { adapter.retry() }
         )
+        binding.rvMovies.addItemDecoration(
+            MovieItemDecoration(
+                resources.getDimension(R.dimen.dp8).toInt(),
+                resources.getDimension(R.dimen.dp8).toInt()
+            )
+        )
 
+        moviesViewModel = ViewModelProvider(
+            this,
+            MoviesViewModelFactory(
+                Repository(RetrofitInstance.movieApi),
+                arguments?.getString(REQUEST_PATH, KEY_POPULAR) ?: KEY_POPULAR,
+                (requireActivity().application as MyMovieApp).configurationService
+            )
+        ).get(MoviesViewModel::class.java)
     }
 
     override fun onStart() {
@@ -98,6 +93,16 @@ class FragmentMoviesList : Fragment() {
                 adapter.submitData(it)
             }
         })
+        moviesViewModel.posterUrl.observe(viewLifecycleOwner) {
+            posterUrl = it
+        }
+        moviesViewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireActivity(),
+                it,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onAttach(context: Context) {

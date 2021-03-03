@@ -8,9 +8,6 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- *Created by FarrukhKhusainov on 1/30/21 1:55 PM
- **/
 class ListLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<ListLoadStateAdapter.ListLoadStateViewHolder>() {
 
@@ -39,6 +36,9 @@ class ListLoadStateAdapter(private val retry: () -> Unit) :
                 prbLoading.isVisible = loadState is LoadState.Loading
                 txvError.isVisible = loadState !is LoadState.Loading
                 btnRetry.isVisible = loadState !is LoadState.Loading
+                if (loadState is LoadState.Error) {
+                    txvError.text = loadState.error.message
+                }
             }
         }
 

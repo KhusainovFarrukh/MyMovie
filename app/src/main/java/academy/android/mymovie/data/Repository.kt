@@ -1,6 +1,7 @@
 package academy.android.mymovie.data
 
 import academy.android.mymovie.api.MovieApi
+import academy.android.mymovie.models.ConfigurationResponseWrapper
 import academy.android.mymovie.models.Movie
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
@@ -14,7 +15,14 @@ class Repository(private val movieApi: MovieApi) {
 
     suspend fun getCastByMovieId(movieId: Int) = movieApi.getCastByMovieId(movieId).cast
 
-    suspend fun getConfiguration() = movieApi.getConfiguration()
+    suspend fun getConfiguration(): ConfigurationResponseWrapper {
+        return try {
+            val data = movieApi.getConfiguration()
+            ConfigurationResponseWrapper.Success(data)
+        } catch (e: Exception) {
+            ConfigurationResponseWrapper.Error(e.message.toString())
+        }
+    }
 
     suspend fun getActorById(actorId: Int) = movieApi.getActorById(actorId)
 

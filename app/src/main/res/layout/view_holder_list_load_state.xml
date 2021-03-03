@@ -16,6 +16,7 @@
         android:id="@+id/txv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Cannot load movies list"
         android:textColor="@color/white"
         android:visibility="gone" />

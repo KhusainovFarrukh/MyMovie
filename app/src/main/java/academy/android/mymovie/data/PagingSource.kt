@@ -4,10 +4,6 @@ import academy.android.mymovie.api.MovieApi
 import academy.android.mymovie.models.Movie
 import androidx.paging.PagingSource
 
-/**
- *Created by FarrukhKhusainov on 1/29/21 11:57 PM
- **/
-
 private const val PAGE_STARTING_INDEX = 1
 
 class MoviePagingSource(
