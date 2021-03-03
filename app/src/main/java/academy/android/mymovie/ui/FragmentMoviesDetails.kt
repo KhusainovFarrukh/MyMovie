@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -81,6 +82,13 @@ class FragmentMoviesDetails : Fragment() {
         detailsViewModel.isLoading.observe(this, this::setLoading)
         detailsViewModel.isLoadingActors.observe(this, this::setLoadingActors)
         detailsViewModel.actorsList.observe(this, this::setActorsViews)
+        detailsViewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireActivity(),
+                it,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onAttach(context: Context) {

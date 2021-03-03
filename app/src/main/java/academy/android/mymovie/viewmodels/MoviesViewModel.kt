@@ -1,8 +1,7 @@
 package academy.android.mymovie.viewmodels
 
 import academy.android.mymovie.data.Repository
-import academy.android.mymovie.models.ConfigurationResponse
-import academy.android.mymovie.models.ConfigurationResponseWrapper
+import academy.android.mymovie.models.DataWrapper
 import academy.android.mymovie.utils.ConfigurationService
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
@@ -34,8 +33,8 @@ class MoviesViewModel(
             currentRequestPath.postValue(requestPath)
             repository.getConfiguration().let {
                 when (it) {
-                    is ConfigurationResponseWrapper.Success -> configurationService.saveConfiguration(it.data)
-                    is ConfigurationResponseWrapper.Error -> _errorMessage.postValue(it.message)
+                    is DataWrapper.Success -> configurationService.saveConfiguration(it.data)
+                    is DataWrapper.Error -> _errorMessage.postValue(it.message)
                 }
             }
         }

@@ -1,8 +1,7 @@
 package academy.android.mymovie.data
 
 import academy.android.mymovie.api.MovieApi
-import academy.android.mymovie.models.ConfigurationResponseWrapper
-import academy.android.mymovie.models.Movie
+import academy.android.mymovie.models.*
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,20 +10,41 @@ import androidx.paging.liveData
 
 class Repository(private val movieApi: MovieApi) {
 
-    suspend fun getMovieById(id: Int) = movieApi.getMovieById(id)
-
-    suspend fun getCastByMovieId(movieId: Int) = movieApi.getCastByMovieId(movieId).cast
-
-    suspend fun getConfiguration(): ConfigurationResponseWrapper {
+    suspend fun getMovieById(id: Int): DataWrapper<Movie> {
         return try {
-            val data = movieApi.getConfiguration()
-            ConfigurationResponseWrapper.Success(data)
+            val data = movieApi.getMovieById(id)
+            DataWrapper.Success(data)
         } catch (e: Exception) {
-            ConfigurationResponseWrapper.Error(e.message.toString())
+            DataWrapper.Error(e.message.toString())
         }
     }
 
-    suspend fun getActorById(actorId: Int) = movieApi.getActorById(actorId)
+    suspend fun getCastByMovieId(movieId: Int): DataWrapper<List<Actor>> {
+        return try {
+            val data = movieApi.getCastByMovieId(movieId).cast
+            DataWrapper.Success(data)
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getConfiguration(): DataWrapper<ConfigurationResponse> {
+        return try {
+            val data = movieApi.getConfiguration()
+            DataWrapper.Success(data)
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getActorById(actorId: Int): DataWrapper<ActorResponse> {
+        return try {
+            val data = movieApi.getActorById(actorId)
+            DataWrapper.Success(data)
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
 
     fun searchMovie(searchText: String): LiveData<PagingData<Movie>> {
         return Pager(

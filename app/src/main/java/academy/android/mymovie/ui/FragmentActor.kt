@@ -80,6 +80,13 @@ class FragmentActor : Fragment() {
 
         actorViewModel.currentActor.observe(this, this::updateView)
         actorViewModel.isLoading.observe(this, this::setLoading)
+        actorViewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireActivity(),
+                it,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onAttach(context: Context) {
