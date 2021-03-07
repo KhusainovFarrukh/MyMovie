@@ -7,16 +7,36 @@
     android:background="@color/bg_details_screen"
     tools:context=".ui.FragmentMoviesList">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/sv_search"
+        android:layout_width="@dimen/dp0"
+        app:iconifiedByDefault="false"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp56"
+        android:layout_marginEnd="@dimen/dp16"
+        android:gravity="end"
+        android:layoutDirection="rtl"
+        android:theme="@style/SearchViewStyle"
+        app:closeIcon="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search for movie..."
+        app:searchHintIcon="@drawable/ic_search"
+        app:searchIcon="@drawable/ic_search" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movies"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
         android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/sv_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

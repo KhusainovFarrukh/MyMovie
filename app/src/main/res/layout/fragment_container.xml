@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_details_screen"
+    tools:context=".ui.FragmentMoviesList">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/sv_search"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginEnd="@dimen/dp16"
+        android:gravity="end"
+        android:layoutDirection="rtl"
+        android:theme="@style/SearchViewStyle"
+        android:visibility="gone"
+        app:closeIcon="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/txv_movies_list"
+        app:layout_constraintEnd_toStartOf="@id/txv_movies_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txv_movies_list"
+        app:queryHint="Search for movie..."
+        app:searchHintIcon="@drawable/ic_search"
+        app:searchIcon="@drawable/ic_search" />
+
+    <TextView
+        android:id="@+id/txv_movies_list"
+        style="@style/TextViewMoviesList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp56"
+        android:drawablePadding="@dimen/dp8"
+        android:text="@string/movies_list"
+        app:drawableStartCompat="@drawable/ic_aim"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        android:layout_marginTop="@dimen/dp16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txv_movies_list">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_details_screen"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicatorColor="@color/pink"
+            app:tabMode="auto"
+            app:tabRippleColor="@color/pink"
+            app:tabSelectedTextColor="@color/pink"
+            app:tabTextColor="@color/white" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_fragments"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tl_titles" />
+
+        <FrameLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp16"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/txv_movies_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txv_movies_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
